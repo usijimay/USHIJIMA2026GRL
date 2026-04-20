@@ -682,27 +682,27 @@ def djfm(var, axis=0, nr=1):
     return vdjf
 
 
-def polyfit2d(x, var, axis=-1):
-    shape = np.shape(var)
-    if axis == -1:
-        var = var.reshape(np.r_[-1, shape[axis]])        
-        nn = np.prod(shape[:axis]).astype(int)
-        if nn > 1:
-            a = np.zeros(nn)
-            b = np.zeros(nn)
-            c = np.zeros(nn)            
-        for n in range(np.shape(var)[0]):
-            a0, b0, c0 = np.polyfit(x, var[n], 2)
-            if nn > 1:
-                a[n] = a0
-                b[n] = -0.5*b0/a0
-                c[n] = c0 - 0.25*b0*b0/a0
-            else:
-                a = a0
-                b = -0.5*b0/a0
-                c = c0 - 0.25*b0*b0/a0
-                
-    return a, b, c
+# def polyfit2d(x, var, axis=-1):
+#     shape = np.shape(var)
+#     if axis == -1:
+#         var = var.reshape(np.r_[-1, shape[axis]])        
+#         nn = np.prod(shape[:axis]).astype(int)
+#         if nn > 1:
+#             a = np.zeros(nn)
+#             b = np.zeros(nn)
+#             c = np.zeros(nn)            
+#         for n in range(np.shape(var)[0]):
+#             a0, b0, c0 = np.polyfit(x, var[n], 2)
+#             if nn > 1:
+#                 a[n] = a0
+#                 b[n] = -0.5*b0/a0
+#                 c[n] = c0 - 0.25*b0*b0/a0
+#             else:
+#                 a = a0
+#                 b = -0.5*b0/a0
+#                 c = c0 - 0.25*b0*b0/a0
+#                 
+#     return a, b, c
             
 
 def read_sst(expid0, expids, ybgn, yend, msk = []):
