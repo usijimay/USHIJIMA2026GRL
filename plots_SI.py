@@ -58,6 +58,16 @@ def main(cintm = False, dpi = 900):
             
 
 
+def am0(var, ns, axis=0):
+
+    if np.size(var) == 0:
+        varann = var
+    else:
+        day = np.array(calendar.mdays[1:])        
+        varann = np.average(var, weights = day, axis=axis)
+
+    return varann
+
 # # Unused functions - commented out
 # def plot_ulatlev(pngfile, lev, lat, varf, varl, ncols, nrows, xr = [-90,90], yr = [1000, 0], vr = [-12, 12, 5], rt = 10, level = [], levl = np.linspace(-100, 100, 101), latl = [], latf = [], fontsize = 10, fsizex = 8, fsizey = 8, cmap = cmo.balance, extend = 'both', sngl_cbar = True, vecx = [], vecy = [], levv = [], scale = 1, scale_units = 'xy', iskp = 1, jskp = 1, vcols = ['w'], unitx = 1.02, unity = -2.9, unitcbr = r'[${\rm m \ s^{-1}}$]', labels = [], bbox = dict(facecolor='white', alpha=0.7), dxc = 0.04, dyc = 0.04):
 #     pass
@@ -75,9 +85,6 @@ def main(cintm = False, dpi = 900):
 #     pass
 
 # def am(var, axis=0):
-#     pass
-
-# def am0(var, ns, axis=0):
 #     pass
 
 # def sm(var, axis=0, nr=1):
