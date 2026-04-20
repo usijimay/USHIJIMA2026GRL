@@ -1,40 +1,16 @@
 import os
 import sys
-# import glob
 import calendar
-# import pygrib
-# import netCDF4
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
-# import matplotlib.gridspec as gridspec
 import matplotlib.ticker as mticker
-# import matplotlib.path as mpath
 import cartopy.crs as ccrs
-# import cartopy.feature as cfeature
 import cmocean.cm as cmo
 import seaborn as sns
-# sys.path.append("./")
 BASE = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(BASE)
-# import uas_mriagcm_diff as sv
-# sys.path.append("../SHARED_SCRIPT")
-# import map_cartopy as mc
-# sys.path.append("../mri-agcm3")
-# import grid.mriagcm as ag
-# import anl3d2anl2d as a323
-# import extract_mnt3d as em3
-# import anl2clm as a2c
-# import mriagcm3.anl2clm as a2c
 import mriagcm3.read_clm as mrc
-# sys.path.append("../obs")
-# import u850 as uof
-# import ua as uof
-# import read_wind_module as rw
-# sys.path.append("../remap_tools")
-# import remap_tools.linear_interpolate as li
-# import locale
-# locale.setlocale(locale.LC_TIME, 'en_US.UTF-8')
 
 sns.set_theme(style = 'whitegrid', font_scale = 1.)
 import cmip.cmip_mm as cmm
@@ -45,19 +21,9 @@ expid0 = 'MPE3_agcm_cntl'
 exptyp = 'region'
 areasns = ['glb', 'snp', 'exsnp', 'wnp', 'ceq', 'enp']
 expids = np.array(list(map(lambda x: 'MPE3_agcm_EMS35_annclm_'+x, areasns))).astype(object)
-# exptyp = 'season'
-# areasns = ['ann', 'mon']
-# # areasns = ['glb', 'snp', 'exsnp']
-# expids = np.array(list(map(lambda x: 'MPE3_agcm_EMS35_'+x+'clm_glb', areasns))).astype(object)
-
 
 ybgn = 1985; yend = 2014
-# cobs = True
-# cmriesm = True
-# cobs = False
-# cmriesm = False
 cintm = False
-# dpi = None
 dpi = 900
 dirbase = '/data16/theme-C/usijimay'
 
@@ -68,18 +34,6 @@ def main(cintm = False, dpi = 900):
     global varmo, varco, rvarco
 
     suff = '.png'    
-    # # figdir='fig/251224/SI/'
-    # # date = '20260107/'
-    # # date = '20260116/'
-    # date = '20260413/'        
-    # # RES = 'ORG/'
-    # # dpi = None
-    # RES = 'High/'
-    # dpi = 900
-    # figdir = 'fig/'+date+RES+'SI/'    
-    # if os.path.isdir(figdir) == False:
-    #     os.makedirs(figdir)    
-
     figdir =  cf.figdir(dpi = dpi)    
         
     R0 = 6.375e6    
@@ -108,7 +62,6 @@ def plot_ulatlev(pngfile, lev, lat, varf, varl, ncols, nrows, xr = [-90,90], yr 
 
     nexp = np.shape(varf)[0]
     plt.rcParams['font.size'] = fontsize
-    # fig = plt.figure(figsize = (fsizex, fsizey), constrained_layout=True)
     fig = plt.figure(figsize = (fsizex, fsizey))    
     ax = np.reshape(fig.subplots(nrows, ncols), (nrows, ncols))
 
@@ -183,84 +136,13 @@ def plot_ulatlev(pngfile, lev, lat, varf, varl, ncols, nrows, xr = [-90,90], yr 
                 ax[nr,nc].text(xr[0]+dxc*(xr[1]-xr[0]), yr[1]-dyc*(yr[1]-yr[0]), label, ha = 'left', va = 'top', bbox = bbox)                    
             else:
                 ax[nr,nc].remove()
-    # plt.show()
 
     cax = fig.add_axes([0.12, 0.04, 0.82, 0.01])
     cbar = plt.colorbar(image, cax = cax, orientation = 'horizontal', ticks = np.linspace(vr[0], vr[1], vr[2]))
     cax.text(unitx, unity, unitcbr, transform=cax.transAxes)
-    # plt.tight_layout()
     
     fig.subplots_adjust(top=0.98, bottom=0.1, left = 0.10, right=0.96, hspace = 0.1, wspace=0.16)                
     plt.savefig(pngfile)
-     
-
-
-# def plots_ulat(expid0, expid, level, suff, lat, vlat0M, vlatM, vlatoM = [], vlatcM = [], cobs = False, cmriesm = False, latminfit=30, latmaxfit=45, xr0 = [-12,12], xr = [6, 12], er = [-0.5, 0.5], dlr = [-2.5,0.5], dsr = [-0.5, 2.]):
-    
-#     jj = np.where((latminfit<lat)*(lat< latmaxfit))[0]    
-#     ams, bms, cms = polyfit2d(lat[jj], vlatM[:,jj])
-#     am0, bm0, cm0 = polyfit2d(lat[jj], vlat0M[jj])    
-#     vlatMsc = ams[:,np.newaxis] * (lat - bms[:,np.newaxis])**2 + cms[:,np.newaxis]
-#     vlat0Msc = am0 * (lat - bm0)**2 + cm0
-    
-#     if cobs:
-#         amo, bmo, cmo = polyfit2d(lat[jj], vlatoM[jj]) 
-#         vlatoMsc = amo * (lat - bmo)**2 + cmo
-#     else:
-#         vlatoMsc = []
-#     if cmriesm:        
-#         amc, bmc, cmc = polyfit2d(lat[jj], vlatcM[jj])    
-#         vlatcMsc = amc * (lat - bmc)**2 + cmc        
-#     else:
-#         vlatcMsc = []
-            
-#     label0 = expid0.replace('MPE4_amip_', '')                   
-#     labels = []    
-#     expnames = expid0
-#     for expid in expids:
-#         # label = expid
-#         # label = expid.replace('MPE4_amip_', '')
-#         label = expid.replace('MPE4_amip_mri10_', '')           
-#         expnames=expnames+'_'+label
-#         labels = np.r_[labels, [label]]
-#     if cobs:
-#         expnames=expnames+'_JRA55'
-#     if cmriesm:
-#         expnames=expnames+'_MRIESM2'        
-        
-#     figdir='fig/'+expnames+'/'    
-#     if os.path.isdir(figdir) == False:
-#         os.makedirs(figdir)
-    
-
-#     pngfile=figdir+expnames+'_U'+str(level)+'-lat_NP'+suff
-#     plot_ulat(pngfile, np.r_[labels, [label0]], lat, np.ma.vstack((vlatM, vlat0M[np.newaxis])), xmin=0, xmax=xr0[1], latmin=20, latmax=60, vlatoM = vlatoM, vlatcM = vlatcM)    
-
-#     pngfile=figdir+expnames+'_U'+str(level)+'-lat_TNP'+suff
-#     plot_ulat(pngfile, np.r_[labels, [label0]], lat, np.ma.vstack((vlatM, vlat0M[np.newaxis])), xmin=xr0[0], xmax=xr0[1], latmin=-15, latmax=90, vlatoM = vlatoM, vlatcM = vlatcM)
-
-#     pngfile=figdir+expnames+'_U'+str(level)+'-lat_NSP'+suff
-#     plot_ulat(pngfile, np.r_[labels, [label0]], lat, np.ma.vstack((vlatM, vlat0M[np.newaxis])), xmin=xr0[0], xmax=xr0[1], latmin=-90, latmax=90, vlatoM = vlatoM, vlatcM = vlatcM)
-
-#     pngfile=figdir+expnames+'_U'+str(level)+'-lat_FNP'+suff    
-#     plot_ulat(pngfile, np.r_[labels, [label0]], lat, np.ma.vstack((vlatM, vlat0M[np.newaxis])), xmin=xr[0], xmax=xr[1], latmin=latminfit, latmax=latmaxfit, vlatoM = vlatoM, vlatcM = vlatcM, vlatsM = np.sum(vlatM[1:]-vlat0M, axis=0)+vlat0M)    
-    
-#     pngfile=figdir+expnames+'_cntl_glb_U'+str(level)+'-lat_FNP'+suff
-#     plot_ulat(pngfile, np.r_[labels[:1], [label0]], lat, np.ma.vstack((vlatM[:1], vlat0M[np.newaxis])), xmin=xr[0], xmax=xr[1], latmin=latminfit, latmax=latmaxfit, vlatoM = vlatoM, vlatcM = vlatcM)    
-    
-#     pngfile=figdir+expnames+'_U'+str(level)+'-lat_fit_NP'+suff
-#     plot_ulat(pngfile, np.r_[labels, [label0]], lat, np.ma.vstack((vlatMsc, vlat0Msc[np.newaxis])), xmin=xr[0], xmax=xr[1], latmin=latminfit, latmax=latmaxfit, vlatoM = vlatoMsc, vlatcM = vlatcMsc)    
-
-#     pngfile=figdir+expnames+'_U'+str(level)+'-lat_fit_err_NP'+suff
-#     plot_ulat(pngfile, np.r_[labels, [label0]], lat, np.ma.vstack((vlatM, vlat0M[np.newaxis]))-np.ma.vstack((vlatMsc, vlat0Msc[np.newaxis])), xmin=er[0], xmax=er[1], latmin=latminfit, latmax=latmaxfit)    
-
-#     pngfile=figdir+expnames+'_U'+str(level)+'_jetpos_fit_bar_NP'+suff
-#     plot_abcbar(pngfile, labels, ams/ams[0] * (bms-bm0), fontsize = 12, abcr = (bms[:1]-bm0) - np.sum(ams[1:]/ams[0] * (bms[1:]-bm0)), ymin = dlr[0], ymax = dlr[1])
-
-#     yy = np.r_[cms[:1]-cm0, (cms[1:]-cm0)+(ams[1:]*bms[1:]**2-am0*bm0**2)-(2*am0*bm0*ams[1:]/ams[0]*(bms[1:]-bm0)+(ams[1:]-am0)*bm0**2)]
-#     pngfile=figdir+expnames+'_U'+str(level)+'_jetspeed_fit_bar_NP'+suff
-#     plot_abcbar(pngfile, labels, yy, fontsize = 12, abcr = yy[:1]-np.sum(yy[1:]), ymin = dsr[0], ymax = dsr[1])
-        
 
 def read_amip2D(expid0, expids, fbase, varname, ybgn, yend, msk = []):
 
@@ -342,7 +224,6 @@ def am0(var, ns, axis=0):
 def sm(var, axis=0, nr=1):
 
     if np.size(var) == 0:
-        # varsm = var
         varsm = np.tile(var, 4)
     else:
         day = np.roll(np.array(calendar.mdays[1:]), nr).reshape(4,3)
@@ -391,13 +272,6 @@ def djfm(var, axis=0, nr=1):
 
 def polyfit2d(x, var, axis=-1):
     shape = np.shape(var)
-    # na = np.size(shape)
-    # if axis == -1:
-    #     axis = na - 1
-        
-    # nn = np.prod(np.r_[shape[:axis], shape[axis+1:]]).astype(int)
-    # var = var.reshape(nn, shape[])
-    # for n in range(nn)
     if axis == -1:
         var = var.reshape(np.r_[-1, shape[axis]])        
         nn = np.prod(shape[:axis]).astype(int)
@@ -409,8 +283,6 @@ def polyfit2d(x, var, axis=-1):
             a0, b0, c0 = np.polyfit(x, var[n], 2)
             if nn > 1:
                 a[n] = a0
-                # b[n] = b0
-                # c[n] = c0
                 b[n] = -0.5*b0/a0
                 c[n] = c0 - 0.25*b0*b0/a0
             else:
@@ -434,7 +306,7 @@ def each_plot_map(expid0, expids, lon, lat, var0M, varM, yearc, lonmin = 120, lo
     pngfile=figdir+expid0+'_U'+str(level)+'_'+yearc+'_monthly_clm.png'
     if os.path.isfile(pngfile) == False:
         print(pngfile)        
-        vr = [-20, 20, 5]# ; rt = 5
+        vr = [-20, 20, 5]
         mc.surface_map_mc_ctp(pngfile, lon, lat, var0M, 4, 3, vr=vr, cmap = cmo.balance, extend='both', fontsize=11, labels = calendar.month_abbr[1:], sngl_cbar = True, fsizex = 12)
 
 
@@ -447,24 +319,22 @@ def each_plot_map(expid0, expids, lon, lat, var0M, varM, yearc, lonmin = 120, lo
         pngfile=figdir+expids[nexp]+'_U'+str(level)+'_'+yearc+'_monthly_clm.png'
         if os.path.isfile(pngfile) == False:
             print(pngfile)                    
-            vr = [-20, 20, 5]# ; rt = 5
+            vr = [-20, 20, 5]
             mc.surface_map_mc_ctp(pngfile, lon, lat, varM[nexp], 4, 3, vr=vr, cmap = cmo.balance, extend='both', fontsize=11, labels = calendar.month_abbr[1:], sngl_cbar = True, fsizex = 12)
 
         pngfile=figdir+expids[nexp]+'_U'+str(level)+'a_'+expid0 + '_'+yearc+'_monthly_clm.png'
         print(pngfile)                
-        vr = [-6, 6, 5]# ; rt = 5
+        vr = [-6, 6, 5]
         mc.surface_map_mc_ctp(pngfile, lon, lat, varM[nexp] - var0M, 4, 3, vr=vr, cmap = cmo.balance, extend='both', fontsize=11, labels = calendar.month_abbr[1:], sngl_cbar = True, fsizex = 12)
 
         pngfile=figdir+expids[nexp]+'_U'+str(level)+'a_NP_'+expid0 + '_'+yearc+'_monthly_clm.png'
         print(pngfile)                
-        vr = [-8, 8, 5]# ; rt = 5
+        vr = [-8, 8, 5]
         mc.surface_map_mc_ctp(pngfile, lon[imin:imax], lat[jmin:jmax], (varM[nexp]-var0M)[:,jmin:jmax,imin:imax], 4, 3, vr=vr, cmap = cmo.balance, extend='both', fontsize=11, labels = calendar.month_abbr[1:], sngl_cbar = True, fsizex = 12, xlim = [lonmin, lonmax], ylim = [latmin, latmax], lon_interval = lonint, lat_interval = latint)
 
         pngfile=figdir+expids[nexp]+'_U'+str(level)+'a_NP_'+expid0 + '_'+yearc+'_sclm_clm.png'
         print(pngfile)                
-        vr = [-8, 8, 5]# ; rt = 5
-        # vr = [-4, 4, 5]# ; rt = 5
-        # vr = [-2, 2, 5]# ; rt = 5                
+        vr = [-8, 8, 5]
         mc.surface_map_mc_ctp(pngfile, lon[imin:imax], lat[jmin:jmax], (np.sum(np.roll((varM[nexp]-var0M)[:,jmin:jmax,imin:imax].T*day,1,axis=0).reshape(imax-imin,jmax-jmin, 4,3), axis=3)/np.sum(np.roll(day,1).reshape(4,3), axis=1)).T , 2, 2, vr=vr, cmap = cmo.balance, extend='both', fontsize=11, labels = ['DJF', 'MAM', 'JJA', 'SON'], sngl_cbar = True, fsizex = 8, xlim = [lonmin, lonmax], ylim = [latmin, latmax], lon_interval = lonint, lat_interval = latint)
 
 
@@ -476,38 +346,23 @@ def each_plot_map(expid0, expids, lon, lat, var0M, varM, yearc, lonmin = 120, lo
         pngfile=figdir+'MRI-ESM2'+'_U'+str(level)+'_'+yearc+'_monthly_clm.png'
         if os.path.isfile(pngfile) == False:
             print(pngfile)                    
-            vr = [-20, 20, 5]# ; rt = 5
+            vr = [-20, 20, 5]
             mc.surface_map_mc_ctp(pngfile, lon, lat, varcM, 4, 3, vr=vr, cmap = cmo.balance, extend='both', fontsize=11, labels = calendar.month_abbr[1:], sngl_cbar = True, fsizex = 12)
 
         pngfile=figdir+'MRI-ESM2'+'_U'+str(level)+'a_'+expid0 + '_'+yearc+'_monthly_clm.png'
         print(pngfile)                
-        vr = [-6, 6, 5]# ; rt = 5
+        vr = [-6, 6, 5]
         mc.surface_map_mc_ctp(pngfile, lon, lat, varcM - var0M, 4, 3, vr=vr, cmap = cmo.balance, extend='both', fontsize=11, labels = calendar.month_abbr[1:], sngl_cbar = True, fsizex = 12)
 
         pngfile=figdir+'MRI-ESM2'+'_U'+str(level)+'a_NP_'+expid0 + '_'+yearc+'_monthly_clm.png'
         print(pngfile)                
-        vr = [-8, 8, 5]# ; rt = 5
+        vr = [-8, 8, 5]
         mc.surface_map_mc_ctp(pngfile, lon[imin:imax], lat[jmin:jmax], (varcM-var0M)[:,jmin:jmax,imin:imax], 4, 3, vr=vr, cmap = cmo.balance, extend='both', fontsize=11, labels = calendar.month_abbr[1:], sngl_cbar = True, fsizex = 12, xlim = [lonmin, lonmax], ylim = [latmin, latmax], lon_interval = lonint, lat_interval = latint)
 
         pngfile=figdir+'MRI-ESM2'+'_U'+str(level)+'a_NP_'+expid0 + '_'+yearc+'_sclm_clm.png'
         print(pngfile)                
-        vr = [-8, 8, 5]# ; rt = 5
-        # vr = [-4, 4, 5]# ; rt = 5
-        # vr = [-2, 2, 5]# ; rt = 5                
+        vr = [-8, 8, 5]
         mc.surface_map_mc_ctp(pngfile, lon[imin:imax], lat[jmin:jmax], (np.sum(np.roll((varcM-var0M)[:,jmin:jmax,imin:imax].T*day,1,axis=0).reshape(imax-imin,jmax-jmin, 4,3), axis=3)/np.sum(np.roll(day,1).reshape(4,3), axis=1)).T , 2, 2, vr=vr, cmap = cmo.balance, extend='both', fontsize=11, labels = ['DJF', 'MAM', 'JJA', 'SON'], sngl_cbar = True, fsizex = 8, xlim = [lonmin, lonmax], ylim = [latmin, latmax], lon_interval = lonint, lat_interval = latint)
-        
-        
-        
-        # if cobs:
-        #     pngfile=figdir+expid0+'_'+expids[nexp]+'_U'+str(level)+'a_NP_JRA_'+expid0 + '_'+str(ybgn)+'-'+str(yend)+'_Feb_clm.png'
-        #     # vr = [-8, 8, 5]# ; rt = 5
-        #     vr = [-4, 4, 5]# ; rt = 5
-        #     # vr = [-2, 2, 5]# ; rt = 5
-        #     varf = np.ma.array([var0M[1]-rvaroM[1], varM[nexp,1]-rvaroM[1], varM[nexp,1]-var0M[1]])
-        #     # mc.surface_map_mc_ctp(pngfile, lon[imin:imax], lat[jmin:jmax], varf[:,jmin:jmax,imin:imax], 1, 3, vr=vr, cmap = cmo.balance, extend='both', fontsize=11, labels = ['COBE-A - JRA55', 'LR-A - JRA55', 'LR-A - COBE-A'], sngl_cbar = True, fsizex = 8, xlim = [lonmin, lonmax], ylim = [latmin, latmax], lon_interval = lonint, lat_interval = latint)
-        #     mc.surface_map_mc_ctp(pngfile, lon[imin:imax], lat[jmin:jmax], varf[:,jmin:jmax,imin:imax], 3, 1, vr=vr, cmap = cmo.balance, extend='both', fontsize=11, labels = ['COBE-A - JRA55', 'LR-A - JRA55', 'LR-A - COBE-A'], sngl_cbar = True, fsizex = 3.5, fsizey = 4,xlim = [lonmin, lonmax], ylim = [latmin, latmax], lon_interval = lonint, lat_interval = latint)            
-
-
 
     
 def plot_ulat(pngfile, expids, lat, vlatM, xmin = 0, xmax = 10, latmin = 20, latmax = 60, fontsize = 12, vlatoM = [], vlatcM = [], vlatV = [], vlatoV = [], vlatcV = [], vlatsM = []):
@@ -519,8 +374,6 @@ def plot_ulat(pngfile, expids, lat, vlatM, xmin = 0, xmax = 10, latmin = 20, lat
     fig, ax = plt.subplots()
         
     if np.size(vlatcM) > 0:
-        # ncadd += 1
-        # ax.plot(vlatcM, lat, color = cm.viridis(0.), label = 'MRI-ESM2.0', linewidth = 4)
         ax.plot(vlatcM, lat, '--', color = cm.viridis(0.), label = 'MRI-ESM2.0', linewidth = 4)        
         if np.size(vlatcV) > 0:
             ax.fill_betweenx(lat, vlatcM-np.sqrt(vlatcV), vlatcM+np.sqrt(vlatcV), color = cm.viridis(1.), alpha = 0.25)                
@@ -537,15 +390,10 @@ def plot_ulat(pngfile, expids, lat, vlatM, xmin = 0, xmax = 10, latmin = 20, lat
         
     if np.size(vlatoM) > 0:
         ax.plot(vlatoM, lat, color = 'k', label = 'JRA55', linewidth = 4)
-        # if np.size(vlatoV) > 0:
-        #     ax.fill_betweenx(lat, vlatoM-np.sqrt(vlatoV), vlatoM+np.sqrt(vlatoV), 'k', alpha = 0.25)                        
         
     ax.set_xlim(xmin, xmax)
     ax.set_ylim(latmin, latmax)
-    # ax.set_xticks(np.arange(np.min(year), np.max(year)+1, xint))
-    # ax.set_yticks(np.linspace(ymin,ymax,yint))    
     ax.legend()
-    # plt.show()
     plt.savefig(pngfile)
 
 
@@ -569,10 +417,6 @@ def plot_abcbar(pngfile, labels, abcs, fontsize = 12, abco = [], abcc = [], abcr
     ax.set_ylim(ymin, ymax)
     ax.set_xticks(0.5+np.arange(nvar))
     ax.set_xticklabels(xticks)
-    # ax.set_xticks(np.arange(np.min(year), np.max(year)+1, xint))
-    # ax.set_yticks(np.linspace(ymin,ymax,yint))    
-    # ax.legend()
-    # plt.show()
     plt.savefig(pngfile)
 
 def read_sst(expid0, expids, ybgn, yend, msk = []):

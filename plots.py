@@ -3,26 +3,18 @@ import sys
 import calendar
 import numpy as np
 import matplotlib.pyplot as plt
-# import matplotlib.cm as cm
 import matplotlib.gridspec as gridspec
 import matplotlib.ticker as mticker
-# import matplotlib.path as mpath
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import cmocean.cm as cmo
 import seaborn as sns
 BASE = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(BASE)
-# sys.path.append(BASE+"/mriagcm3")
 import mriagcm3.grid.mriagcm as ag
-# import mriagcm3.anl2clm as a2c
 import mriagcm3.read_clm as mrc
-# sys.path.append(BASE+"/obs")
 import obs.read_wind_module as rw
 import cmip.cmip_mm as cmm
-# sys.path.append(BASE+"/remap_tools")
-# import locale
-# locale.setlocale(locale.LC_TIME, 'en_US.UTF-8')
 import config.config as cf
 import config.fig_module as fm
 
@@ -52,8 +44,6 @@ def main(cintm = False, cerr = False, dpi = 900):
         
     R0 = 6.375e6    
     lonmin=120; lonmax=240
-    # latmin=20; latmax=60; latint = 10
-    # # latminfit = 25; latmaxfit = 50: latintfit = 5 
 
     mtn = np.fromfile(dirbase+'/AGCM/cnst/TL159L80_const/mtn.grads', '>f').reshape(160,320)[::-1]/9.80665
     msko = (mtn < 5).astype(float)
@@ -74,13 +64,11 @@ def main(cintm = False, cerr = False, dpi = 900):
     ktgt0 = 9
 
     lonoa, latoa, levoa, uaoM = rw.read_JRA55_UP_CLM(ybgn, yend, level = 1.e-2*lev0, fbase = dirbase+'/obs/WindProfile/JRA55/MONCLM/anl_p125_ugrd.')
-    # lonoa, latoa, levoa, uaoV = rw.read_JRA55_UP2_CLM(ybgn, yend, level = 1.e-2*lev0, fbase = dirbase+'/obs/WindProfile/JRA55/MONCLM/anl_p125_ugrd2.')    
     ulto = ZonalMean(lonoa, am(uaoM), lonmin=lonmin, lonmax=lonmax)    
     lmxo = cmm.u1d2lpeak(ulto[ktgt0], latoa, latmin = 15, latmax = 65, mode = '')
     
     models, lmxaem, lmxcem = cmm.latupeak(ybgn, yend, lonmin = lonmin, lonmax = lonmax, level = 20000, mode = '') 
     lono, lato, levo, uacM, uaaM, dbdycM, dbdyaM, dbdzcM, dbdzaM, egrcM, egraM = cmm.read_datas_MMM(ybgn, yend, am0, 9999, cintm = cintm, dirbase = dirbase)
-    # lon, lat, lev, ua0M, uaM = read_amip3D(expid0, expids, 'hs_ua.', 'ua', ybgn, yend, msk = msk)
     lon, lat, lev, ua0M, uaM = read_amip3D(expid0, expids, 'hs_ua.', 'ua', ybgn, yend)    
     
     ktgt = np.where(lev == 200)[0][0]
@@ -117,14 +105,12 @@ def main(cintm = False, cerr = False, dpi = 900):
     # # ---- error estimate for jet latitude ---- # #      
         
             
-    # labels = ['', 'AMIP-JRA55', 'CMIP-JRA55', 'CMIP-AMIP', 'GLB-CNTL', 'PAC-CNTL', '(GLB-PAC)-CNTL', 'WNP-CNTL', 'EQ-CNTL', 'ENP-CNTL']
     labels = ['', 'AMIP-JRA55', 'historical-JRA55', 'historical-AMIP', 'GLB-CNTL', 'PAC-CNTL', '(GLB-PAC)-CNTL', 'WNP-CNTL', 'EQ-CNTL', 'ENP-CNTL']
 
     bbox = dict(facecolor='white', alpha=0.9)    
     latminca = 32; latmaxca = 44; latintca = 7
     vmin = -8; vmax = 8; vint = 5; rt = 10
     lonminf = 90; lonmaxf = 270; lonintf = 60
-    # latminf =-20; latmaxf = 60; latintf = 20
     latminf =-20; latmaxf = 80; latintf = 20        
     dxax = 3; dyax = 1.2
     fontsizexy = 10
@@ -133,13 +119,11 @@ def main(cintm = False, cerr = False, dpi = 900):
 
     plt.rcParams['font.size'] = 10
     
-    # ntop = 4; ntop1 = ntop-2
     ntop = 8; ntop1 = ntop-3 
     rmap = 2
     nf += 1
     pngfile=figdir+'fig'+str(nf)+suff
     print(pngfile)    
-    # fig = plt.figure(figsize=(8,8))
     fig = plt.figure(figsize=(8,10), constrained_layout=True)    
     gs = gridspec.GridSpec(ntop+rmap*3, 3, figure=fig)
     ax = fig.add_subplot(gs[0:ntop1,:])    
@@ -256,7 +240,6 @@ def main(cintm = False, cerr = False, dpi = 900):
     cax.text(unitx, unity, unitcbr, transform=cax.transAxes)
     
     fig.subplots_adjust(top=0.98, bottom=0.08, left = 0.08, right=0.95, hspace = 0.6, wspace=0.1)            
-    # fig.savefig(pngfile)
     if dpi is None:
         plt.savefig(pngfile)
     else:
@@ -276,24 +259,19 @@ def main(cintm = False, cerr = False, dpi = 900):
     varf = np.vstack(((ultargd-ultorgd)[np.newaxis], (ultcrgd-ultorgd)[np.newaxis], (ultcrgd-ultargd)[np.newaxis], vlatM[:]))
     varl = np.vstack((ultorgd[np.newaxis], ultorgd[np.newaxis], ultargd[np.newaxis], np.tile(vlat0M, (6,1,1))))
 
-    # expidstmp = np.r_[expids[:1], expids[3:]]
     lon, lat, leve, uv0M, uvM = read_amip3D(expid0, expids, 'hs_uva_8dhp_Lanczos.', 'uva', ybgn, yend)
-    # lon, lat, leve, uv0M, uvM = read_amip3D(expid0, expidstmp, 'hs_uva_8dhp_Lanczos.', 'uva', ybgn, yend)    
     uvlat0M = ZonalMean(lon, uv0M, lonmin = lonmin, lonmax = lonmax)
     uvlatM = ZonalMean(lon, uvM, lonmin = lonmin, lonmax = lonmax)
 
     lon, lat, leve, vt0M, vtM = read_amip3D(expid0, expids, 'hs_vta_8dhp_Lanczos.', 'vta', ybgn, yend)
-    # lon, lat, leve, vt0M, vtM = read_amip3D(expid0, expidstmp, 'hs_vta_8dhp_Lanczos.', 'vta', ybgn, yend) 
     vtlat0M = ZonalMean(lon, vt0M, lonmin = lonmin, lonmax = lonmax)
     vtlatM = ZonalMean(lon, vtM, lonmin = lonmin, lonmax = lonmax)
     
     Rd = 2.87e2
     Cp = 1.004e3
-    # Rv = 4.61e2
     fsin = 2*np.pi/4.3082e4*np.sin(np.deg2rad(lat))
 
     lon, lat, lev, ta0M, taM = read_amip3D(expid0, expids, 'hs_ta.', 'ta', ybgn, yend)
-    # lon, lat, lev, ta0M, taM = read_amip3D(expid0, expidstmp, 'hs_ta.', 'ta', ybgn, yend)    
     pt0M = ta0M * ((1.e3/lev)[:,np.newaxis,np.newaxis])**(Rd/Cp)
     ptM = taM * ((1.e3/lev)[:,np.newaxis,np.newaxis])**(Rd/Cp)
     ptlat0M = ZonalMean(lon, pt0M, lonmin = lonmin, lonmax = lonmax)
@@ -317,15 +295,6 @@ def main(cintm = False, cerr = False, dpi = 900):
     evfct0 = 2.e5
     evfct = 1.e6
 
-    # vecx = np.array([np.nan*np.ones_like(evecx0), np.nan*np.ones_like(evecx0), evecx0/R0/np.deg2rad(1)*evfct0, 
-    #                  (evecx[0]-evecx0)/R0/np.deg2rad(1)*evfct, np.nan*np.ones_like(evecx0), np.nan*np.ones_like(evecx0), 
-    #                  (evecx[1]-evecx0)/R0/np.deg2rad(1)*evfct, (evecx[2]-evecx0)/R0/np.deg2rad(1)*evfct, (evecx[3]-evecx0)/R0/np.deg2rad(1)*evfct
-    # ])
-
-    # vecy = np.array([np.nan*np.ones_like(evecy0), np.nan*np.ones_like(evecy0), evecy0*1.e-1*evfct0, 
-    #                  (evecy[0]-evecy0)*1.e-1*evfct, np.nan*np.ones_like(evecy0), np.nan*np.ones_like(evecy0), 
-    #                  (evecy[1]-evecy0)*1.e-1*evfct, (evecy[2]-evecy0)*1.e-1*evfct, (evecy[3]-evecy0)*1.e-1*evfct
-    # ])
 
     vecx = np.array([np.nan*np.ones_like(evecx0), np.nan*np.ones_like(evecx0), evecx0/R0/np.deg2rad(1)*evfct0, 
                      (evecx[0]-evecx0)/R0/np.deg2rad(1)*evfct, (evecx[1]-evecx0)/R0/np.deg2rad(1)*evfct, (evecx[2]-evecx0)/R0/np.deg2rad(1)*evfct, 
@@ -348,9 +317,7 @@ def main(cintm = False, cerr = False, dpi = 900):
 
 
        
-    # labels = ['AMIP-JRA55', 'CMIP-JRA55', 'CMIP-AMIP', 'GLB-CNTL', 'PAC-CNTL', '(GLB-PAC)-CNTL', 'WNP-CNTL', 'EQ-CNTL', 'ENP-CNTL']
     labels = ['AMIP-JRA55', 'historical-JRA55', 'historical-AMIP', 'GLB-CNTL', 'PAC-CNTL', '(GLB-PAC)-CNTL', 'WNP-CNTL', 'EQ-CNTL', 'ENP-CNTL']    
-    # vcols = ['k', 'k', 'k', 'w', 'w', 'w', 'w', 'w', 'w']
     vcols = ['k', 'k', 'g', 'k', 'k', 'k', 'k', 'k', 'k']    
     ncols = 3; nrows = round(np.shape(varf)[0]/ncols)
     vr = [-6, 6, 5]
@@ -369,19 +336,6 @@ def main(cintm = False, cerr = False, dpi = 900):
     k2ke = np.where(np.isin(lev, leve))[0]    
     evz0M = - fsin[:,np.newaxis] * vt0M * ((1.e3/leve)[:,np.newaxis,np.newaxis])**(Rd/Cp)/(dptdzlat0M[:,k2ke,:,np.newaxis])
     evzM  = - fsin[:,np.newaxis] * vtM * ((1.e3/leve)[:,np.newaxis,np.newaxis])**(Rd/Cp)/(dptdzlatM[:,:,k2ke,:,np.newaxis])        
-
-
-    # varf0 = 1.e3*am(evzM[:,:,2] - evz0M[:,2], axis=1)
-    # # varf0 = np.ma.vstack((varf0[:1], np.nan*np.ones_like(varf0[:2]), varf0[1:]))
-    # varl0 = 1.e3*np.tile(am(evz0M[:,2], axis=0), (6,1,1))
-    # vr = [-1.2, 1.2, 5]; rt = 10
-    # levl = np.linspace(-6, 6, 13)
-    
-    # nf += 1
-    # pngfile=figdir+'fig'+str(nf)+suff
-    # # fm.fig1(pngfile, lon, lat, varf0, varfl = varl0, lonr = [90, 270, 60], latr = [0, 60, 20], vr=vr, lines = levl, cmap = cmo.balance, flabel = ['GLB', 'PAC', 'GLB-PAC', 'WNP', 'EQ', 'ENP'], bbox = dict(facecolor='white', alpha=0.7), unitcbr = r'[$\times 10^{-3} XX$]', cfig2 = True, dxc = 0.96, dyc = 0.88, dxcb = 0.05, fsizey = 2.4)
-    # fm.fig1(pngfile, lon, lat, varf0, varfl = varl0, lonr = [90, 270, 60], latr = [20, 80, 20], vr=vr, lines = levl, cmap = cmo.balance, flabel = ['GLB', 'PAC', 'GLB-PAC', 'WNP', 'EQ', 'ENP'], bbox = dict(facecolor='white', alpha=0.9), unitcbr = r'[$\times 10^{-1} \ {\rm Pa \ m \ s^{-2}}$]', cfig2 = False, dxc = 0.04, dyc = 0.12, dxcb = 0.20, dycb = 0.12, fsizey = 2.4, btm = 0.24, unitx = 1.025, unity = -4.0, dpi = dpi)    
-
 
     lon, lat, lev, ta0M, taM = read_amip3D(expid0, expids, 'hs_ta.', 'ta', ybgn, yend)    
     lon, lat, lev, gha0M, ghaM = read_amip3D(expid0, expids, 'hs_gha.', 'gha', ybgn, yend)
@@ -411,39 +365,6 @@ def main(cintm = False, cerr = False, dpi = 900):
     egr0M = 0.31/N0M*np.abs(dbdy0M)*86400.
     egrM = 0.31/NM*np.abs(dbdyM)*86400.    
         
-    
-    # varf = np.ma.array([1.e2*cmm.intp2D(lono, lato, egrcM[2]-egraM[2],  lon, lat), 1.e8*cmm.intp2D(lono, lato, dbdycM[2]-dbdyaM[2], lon, lat), 1.e4*cmm.intp2D(lono, lato, np.sqrt(dbdzcM[2])-np.sqrt(dbdzaM[2]), lon, lat), 
-    #                     1.e2*(egrM[0][6]-egr0M[6]), 1.e8*(dbdyM[0][6]-dbdy0M[6]), 1.e4*(NM[0][6]-N0M[6]), 
-    #                     1.e2*(egrM[1][6]-egr0M[6]), 1.e8*(dbdyM[1][6]-dbdy0M[6]), 1.e4*(NM[1][6]-N0M[6]),
-    #                     1.e2*(egrM[2][6]-egr0M[6]), 1.e8*(dbdyM[2][6]-dbdy0M[6]), 1.e4*(NM[2][6]-N0M[6]),
-    #                     1.e2*(egrM[3][6]-egr0M[6]), 1.e8*(dbdyM[3][6]-dbdy0M[6]), 1.e4*(NM[3][6]-N0M[6]),
-    #                     1.e2*(egrM[4][6]-egr0M[6]), 1.e8*(dbdyM[4][6]-dbdy0M[6]), 1.e4*(NM[4][6]-N0M[6]),
-    #                     1.e2*(egrM[5][6]-egr0M[6]), 1.e8*(dbdyM[5][6]-dbdy0M[6]), 1.e4*(NM[5][6]-N0M[6])
-    # ])
-
-    
-    # varl = np.ma.array([1.e2*cmm.intp2D(lono, lato, egraM[2],  lon, lat), 1.e8*cmm.intp2D(lono, lato, dbdyaM[2], lon, lat), 1.e4*cmm.intp2D(lono, lato, np.sqrt(dbdzaM[2]), lon, lat), 
-    #                     1.e2*egr0M[6], 1.e8*dbdy0M[6], 1.e4*N0M[6], 
-    #                     1.e2*egr0M[6], 1.e8*dbdy0M[6], 1.e4*N0M[6],
-    #                     1.e2*egr0M[6], 1.e8*dbdy0M[6], 1.e4*N0M[6],
-    #                     1.e2*egr0M[6], 1.e8*dbdy0M[6], 1.e4*N0M[6],
-    #                     1.e2*egr0M[6], 1.e8*dbdy0M[6], 1.e4*N0M[6],
-    #                     1.e2*egr0M[6], 1.e8*dbdy0M[6], 1.e4*N0M[6] 
-    # ])
-    
-    # vr = np.tile(np.array([[-8, 8, 5], [-6, 6, 5], [-8, 8, 5]]), (7,1))    
-    # lines = np.tile(np.array([np.linspace(0,150,16), np.linspace(-60,60,16), np.linspace(75,150,16) ]), (7,1))    
-    # # labels = np.tile(np.array(['CMIP-AMIP', 'GLB-CNTL', 'PAC-CNTL', '(GLB-PAC)-CNTL', 'WNP-CNTL', 'EQ-CNTL', 'ENP-CNTL']), (3,1)).T.reshape(-1)
-    # labels = np.tile(np.array(['historical-AMIP', 'GLB-CNTL', 'PAC-CNTL', '(GLB-PAC)-CNTL', 'WNP-CNTL', 'EQ-CNTL', 'ENP-CNTL']), (3,1)).T.reshape(-1)    
-    # unitcbrs = [r'[$\times 10^{-2} {\rm day^{-1}}$]', r'[$\times 10^{-8} {\rm s^{-2}}$]', r'[$\times 10^{-4} {\rm s^{-1}}$]']
-    # tlabel = ['EGR', r'$\partial B/\partial y$', r'$N$']
-    
-    # nf += 1
-    # pngfile=figdir+'fig'+str(nf)+suff
-    # # fm.fig1(pngfile, lon, lat, varf, varfl = varl, lonr = [90, 270, 60], latr = [0, 60, 20], vr=vr, lines = lines, cmap = cmo.balance, flabel = labels, bbox = dict(facecolor='white', alpha=0.9), sngl_cbar = False, fsizey = 7, cbrf5 = True, cfig2 = True, dxc = 0.96, dyc = 0.88, btm = 0.08, dycb = 0.04, cbt = 0.012, dxcb = 0.1, unitcbr = unitcbrs, unitx = 1.08, left = 0.04, right = 0.94)
-    # fm.fig1(pngfile, lon, lat, varf, varfl = varl, lonr = [90, 270, 60], latr = [20, 80, 20], vr=vr, lines = lines, cmap = cmo.balance, flabel = labels, bbox = dict(facecolor='white', alpha=0.9), sngl_cbar = False, fsizey = 7, cbrf5 = True, cfig2 = False, dxc = 0.04, dyc = 0.12, btm = 0.08, dycb = 0.04, cbt = 0.012, dxcb = 0.1, unitcbr = unitcbrs, unitx = 1.08, left = 0.04, right = 0.94, dpi = dpi, tlabel = tlabel)    
-
-    
     varf = np.ma.array([
         1.e3*am(evzM[0,:,2] - evz0M[:,2], axis=0), 1.e3*am(evzM[1,:,2] - evz0M[:,2], axis=0), 1.e3*am(evzM[3,:,2] - evz0M[:,2], axis=0), 
         1.e2*(egrM[0][6]-egr0M[6]), 1.e2*(egrM[1][6]-egr0M[6]), 1.e2*(egrM[3][6]-egr0M[6]),
@@ -459,10 +380,7 @@ def main(cintm = False, cerr = False, dpi = 900):
         1.e4*N0M[6], 1.e4*N0M[6], 1.e4*N0M[6]
     ])
     
-    # vr = [-1.2, 1.2, 5]; rt = 10
-    # levl = np.linspace(-6, 6, 13)
-    # vr = np.tile(np.array([[-8, 8, 5], [-6, 6, 5], [-8, 8, 5]]), (7,1))
-    # lines = np.tile(np.array([np.linspace(0,150,16), np.linspace(-60,60,16), np.linspace(75,150,16) ]), (7,1))        
+
     vr = np.array([
         [-1.2, 1.2, 5], [-1.2, 1.2, 5], [-1.2, 1.2, 5],
         [-8, 8, 5], [-8, 8, 5], [-8, 8, 5], 
@@ -475,22 +393,14 @@ def main(cintm = False, cerr = False, dpi = 900):
                       np.linspace(75,150,16), np.linspace(75,150,16), np.linspace(75,150,16)
     ])
     
-    # labels = np.tile(np.array(['CMIP-AMIP', 'GLB-CNTL', 'PAC-CNTL', '(GLB-PAC)-CNTL', 'WNP-CNTL', 'EQ-CNTL', 'ENP-CNTL']), (3,1)).T.reshape(-1)
-    # labels = np.tile(np.array([r'${\bf {\rm E}}$ vector', 'EGR', r'$\partial B/\partial y$', r'$N$']), (3,1)).T.reshape(-1)
     labels = np.tile(np.array([r'$\mathbf{E}}$', 'EGR', r'$|\partial B/\partial y|$', r'$N$']), (3,1)).T.reshape(-1)    
     unitcbrs = [r'[$\times 10^{-1} \ {\rm Pa \ m \ s^{-2}}$]', r'[$\times 10^{-2} \ {\rm day^{-1}}$]', r'[$\times 10^{-8} \ {\rm s^{-2}}$]', r'[$\times 10^{-4} \ {\rm s^{-1}}$]']
     tlabel = ['GLB', 'PAC', 'WNP']
     
     nf += 1
     pngfile=figdir+'fig'+str(nf)+suff
-    # fm.fig1(pngfile, lon, lat, varf, varfl = varl, lonr = [90, 270, 60], latr = [0, 60, 20], vr=vr, lines = lines, cmap = cmo.balance, flabel = labels, bbox = dict(facecolor='white', alpha=0.9), sngl_cbar = False, fsizey = 7, cbrf5 = True, cfig2 = True, dxc = 0.96, dyc = 0.88, btm = 0.08, dycb = 0.04, cbt = 0.012, dxcb = 0.1, unitcbr = unitcbrs, unitx = 1.08, left = 0.04, right = 0.94)
     fm.fig1(pngfile, lon, lat, varf, varfl = varl, lonr = [90, 270, 60], latr = [20, 80, 20], vr=vr, lines = lines, cmap = cmo.balance, flabel = labels, bbox = dict(facecolor='white', alpha=0.9), sngl_cbar = False, fsizey = 5.6, cbrf4 = True, cfig2 = False, dxc = 0.04, dyc = 0.12, top = .99, btm = 0.08, dycb = 0.056, cbt = 0.016, dxcb = 0.25, unitcbr = unitcbrs, unitx = 1.3, unity = -2.8, left = 0.05, right = 0.95, dpi = dpi, tlabel = tlabel, hspace = 0.15, wspace = 0.13)    
 
-
-    # figdir = 'fig/'+date+RES+'SI/'    
-    # if os.path.isdir(figdir) == False:
-    #     os.makedirs(figdir)    
-    
     varf = np.ma.array([
         1.e3*am(evzM[2,:,2] - evz0M[:,2], axis=0), 1.e3*am(evzM[4,:,2] - evz0M[:,2], axis=0), 1.e3*am(evzM[5,:,2] - evz0M[:,2], axis=0), 
         1.e2*(egrM[2][6]-egr0M[6]), 1.e2*(egrM[4][6]-egr0M[6]), 1.e2*(egrM[5][6]-egr0M[6]),
@@ -527,23 +437,16 @@ def main(cintm = False, cerr = False, dpi = 900):
     pngfile=figdir+'figS'+str(nf)+suff
     fm.fig1(pngfile, lon, lat, varf, varfl = varl, lonr = [90, 270, 60], latr = [20, 80, 20], vr=vr, lines = lines, cmap = cmo.balance, flabel = labels, bbox = dict(facecolor='white', alpha=0.9), sngl_cbar = False, fsizey = 5.6, cbrf4 = True, cfig2 = False, dxc = 0.04, dyc = 0.12, top = .99, btm = 0.08, dycb = 0.056, cbt = 0.016, dxcb = 0.25, unitcbr = unitcbrs, unitx = 1.3, unity = -2.8, left = 0.05, right = 0.95, dpi = dpi, tlabel = tlabel, hspace = 0.15, wspace = 0.13)    
     
-
-    
-    # varf = np.ma.array([1.e2*cmm.intp2D(lono, lato, egrcM[2]-egraM[2],  lon, lat), 1.e8*cmm.intp2D(lono, lato, dbdycM[2]-dbdyaM[2], lon, lat), 1.e4*cmm.intp2D(lono, lato, np.sqrt(dbdzcM[2])-np.sqrt(dbdzaM[2]), lon, lat)])    
-    # varl = np.ma.array([1.e2*cmm.intp2D(lono, lato, egraM[2],  lon, lat), 1.e8*cmm.intp2D(lono, lato, dbdyaM[2], lon, lat), 1.e4*cmm.intp2D(lono, lato, np.sqrt(dbdzaM[2]), lon, lat)])
-
     varf = np.ma.array([1.e2*(egrcM[2]-egraM[2]), 1.e8*(np.abs(dbdycM[2])-np.abs(dbdyaM[2])), 1.e4*(np.sqrt(dbdzcM[2])-np.sqrt(dbdzaM[2]))])
     varl = np.ma.array([1.e2*egraM[2], 1.e8*dbdyaM[2], 1.e4*np.sqrt(dbdzaM[2])])
     
     vr = np.array([[-8, 8, 5], [-6, 6, 5], [-8, 8, 5]])
     lines = np.array([np.linspace(0,150,16), np.linspace(-60,60,16), np.linspace(75,150,16) ])
-    # labels = np.tile(np.array(['CMIP-AMIP', 'GLB-CNTL', 'PAC-CNTL', '(GLB-PAC)-CNTL', 'WNP-CNTL', 'EQ-CNTL', 'ENP-CNTL']), (3,1)).T.reshape(-1)
     labels = ['EGR', r'$|\partial B/\partial y|$', r'$N$']    
     unitcbrs = [r'[$\times 10^{-2} {\rm day^{-1}}$]', r'[$\times 10^{-8} \ {\rm s^{-2}}$]', r'[$\times 10^{-4} \ {\rm s^{-1}}$]']
     
     nf += 1
     pngfile=figdir+'figS'+str(nf)+suff
-    # fm.fig1(pngfile, lon, lat, varf, varfl = varl, lonr = [90, 270, 60], latr = [20, 80, 20], vr=vr, lines = lines, cmap = cmo.balance, flabel = labels, bbox = dict(facecolor='white', alpha=0.9), sngl_cbar = False, fsizey = 10, cbrf5 = True, cfig2 = False, dxc = 0.04, dyc = 0.12, btm = 0.08, dycb = 0.04, cbt = 0.012, dxcb = 0.1, unitcbr = unitcbrs, unitx = 1.08, left = 0.04, right = 0.94, dpi = dpi, tlabel = tlabel, ncols = 1)    
     fm.fig1(pngfile, lono, lato, varf, varfl = varl, lonr = [90, 270, 60], latr = [20, 80, 20], vr=vr, lines = lines, cmap = cmo.balance, flabel = labels, bbox = dict(facecolor='white', alpha=0.9), sngl_cbar = False, fsizey = 9, cbrf4 = True, cfig2 = False, dxc = 0.02, dyc = 0.06, top = .96, btm = 0.12, dycb = 0.05, cbt = 0.010, dxcb = 0.25, unitcbr = unitcbrs, unitx = 1.3, unity = -2.6, left = 0.08, right = 0.92, dpi = dpi, hspace = 0.3, wspace = 0.13, ncols = 1)        
 
 
@@ -551,7 +454,6 @@ def plot_ulatlev(pngfile, lev, lat, varf, varl, ncols, nrows, xr = [-90,90], yr 
 
     nexp = np.shape(varf)[0]
     plt.rcParams['font.size'] = fontsize
-    # fig = plt.figure(figsize = (fsizex, fsizey), constrained_layout=True)
     fig = plt.figure(figsize = (fsizex, fsizey))    
     ax = np.reshape(fig.subplots(nrows, ncols), (nrows, ncols))
 
@@ -627,19 +529,12 @@ def plot_ulatlev(pngfile, lev, lat, varf, varl, ncols, nrows, xr = [-90,90], yr 
                     ax[nr,nc].set_yticklabels(np.linspace(yr[0], yr[1], yr[2]).astype(int).astype(str).astype(object)+'hPa') 
 
                 if nr != nrows-1:
-                    # ax[nr,nc].set_xticklabels([])
                     ax[nr,nc].tick_params(labelbottom=False)                    
                 if nc != 0:
-                    # ax[nr,nc].set_yticklabels([])
                     ax[nr,nc].tick_params(labelleft=False)
 
                 ax[nr,nc].set_axisbelow(False)
                 ax[nr, nc].grid(True, color="w", linewidth=1.0, alpha = 0.50)                
-                # ax[nr, nc].minorticks_on()
-                # ax[nr, nc].grid(True, which="major", color="w", linewidth=1.0, alpha = 0.50)
-                # ax[nr, nc].grid(True, which="minor", color="w", linewidth=0.5, alpha = 0.25)
-                # ax[nr,nc].grid(True, linewidth=1.)
-                # ax[nr,nc].grid(True, zorder = 0, linewidth=2)                                    
                 if np.size(labels) > 0:
                     label = '('+chr(ord("a")+nn)+')'+labels[nn]
                 else:
@@ -648,16 +543,12 @@ def plot_ulatlev(pngfile, lev, lat, varf, varl, ncols, nrows, xr = [-90,90], yr 
                 ax[nr,nc].text(xr[0]+dxc*(xr[1]-xr[0]), yr[1]-dyc*(yr[1]-yr[0]), label, ha = 'left', va = 'top', bbox = bbox, zorder = 30)
             else:
                 ax[nr,nc].remove()
-    # plt.show()
 
     cax = fig.add_axes([0.12, 0.04, 0.82, 0.01])
     cbar = plt.colorbar(image, cax = cax, orientation = 'horizontal', ticks = np.linspace(vr[0], vr[1], vr[2]))
     cax.text(unitx, unity, unitcbr, transform=cax.transAxes)
-    # plt.tight_layout()
-    
-    # fig.subplots_adjust(top=0.98, bottom=0.1, left = 0.10, right=0.96, hspace = 0.1, wspace=0.16)
+
     fig.subplots_adjust(top=0.98, bottom=0.1, left = 0.10, right=0.92, hspace = 0.1, wspace=0.16)                    
-    # plt.savefig(pngfile)
     if dpi is None:
         plt.savefig(pngfile)
     else:
@@ -744,7 +635,6 @@ def am0(var, ns, axis=0):
 def sm(var, axis=0, nr=1):
 
     if np.size(var) == 0:
-        # varsm = var
         varsm = np.tile(var, 4)
     else:
         day = np.roll(np.array(calendar.mdays[1:]), nr).reshape(4,3)
@@ -805,8 +695,6 @@ def polyfit2d(x, var, axis=-1):
             a0, b0, c0 = np.polyfit(x, var[n], 2)
             if nn > 1:
                 a[n] = a0
-                # b[n] = b0
-                # c[n] = c0
                 b[n] = -0.5*b0/a0
                 c[n] = c0 - 0.25*b0*b0/a0
             else:

@@ -9,14 +9,11 @@ def write_1d(output_file, x, var, varname, xname = 'time', xaxis = 'T', tbgn_nam
     if xname == 'time':
         nc_out.createDimension(xname, None)
         x_out = nc_out.createVariable(xname, np.dtype('double').char, (xname, ))
-        # time_out.long_name = xname
         x_out.units = 'days since ' + (tbgn_name) + '-01 00:00:00'
         x_out.axis = 'T'
     else:
         x_out = nc_out.createVariable(xname, np.dtype('double').char, (xname))
         nc_out.createDimension(xname, np.shape(var)[0])                
-        # x_out.xg_name = xname
-        # x_out.units = xunit
         x_out.axis = xaxis
 
 
@@ -51,23 +48,15 @@ def write_woa1x1_3d(output_file, time, lon, lat, var, varname, tbgn_name = '0001
     nc_out.createDimension('time', None) 
     
     lon_out = nc_out.createVariable('lon', np.dtype('double').char, ('lon'))
-    # lon_out.long_name = 'longitude'
-    # lon_out.units = 'degrees_east'
     lon_out.axis = 'X'
     
     lat_out = nc_out.createVariable('lat', np.dtype('double').char, ('lat'))
-    # lat_out.long_name = 'latitude'
-    # lat_out.units = 'degrees_north'
     lat_out.axis = 'Y'
     
     
     time_out = nc_out.createVariable('time', np.dtype('double').char, ('time', ))
-    # time_out.long_name = 'time'
     time_out.units = 'days since ' + (tbgn_name) + '-01 00:00:00'
     time_out.axis = 'T'
-    # time_out.calendar = 'proleptic_gregorian'
-    
-    # var_out = nc_out.createVariable(varname, np.dtype('float32').char, ('time', 'lat', 'lon'), fill_value = np.array(ERR, dtype = 'float32'))
 
     var_out = nc_out.createVariable(varname, np.dtype('float32').char, ('time', 'lat', 'lon'), fill_value = ERR)
 
@@ -100,28 +89,18 @@ def write_woa1x1_4d(output_file, time, depth, lon, lat, var, varname, tbgn_name 
     nc_out.createDimension('time', None) 
     
     lon_out = nc_out.createVariable('lon', np.dtype('double').char, ('lon'))
-    # lon_out.long_name = 'longitude'
-    # lon_out.units = 'degrees_east'
     lon_out.axis = 'X'
     
     lat_out = nc_out.createVariable('lat', np.dtype('double').char, ('lat'))
-    # lat_out.long_name = 'latitude'
-    # lat_out.units = 'degrees_north'
     lat_out.axis = 'Y'
     
     depth_out = nc_out.createVariable('depth', np.dtype('double').char, ('depth'))
-    # depth_out.long_name = 'depth'
-    # depth_out.units = 'm'
     depth_out.axis = 'Z'
     
     time_out = nc_out.createVariable('time', np.dtype('double').char, ('time', ))
-    # time_out.long_name = 'time'
     time_out.units = 'days since ' + (tbgn_name) + '-01 00:00:00'
     time_out.axis = 'T'
-    # time_out.calendar = 'proleptic_gregorian'
     
-    # var_out = nc_out.createVariable(varname, np.dtype('float32').char, ('time', 'depth', 'lat', 'lon'), fill_value = np.array(ERR, dtype = 'float32'))
-
     var_out = nc_out.createVariable(varname, np.dtype('float32').char, ('time', 'depth', 'lat', 'lon'), fill_value = ERR)
 
     if (standard_name == '')*(var_unit == '') :
@@ -153,22 +132,16 @@ def write_woa1x1_3d_MVS(output_file, time, lon, lat, vrbs, varnames, tbgn_name =
     nc_out.createDimension('time', None) 
     
     lon_out = nc_out.createVariable('lon', np.dtype('double').char, ('lon'))
-    # lon_out.long_name = 'longitude'
-    # lon_out.units = 'degrees_east'
     lon_out.axis = 'X'
     lon_out[:] = lon
     
     lat_out = nc_out.createVariable('lat', np.dtype('double').char, ('lat'))
-    # lat_out.long_name = 'latitude'
-    # lat_out.units = 'degrees_north'
     lat_out.axis = 'Y'
     lat_out[:] = lat
      
     time_out = nc_out.createVariable('time', np.dtype('double').char, ('time', ))
-    # time_out.long_name = 'time'
     time_out.units = 'days since ' + (tbgn_name) + '-01 00:00:00'
     time_out.axis = 'T'
-    # time_out.calendar = 'proleptic_gregorian'
     time_out[:] = time
     
 
@@ -184,7 +157,6 @@ def write_woa1x1_3d_MVS(output_file, time, lon, lat, vrbs, varnames, tbgn_name =
         standard_name = standard_names[n]
         var_unit = var_units[n]
 
-        # var_out = nc_out.createVariable(varname, np.dtype('float32').char, ('time', 'depth', 'lat', 'lon'), fill_value = ERR)
         var_out = nc_out.createVariable(varname, np.dtype('float32').char, ('time', 'lat', 'lon'), fill_value = ERR)
     
         if (standard_name == '')*(var_unit == '') :
@@ -209,27 +181,20 @@ def write_woa1x1_4d_MVS(output_file, time, depth, lon, lat, vrbs, varnames, tbgn
     nc_out.createDimension('time', None) 
     
     lon_out = nc_out.createVariable('lon', np.dtype('double').char, ('lon'))
-    # lon_out.long_name = 'longitude'
-    # lon_out.units = 'degrees_east'
     lon_out.axis = 'X'
     lon_out[:] = lon
     
     lat_out = nc_out.createVariable('lat', np.dtype('double').char, ('lat'))
-    # lat_out.long_name = 'latitude'
-    # lat_out.units = 'degrees_north'
+
     lat_out.axis = 'Y'
     lat_out[:] = lat
     
     depth_out = nc_out.createVariable('depth', np.dtype('double').char, ('depth'))
-    # depth_out.long_name = 'depth'
-    # depth_out.units = 'm'
     depth_out.axis = 'Z'
     depth_out[:] = depth    
     time_out = nc_out.createVariable('time', np.dtype('double').char, ('time', ))
-    # time_out.long_name = 'time'
     time_out.units = 'days since ' + (tbgn_name) + '-01 00:00:00'
     time_out.axis = 'T'
-    # time_out.calendar = 'proleptic_gregorian'
     time_out[:] = time
     
 
@@ -244,7 +209,6 @@ def write_woa1x1_4d_MVS(output_file, time, depth, lon, lat, vrbs, varnames, tbgn
         standard_name = standard_names[n]
         var_unit = var_units[n]
 
-        # var_out = nc_out.createVariable(varname, np.dtype('float32').char, ('time', 'depth', 'lat', 'lon'), fill_value = np.array(ERR, dtype = 'float32'))
         var_out = nc_out.createVariable(varname, np.dtype('float32').char, ('time', 'depth', 'lat', 'lon'), fill_value = ERR)
 
         if (standard_name == '')*(var_unit == '') :

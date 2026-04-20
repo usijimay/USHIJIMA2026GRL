@@ -64,23 +64,5 @@ def order2varnames(order):
         varnames = ['obvfsq', 'thetao', 'agessc', 'so', 
                     'ta', 'ua', 'va']
 
-    # elif (vartyp[0] == 'A') or (vartyp[0] == 'a'):        
-    #     varnames = ['rsdt', 'uas', 'ta', 'clwvi', 'tauu', 'rlutcs', 'clivi', 'hur', 'sfcWind', 
-    #                 'tasmin', 'rsdscs', 'ccb', 'o3', 'huss', 'tas', 'cl', 'rsds', 'wap', 'rlds', 
-    #                 'vas', 'rsus', 'rlus', 'ua', 'ch4', 'ps', 'n2o', 'prw', 'rsuscs', 'prsn', 
-    #                 'tauv', 'prc', 'hurs', 'rsut', 'rlut', 'mc', 'ts', 'hus', 'hfls', 'cli', 'evspsbl', 
-    #                 'clw',  'hfss', 'va', 'cct', 'rldscs', 'sbl', 'tasmax', 'rsutcs', 'pr', 'clt', 
-    #                 'zg', 'ci', 'psl', 'co2', 
-    #                 'tasga', 
-    #                 'areacella']
-
-    #     varnames = ['rsdt', 'clwvi',  'rlutcs', 'clivi', 'hur', 
-    #                 'rsdscs', 'ccb', 'o3', 'huss', 'cl', 'rsds', 'wap', 'rlds', 
-    #                 'rsus', 'rlus', 'ch4', 'ps', 'n2o', 'prw', 'rsuscs', 'prsn', 
-    #                 'prc', 'hurs', 'rsut', 'rlut', 'mc', 'ts', 'hus', 'hfls', 'cli', 'evspsbl', 
-    #                 'clw',  'cct', 'rldscs', 'sbl', 'rsutcs', 'pr', 'clt', 
-    #                 'zg', 'ci', 'psl', 'co2', ]
-
-
     return varnames
         

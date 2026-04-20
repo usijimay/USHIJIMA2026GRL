@@ -7,7 +7,6 @@ import socket
 
 
 def datadirbase(regrid = True, mipera = 6, crpublic = False, vartyp = 'O'):
-    # sys.path.append("../../machine")
     sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/../../machine")
     import varsrv
     if regrid:
@@ -45,13 +44,9 @@ def modeldir(varname, model, expid, dirbase = '',  regrid = False, mipera = 6, i
 
     
 def datafiles(varname, model, expid, ybgn = 1981, yend = 2000, dirbase = '',  pforcingdir = 'r1i1p', spf = False, regrid = False, prgd = 'gn', grdtyp = ' ', spg = False, showcomment = False, pexpid='historical', suff = '.nc', mipera = 6, interval = 'mon', ctop = False, nlev = -1):
-# def input_file_cmips(varname, model, expid, ybgn = 1981, yend = 2000, dirbase = '',  pforcingdir = 'r1i1p', spf = False, regrid = False, prgd = 'gn', grdtyp = ' ', spg = False, showcomment = False, pexpid='historical', suff = '.nc', mipera = 6, interval = 'mon'):
 
     if ('ssp' in expid)*(ybgn < 2015):
         input_fileb = datafile(varname, model, expid, ybgn = 2015, yend = yend, dirbase = dirbase,  pforcingdir = pforcingdir, spf = spf, regrid = regrid, prgd = prgd, grdtyp = grdtyp, spg = spg, showcomment = showcomment, suff = suff, ctop = ctop, nlev = nlev)
-        # nc = netCDF4.Dataset(input_fileb[0])
-        # esm = nc.parent_variant_label
-        # spf = esm
         input_filea = datafile(varname, model, pexpid, ybgn = ybgn, yend = 2014, dirbase = dirbase,  pforcingdir = pforcingdir, spf = spf, regrid = regrid, prgd = prgd, grdtyp = grdtyp, spg = spg, showcomment = showcomment, suff = suff, ctop = ctop, nlev = nlev)
         input_file = np.r_[input_filea, input_fileb]
     else:
@@ -60,7 +55,6 @@ def datafiles(varname, model, expid, ybgn = 1981, yend = 2000, dirbase = '',  pf
     return input_file
 
 def datafile(varname, model, expid, ybgn = 1981, yend = 2000, dirbase = '',  pforcingdir = 'r1i1p', spf = False, regrid = False, prgd = 'gn', grdtyp = ' ', spg = False, showcomment = False, suff = '.nc', mipera = 6, interval = 'mon', ctop = False, nlev = -1):
-# def input_file_cmip(varname, model, expid, ybgn = 1981, yend = 2000, dirbase = '',  pforcingdir = 'r1i1p', spf = False, regrid = False, prgd = 'gn', grdtyp = ' ', spg = False, showcomment = False, suff = '.nc', mipera = 6, interval = 'mon'):
 
     inputdir = modeldir(varname, model, expid, dirbase = dirbase, regrid = regrid, mipera = mipera, interval = interval)
 
@@ -76,13 +70,11 @@ def datafile(varname, model, expid, ybgn = 1981, yend = 2000, dirbase = '',  pfo
         if spf:
             sys.exit('no forcing directory including ' + pforcingdir)
         else:
-            # if(np.size(os.listdir(inputdir)) >1):
             if showcomment:
                 print('use forcing type ' + forcingdir  + ' in this case')        
 
     inputdir = inputdir + forcingdir + '/'
     
-    # print(os.listdir(inputdir))
     n = 0
     for grdf in os.listdir(inputdir):
         if regrid:
@@ -123,7 +115,6 @@ def datafile(varname, model, expid, ybgn = 1981, yend = 2000, dirbase = '',  pfo
 
                 
     inputdir = inputdir + grdtypdir + '/'
-    # print(inputdir)
     vdate = np.sort(os.listdir(inputdir))[-1]
 
     if(np.size(os.listdir(inputdir)) >1):
@@ -154,14 +145,9 @@ def datafile(varname, model, expid, ybgn = 1981, yend = 2000, dirbase = '',  pfo
                 if (clev in inputfile) == False:
                     continue                    
 
-        # print(inputfile)        
-        # if (inputfile[-2:] == 'nc'):
         if (inputfile[-nsf:] == suff):
             yfbgn = int(inputfile[:-nsf+1][-14:-10])
             yfend = int(inputfile[:-nsf+1][-7:-3])            
-            # if (n==0)*(expid == 'piControl'):
-            #     ybgn = ybgn + yfbgn - 1850
-            #     yend = yend + yfbgn - 1850            
             if (ybgn <= yfend) * (yfbgn <= yend):
                 input_file = np.append(input_file, inputdir + inputfile)
             
@@ -172,8 +158,6 @@ def datafile(varname, model, expid, ybgn = 1981, yend = 2000, dirbase = '',  pfo
 
 
 def datafile_fx(varname, model, expid, dirbase = '',  pforcingdir = 'r1i1p', spf = False, regrid = False, prgd = 'gn', grdtyp = ' ', spg = False, showcomment = False, mipera = 6, interval = 'fx'):
-# def input_file_cmip_fx(varname, model, expid, dirbase = '',  pforcingdir = 'r1i1p', spf = False, regrid = False, prgd = 'gn', grdtyp = ' ', spg = False, showcomment = False, mipera = mipera):
-
 
     inputdir = modeldir(varname, model, expid, dirbase = dirbase, regrid = regrid, mipera = mipera, interval = interval)
 
@@ -189,7 +173,6 @@ def datafile_fx(varname, model, expid, dirbase = '',  pforcingdir = 'r1i1p', spf
         if spf:
             sys.exit('no forcing directory including ' + pforcingdir)
         else:
-            # if(np.size(os.listdir(inputdir)) >1):
             if showcomment:
                 print('use forcing type ' + forcingdir  + ' in this case')
         
@@ -265,7 +248,6 @@ def EnsembleMember(varname, model, expid, ybgn = -1, yend = 10000, dirbase = '',
         for esm in esms:
             fnameins = datafiles(varname, model, expid, ybgn = ybgn, yend = yend, regrid = regrid, dirbase = dirbase, pforcingdir = esm)
 
-            # print(esm, fnameins)
             if int(np.sort(fnameins)[-1][-9:-5]) < yend:
                 continue
             if int(np.sort(fnameins)[0][-16:-12]) > ybgn:
@@ -275,7 +257,6 @@ def EnsembleMember(varname, model, expid, ybgn = -1, yend = 10000, dirbase = '',
                     continue
                 if ('CNRM-ESM2-1' in model)*('126' in expid)*('r4' in esm):
                     continue
-            # print(esm, fnameins)
 
             if esm[2] == 'i':
                 if (esm[3:5] == '1p'):
@@ -319,12 +300,10 @@ def EsmEMout(esms):
     if imin == imax:
         initc = 'i' + str(initn)
     else:
-        # initc = 'i' + str(int(imin)).zfill(3) + '-' + str(int(imax)).zfill(3)        
         initc = 'i' + str(int(imin)) + '-' + str(int(imax))
     if pmin == pmax:
         physc = 'p' + str(physn)
     else:
-        # physc = 'p' + str(int(pmin)).zfill(3) + '-' + str(int(pmax)).zfill(3)        
         physc = 'p' + str(int(pmin)) + '-' + str(int(pmax))        
     if fmin == fmax:
         if forcn == 0:
@@ -332,7 +311,6 @@ def EsmEMout(esms):
         else:
             forcc = 'f'+str(forcn)
     else:
-        # forcc = 'f'+str(int(fmin)).zfill(3) + '-' + +str(int(fmax)).zfill(3)        
         forcc = 'f'+str(int(fmin)) + '-' + +str(int(fmax))        
 
     esmout = realc+initc+physc+forcc
@@ -343,12 +321,6 @@ def EsmEMout(esms):
 
 def ReadData2d(input_file, varname, ybgn, yend, regrid = True, cann = False):
     nc = netCDF4.Dataset(input_file[0], 'r')
-    # if regrid:
-    #     lon = nc.variables['lon'][:]
-    #     lat = nc.variables['lat'][:]
-    # else:
-    #     lon = nc.variables['longitude'][:]
-    #     lat = nc.variables['latitude'][:]
     
     if 'lon' in nc.variables:
         lon = nc.variables['lon'][:]
@@ -376,7 +348,6 @@ def ReadData2d(input_file, varname, ybgn, yend, regrid = True, cann = False):
 
     if np.size(input_file) == 1:
         nc = netCDF4.Dataset(input_file[0], 'r')
-        # time = nc.variables['time'][:]
         yfbgn = int(input_file[0][-16:-12])
         nbgn = (ybgn-yfbgn)*12
         nend = (yend-yfbgn+1)*12
@@ -394,13 +365,10 @@ def ReadData2d(input_file, varname, ybgn, yend, regrid = True, cann = False):
             elif n == (np.size(input_file)-1):
                 yfbgn = int(input_file[n][-16:-12])
                 nend = (yend-yfbgn+1)*12                
-                # var = np.concatenate([var, nc.variables[varname][:nend]], 0)
                 var = np.ma.concatenate([var, nc.variables[varname][:nend]], 0)
                 time = np.append(time, nc.variables['time'][:nend])
-                # var = np.concatenate([var, nc.variables[varname][:nend-nt]], 0)
             else:
                 time = np.append(time, nc.variables['time'][:])
-                # var = np.concatenate([var, nc.variables[varname][:]], 0)
                 var = np.ma.concatenate([var, nc.variables[varname][:]], 0)
 
     if cann:
@@ -457,15 +425,11 @@ def ReadData3d(input_file, varname, ybgn, yend, lonname = 'lon', latname = 'lat'
 
     if np.size(input_file) == 1:
         nc = netCDF4.Dataset(input_file[0], 'r')
-        # nc = netCDF4.Dataset(input_file[0], 'r', diskless=True)
-        # time = nc.variables['time'][:]
         yfbgn = int(input_file[0][-16:-12])
         nbgn = (ybgn-yfbgn)*12
         nend = (yend-yfbgn+1)*12
         time = nc.variables[timename][nbgn:nend]
         var = nc.variables[varname][nbgn:nend]        
-        # var0 = nc.variables[varname]
-        # var = var0[nbgn:nend]        
         nc.close()
     else:
         for n in range(np.size(input_file)):            
@@ -478,12 +442,9 @@ def ReadData3d(input_file, varname, ybgn, yend, lonname = 'lon', latname = 'lat'
             elif n == (np.size(input_file)-1):
                 yfbgn = int(input_file[n][-16:-12])
                 nend = (yend-yfbgn+1)*12                
-                # var = np.concatenate([var, nc.variables[varname][:nend]], 0)
                 var = np.ma.concatenate([var, nc.variables[varname][:nend]], 0)
                 time = np.append(time, nc.variables[timename][:nend])
-                # var = np.concatenate([var, nc.variables[varname][:nend-nt]], 0)
             else:
-                # var = np.concatenate([var, nc.variables[varname][:]], 0)
                 var = np.ma.concatenate([var, nc.variables[varname][:]], 0)
                 time = np.append(time, nc.variables[timename][:])
             nc.close()
@@ -538,15 +499,11 @@ def ReadData3dMon(input_file, varname, ybgn, yend, mon, lonname = 'lon', latname
 
     if np.size(input_file) == 1:
         nc = netCDF4.Dataset(input_file[0], 'r')
-        # nc = netCDF4.Dataset(input_file[0], 'r', diskless=True)
-        # time = nc.variables['time'][:]
         yfbgn = int(input_file[0][-16:-12])
         nbgn = (ybgn-yfbgn)*12+mon-1
         nend = (yend-yfbgn+1)*12+mon-1
         time = nc.variables[timename][nbgn:nend:12]
         var = nc.variables[varname][nbgn:nend:12]        
-        # var0 = nc.variables[varname]
-        # var = var0[nbgn:nend]        
         nc.close()
     else:
         for n in range(np.size(input_file)):            
@@ -559,13 +516,9 @@ def ReadData3dMon(input_file, varname, ybgn, yend, mon, lonname = 'lon', latname
             elif n == (np.size(input_file)-1):
                 yfbgn = int(input_file[n][-16:-12])
                 nend = (yend-yfbgn+1)*12+mon-1
-                # nend = (yend-yfbgn)*12+mon
-                # var = np.concatenate([var, nc.variables[varname][:nend]], 0)
                 var = np.ma.concatenate([var, nc.variables[varname][mon-1:nend:12]], 0)
                 time = np.append(time, nc.variables[timename][mon-1:nend:12])
-                # var = np.concatenate([var, nc.variables[varname][:nend-nt]], 0)
             else:
-                # var = np.concatenate([var, nc.variables[varname][:]], 0)
                 var = np.ma.concatenate([var, nc.variables[varname][mon-1::12]], 0)
                 time = np.append(time, nc.variables[timename][:])
             nc.close()
@@ -599,7 +552,6 @@ def var_func(input_file, varname, ybgn, yend, lonname = 'lon', latname = 'lat', 
     
     if np.size(input_file) == 1:
         nc = netCDF4.Dataset(input_file[0], 'r')
-        # time = nc.variables['time'][:]
         yfbgn = int(input_file[0][-16:-12])
         nbgn = (ybgn-yfbgn)*12
         nend = (yend-yfbgn+1)*12
@@ -617,12 +569,9 @@ def var_func(input_file, varname, ybgn, yend, lonname = 'lon', latname = 'lat', 
             elif n == (np.size(input_file)-1):
                 yfbgn = int(input_file[n][-16:-12])
                 nend = (yend-yfbgn+1)*12                
-                # var = np.concatenate([var, nc.variables[varname][:nend]], 0)
                 var = np.ma.concatenate([var, nc.variables[varname][:nend]], 0)
                 time = np.append(time, nc.variables[timename][:nend])
-                # var = np.concatenate([var, nc.variables[varname][:nend-nt]], 0)
             else:
-                # var = np.concatenate([var, nc.variables[varname][:]], 0)
                 var = np.ma.concatenate([var, nc.variables[varname][:]], 0)
                 time = np.append(time, nc.variables[timename][:])
 
@@ -636,7 +585,6 @@ def var_func2D(input_file, varname, ybgn, yend):
 
     if np.size(input_file) == 1:
         nc = netCDF4.Dataset(input_file[0], 'r')
-        # time = nc.variables['time'][:]
         yfbgn = int(input_file[0][-16:-12])
         nbgn = (ybgn-yfbgn)*12
         nend = (yend-yfbgn+1)*12
@@ -656,7 +604,6 @@ def var_func2D(input_file, varname, ybgn, yend):
                 nend = (yend-yfbgn+1)*12                
                 var = np.concatenate([var, nc.variables[varname][:nend]], 0)
                 time = np.append(time, nc.variables['time'][:])
-                # var = np.concatenate([var, nc.variables[varname][:nend-nt]], 0)
             else:
                 time = np.append(time, nc.variables['time'][:])
                 var = np.concatenate([var, nc.variables[varname][:]], 0)
@@ -674,7 +621,6 @@ def var_func2D_gn(input_file, varname, ybgn, yend):
 
     if np.size(input_file) == 1:
         nc = netCDF4.Dataset(input_file[0], 'r')
-        # time = nc.variables['time'][:]
         yfbgn = int(input_file[0][-16:-12])
         nbgn = (ybgn-yfbgn)*12
         nend = (yend-yfbgn+1)*12
@@ -694,7 +640,6 @@ def var_func2D_gn(input_file, varname, ybgn, yend):
                 nend = (yend-yfbgn+1)*12                
                 var = np.concatenate([var, nc.variables[varname][:nend]], 0)
                 time = np.append(time, nc.variables['time'][:])
-                # var = np.concatenate([var, nc.variables[varname][:nend-nt]], 0)
             else:
                 time = np.append(time, nc.variables['time'][:])
                 var = np.concatenate([var, nc.variables[varname][:]], 0)
@@ -717,11 +662,6 @@ def expid2activity(expid):
 
     return activity
 
-# def scnr2scnrdir(scenario):
-#     activity = expid2actividy(scenario)
-#     scenariodir = activity + '/'
-#     return scenariodir
-    
 def TableID(varname, interval = 'mon'):
     sys.path.append(os.path.dirname(os.path.abspath(__file__)))
     import cmip_varnames as cv
@@ -773,10 +713,6 @@ def dimensionname(model, grd = 'gn', urgd = False, cread = False, fname = ''):
     latname = 'latitude'
     levname = 'lev'
     timename = 'time'
-    # lonname = 'lon'
-    # latname = 'lat'
-    # levname = 'lev'
-    # timename = 'time'
 
     if 'CESM2' in model:
         lonname = 'lon'
@@ -820,12 +756,6 @@ def dimensionname(model, grd = 'gn', urgd = False, cread = False, fname = ''):
         if 'INM' in model:
             lonname = 'lon'
             latname = 'lat'
-        # if 'INM-CM4-8' in model:
-        #     lonname = 'lon'
-        #     latname = 'lat'                    
-        # if 'INM-CM5-0' in model:
-        #     lonname = 'lon'
-        #     latname = 'lat'
         if 'MIROC-ES2L' in model:
             lonname = 'lon'
             latname = 'lat'
