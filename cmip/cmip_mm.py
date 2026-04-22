@@ -80,7 +80,7 @@ def read_data3D(varname, expid, ybgn, yend, models = None, cann = True):
     nmdls = np.size(models)
     for nmdl in range(nmdls):
         model = models[nmdl]
-        print(model)
+        # print(model)
         if varname == 'tos':
             lon, lat, varM = ReadData2dClim(varname, model, expid, ybgn, yend, regrid = True)
             lev = np.array([])
@@ -110,7 +110,7 @@ def read_data3D_MM(varname, expid, ybgn, yend, models = None, cann = True):
     nmdls = np.size(models)
     for nmdl in range(nmdls):
         model = models[nmdl]
-        print(model)
+        # print(model)
         if varname == 'tos':
             lon, lat, varM = ReadData2dClim(varname, model, expid, ybgn, yend, regrid = True)
         else:
@@ -164,7 +164,7 @@ def read_datas_MM(ybgn, yend, fnc, models = None, cem = False, dirbase = '/data1
     nmdls = np.size(models)
     for nmdl in range(nmdls):
         model = models[nmdl]
-        print(model)
+        # print(model)
 
         lono, lato, tosM = ReadData2dClim('tos', model, 'historical', ybgn, yend, regrid = True, dirbase = dirbase)
 
@@ -687,7 +687,7 @@ def read_models():
     models = models['IITM-ESM' != models]
     models = models['GISS-E2-1-G' != models]
 
-    print(np.size(models))
+    # print(np.size(models))
     
     return models    
                 
@@ -1013,7 +1013,7 @@ def ReadData3dMMClim(varname, models, expid, ybgn, yend, regrid = False, dirbase
         varM = nc.variables[varname][:]
     else:
         for nm, model in enumerate(models):
-            print(nm, model)
+            # print(nm, model)
             lon0, lat0, lev0, var0 = ReadData3dClim(varname, model, expid, ybgn, yend, regrid = regrid) 
             if regrid:
                 if nm == 0:

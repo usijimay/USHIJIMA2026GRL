@@ -578,7 +578,7 @@ def read_amip3D(expid0, expids, fbase, varname, ybgn, yend, msk = []):
 
     nexps = np.size(expids)
     for nexp in range(nexps):
-        print(expids[nexp])
+        # print(expids[nexp])
         lon, lat, lev, var0 = mrc.ReadData3DClm(expids[nexp], fbase, varname, ybgn, yend, dirbase = dirbase + '/TSE-C/AMIP/', dirbase0 = dirbase + '/TSE-C/AMIP/')
         if nexp == 0:
             varM = var0[np.newaxis]

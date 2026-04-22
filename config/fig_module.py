@@ -300,7 +300,7 @@ def figS1(pngfile, models, lon, lat, varf, varfl, lonr = [0, 359.9, 120], latr =
                             txt = str(int(np.round(360-lonc)))+'W'
                         else:
                             txt = '180'
-                        print(lonc, txt)
+                        # print(lonc, txt)
                         ax[nr,nc].text(lonc-180, latr[0]-dxax, txt, ha = 'center', va = 'top', fontsize = fontsizexy)
                 if nc == 0:                        
                     for latc in np.arange(latr[0], latr[1]+1, latr[2]):
@@ -432,7 +432,7 @@ def figS2(pngfile, models, lon, lat, varf, varfl, ktgt, lonr = [90, 270, 60], la
                             txt = str(int(np.round(360-lonc)))+'W'
                         else:
                             txt = '180'
-                        print(lonc, txt)
+                        # print(lonc, txt)
                         ax[nr,nc].text(lonc-180, latr[0]-dxax, txt, ha = 'center', va = 'top', fontsize = fontsizexy)
                 if nc == 0:                        
                     for latc in np.arange(latr[0], latr[1]+1, latr[2]):
