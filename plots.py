@@ -68,7 +68,7 @@ def main(cintm = False, cerr = False, dpi = 900):
     lmxo = cmm.u1d2lpeak(ulto[ktgt0], latoa, latmin = 15, latmax = 65, mode = '')
     
     models, lmxaem, lmxcem = cmm.latupeak(ybgn, yend, lonmin = lonmin, lonmax = lonmax, level = 20000, mode = '') 
-    lono, lato, levo, uacM, uaaM, dbdycM, dbdyaM, dbdzcM, dbdzaM, egrcM, egraM = cmm.read_datas_MMM(ybgn, yend, am0, 9999, cintm = cintm, dirbase = dirbase)
+    lono, lato, levo, uacM, uaaM, dbdycM, dbdyaM, dbdzcM, dbdzaM, egrcM, egraM = cmm.read_datas_MMM(ybgn, yend, am, cintm = cintm, dirbase = dirbase)
     lon, lat, lev, ua0M, uaM = read_amip3D(expid0, expids, 'hs_ua.', 'ua', ybgn, yend)    
     
     ktgt = np.where(lev == 200)[0][0]
@@ -555,23 +555,23 @@ def plot_ulatlev(pngfile, lev, lat, varf, varl, ncols, nrows, xr = [-90,90], yr 
         plt.savefig(pngfile, dpi = dpi)                
              
 
-def read_amip2D(expid0, expids, fbase, varname, ybgn, yend, msk = []):
+# def read_amip2D(expid0, expids, fbase, varname, ybgn, yend, msk = []):
 
-    nexps = np.size(expids)
-    for nexp in range(nexps):
-        print(expids[nexp])
-        lon, lat, var0 = mrc.ReadData2DClm(expids[nexp], fbase, varname, ybgn, yend, dirbase = dirbase + '/TSE-C/AMIP/', dirbase0 = dirbase + '/TSE-C/AMIP/')
-        if nexp == 0:
-            varM = var0[np.newaxis]
-        else:
-            varM = np.ma.vstack((varM, var0[np.newaxis]))
+#     nexps = np.size(expids)
+#     for nexp in range(nexps):
+#         print(expids[nexp])
+#         lon, lat, var0 = mrc.ReadData2DClm(expids[nexp], fbase, varname, ybgn, yend, dirbase = dirbase + '/TSE-C/AMIP/', dirbase0 = dirbase + '/TSE-C/AMIP/')
+#         if nexp == 0:
+#             varM = var0[np.newaxis]
+#         else:
+#             varM = np.ma.vstack((varM, var0[np.newaxis]))
 
-    varM = omsk(varM, msk)
+#     varM = omsk(varM, msk)
 
-    lon, lat, var0M = mrc.ReadData2DClm(expid0, fbase, varname, ybgn, yend, dirbase = dirbase + '/TSE-C/AMIP/', dirbase0 = dirbase + '/TSE-C/AMIP/')
-    var0M = omsk(var0M, msk)    
+#     lon, lat, var0M = mrc.ReadData2DClm(expid0, fbase, varname, ybgn, yend, dirbase = dirbase + '/TSE-C/AMIP/', dirbase0 = dirbase + '/TSE-C/AMIP/')
+#     var0M = omsk(var0M, msk)    
 
-    return lon, lat, var0M, varM
+#     return lon, lat, var0M, varM
 
     
 def read_amip3D(expid0, expids, fbase, varname, ybgn, yend, msk = []):
@@ -622,64 +622,64 @@ def am(var, axis=0):
 
     return varann
 
-def am0(var, ns, axis=0):
+# def am0(var, ns, axis=0):
 
-    if np.size(var) == 0:
-        varann = var
-    else:
-        day = np.array(calendar.mdays[1:])        
-        varann = np.average(var, weights = day, axis=axis)
+#     if np.size(var) == 0:
+#         varann = var
+#     else:
+#         day = np.array(calendar.mdays[1:])        
+#         varann = np.average(var, weights = day, axis=axis)
 
-    return varann
+#     return varann
 
-def sm(var, axis=0, nr=1):
+# def sm(var, axis=0, nr=1):
 
-    if np.size(var) == 0:
-        varsm = np.tile(var, 4)
-    else:
-        day = np.roll(np.array(calendar.mdays[1:]), nr).reshape(4,3)
-        for n in range(axis):
-            day = day[np.newaxis]
-        shape = np.array(np.shape(var)).astype(int)
-        varsm = np.roll(var, nr, axis=axis).reshape(np.r_[shape[:axis],4,3,shape[axis+1:]])
-        varsm = (np.sum(varsm.T * day.T, axis=-2-axis)/np.sum(day.T, axis=-2-axis)).T
+#     if np.size(var) == 0:
+#         varsm = np.tile(var, 4)
+#     else:
+#         day = np.roll(np.array(calendar.mdays[1:]), nr).reshape(4,3)
+#         for n in range(axis):
+#             day = day[np.newaxis]
+#         shape = np.array(np.shape(var)).astype(int)
+#         varsm = np.roll(var, nr, axis=axis).reshape(np.r_[shape[:axis],4,3,shape[axis+1:]])
+#         varsm = (np.sum(varsm.T * day.T, axis=-2-axis)/np.sum(day.T, axis=-2-axis)).T
         
-    return varsm
+#     return varsm
 
-def sm0(var, nn, axis=0, nr=1):
+# def sm0(var, nn, axis=0, nr=1):
 
-    if np.size(var) == 0:
-        varsm0 = var
-    else:
-        day = np.roll(np.array(calendar.mdays[1:]), nr).reshape(4,3)
-        for n in range(axis):
-            day = day[np.newaxis]
-        shape = np.array(np.shape(var)).astype(int)
-        varsm = np.roll(var, nr, axis=axis).reshape(np.r_[shape[:axis],4,3,shape[axis+1:]])
-        varsm = (np.sum(varsm.T * day.T, axis=-2-axis)/np.sum(day.T, axis=-2-axis)).T
-        if axis==0:
-            varsm0 = varsm[nn]
-        elif axis==1:
-            varsm0 = varsm[:,nn]
-        elif axis==2:
-            varsm0 = varsm[:,:,nn]
-        elif axis==3:
-            varsm0 = varsm[:,:,:,nn]
-        elif axis==4:
-            varsm0 = varsm[:,:,:,:,nn]                        
+#     if np.size(var) == 0:
+#         varsm0 = var
+#     else:
+#         day = np.roll(np.array(calendar.mdays[1:]), nr).reshape(4,3)
+#         for n in range(axis):
+#             day = day[np.newaxis]
+#         shape = np.array(np.shape(var)).astype(int)
+#         varsm = np.roll(var, nr, axis=axis).reshape(np.r_[shape[:axis],4,3,shape[axis+1:]])
+#         varsm = (np.sum(varsm.T * day.T, axis=-2-axis)/np.sum(day.T, axis=-2-axis)).T
+#         if axis==0:
+#             varsm0 = varsm[nn]
+#         elif axis==1:
+#             varsm0 = varsm[:,nn]
+#         elif axis==2:
+#             varsm0 = varsm[:,:,nn]
+#         elif axis==3:
+#             varsm0 = varsm[:,:,:,nn]
+#         elif axis==4:
+#             varsm0 = varsm[:,:,:,:,nn]                        
         
-    return varsm0
+#     return varsm0
 
 
-def djfm(var, axis=0, nr=1):
+# def djfm(var, axis=0, nr=1):
 
-    if np.size(var) == 0:
-        vdjf = var
-    else:
-        nshps = np.arange(np.size(np.shape(var)), dtype = int)    
-        vdjf = sm(var, axis=axis).transpose(np.r_[axis, nshps[:axis], nshps[1+axis:]])[0]
+#     if np.size(var) == 0:
+#         vdjf = var
+#     else:
+#         nshps = np.arange(np.size(np.shape(var)), dtype = int)    
+#         vdjf = sm(var, axis=axis).transpose(np.r_[axis, nshps[:axis], nshps[1+axis:]])[0]
 
-    return vdjf
+#     return vdjf
 
 
 # def polyfit2d(x, var, axis=-1):

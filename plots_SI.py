@@ -41,7 +41,7 @@ def main(cintm = False, dpi = 900):
 
     lono, lato, toso = cmm.read_sst_amip(ybgn, yend, cann = True, dirbase = dirbase+'/obs')
     
-    models, lonuem, latuem, levuem, lonvem, latvem, levvem, lonwem, latwem, levwem, lontem, lattem, levtem, toscfem, uacfem, uaafem, vacfem, vaafem, wacfem, waafem, tacfem, taafem, zgcfem, zgafem, dbdycfem, dbdyafem, dbdzcfem, dbdzafem, egrcfem, egrafem = cmm.read_datas_MM(ybgn, yend, am0, 9999, cem = True, dirbase = dirbase)
+    models, lonuem, latuem, levuem, lonvem, latvem, levvem, lonwem, latwem, levwem, lontem, lattem, levtem, toscfem, uacfem, uaafem, vacfem, vaafem, wacfem, waafem, tacfem, taafem, zgcfem, zgafem, dbdycfem, dbdyafem, dbdzcfem, dbdzafem, egrcfem, egrafem = cmm.read_datas_MM(ybgn, yend, am, cem = True, dirbase = dirbase)
 
     
     nf = 2
@@ -53,12 +53,8 @@ def main(cintm = False, dpi = 900):
     pngfile=figdir+'figS'+str(nf)+suff
     fm.figS2(pngfile, models, lonuem, latuem, uacfem, uaafem, ktgt0, lonr = [90, 270, 60], latr = [-20, 80, 20], vr=[-12, 12, 5], lines = np.linspace(-100, 100, 21), cmap = cmo.balance, tlabel = models, ncols = 4, fsizey = 11, dpi = dpi)
     
-    
 
-            
-
-
-def am0(var, ns, axis=0):
+def am(var, axis=0):
 
     if np.size(var) == 0:
         varann = var
@@ -67,6 +63,17 @@ def am0(var, ns, axis=0):
         varann = np.average(var, weights = day, axis=axis)
 
     return varann
+    
+
+# def am0(var, ns, axis=0):
+
+#     if np.size(var) == 0:
+#         varann = var
+#     else:
+#         day = np.array(calendar.mdays[1:])        
+#         varann = np.average(var, weights = day, axis=axis)
+
+#     return varann
 
 # # Unused functions - commented out
 # def plot_ulatlev(pngfile, lev, lat, varf, varl, ncols, nrows, xr = [-90,90], yr = [1000, 0], vr = [-12, 12, 5], rt = 10, level = [], levl = np.linspace(-100, 100, 101), latl = [], latf = [], fontsize = 10, fsizex = 8, fsizey = 8, cmap = cmo.balance, extend = 'both', sngl_cbar = True, vecx = [], vecy = [], levv = [], scale = 1, scale_units = 'xy', iskp = 1, jskp = 1, vcols = ['w'], unitx = 1.02, unity = -2.9, unitcbr = r'[${\rm m \ s^{-1}}$]', labels = [], bbox = dict(facecolor='white', alpha=0.7), dxc = 0.04, dyc = 0.04):

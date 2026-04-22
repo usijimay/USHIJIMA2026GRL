@@ -6,9 +6,6 @@ import calendar
 import locale
 import matplotlib.pyplot as plt
 import cmocean.cm as cmo
-BASE=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(BASE)
-import map.map_cartopy as mc
 import matplotlib.cm as cm
 from scipy import interpolate
 from scipy.interpolate import griddata
@@ -17,6 +14,10 @@ import cartopy.feature as cfeature
 import matplotlib.ticker as mticker
 import matplotlib.path as mpath
 from mpl_toolkits.mplot3d import Axes3D
+BASE=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(BASE)
+import map.map_cartopy as mc
+
 
 def fig1(pngfile, lon, lat, varf, varfl = [], lonr = [120, 210, 30], latr = [20, 50, 10], level = [''], vr=[-999,-999,21], rt = 10, lines = [0.], cmap = cmo.balance, vticklabel = [''], fsizex = 8, fsizey = 3.2, lwdth = 1, cntcol = 'k', dxc = 0.04, dyc = 0.08, dxax = 3., dyax = 1.2, ctght = False, fontsize = 10, unitcbr = r'[${}^\circ$C]', unitx = 1.02, unity = -3, bgc = 'w', sngl_cbar = True, dycb = 0.08, cbt = 0.025, top = 0.96, btm = 0.18, fontsizexy = 10, flabel = [], flabelc = 'k', bbox = [], tlabel = [], dyt = 0.02, clonlatedge = True, cfig2 = False, ncols = 3, dxcb = 0., cbrf4 = False, cbrf5 = False, left = 0.05, right = 0.96, dpi = None, textzo = 30, hspace = None, wspace = None): 
 
@@ -465,564 +466,564 @@ def figS2(pngfile, models, lon, lat, varf, varfl, ktgt, lonr = [90, 270, 60], la
     
 
     
-def fig4(pngfile, lon, lat, varf, varfl = [], vartrk = [], lonr = [120, 240, 30], latr = [15, 45, 15], level = [''], vr=[-999,-999,21], rt = 10, lines = [0.], cmap = cmo.balance, vticklabel = [''], fsizex = 8, fsizey = 5, lcol = 'k', lwdth = 1, cntcol = 'k', dxc = 0.015, dyc = 0.15, dycb = 0.08, cbt = 0.03, dxax = 4., dyax = 1.2, ctght = False, fontsize = 10, unitcbr = r'[m]', unitx = 1.02, unity = -1.5, ncols = 2, vtrtgt = [], xmintrk = 140, xmaxtrk = 170, tmintrks = [16, 16, -.8], tmaxtrks = [21, 21, 3.2], tinttrks = [6, 6, 6], xtgt = 143, xticks = np.linspace(140, 170, 4), xticklabels = ['140E', '150E', '160E', '170E'], latmintrk = 34, latmaxtrk = 40, latinttrk = 4, fontsizexy = 8, flabel = [], clonlatedge = True):
+# def fig4(pngfile, lon, lat, varf, varfl = [], vartrk = [], lonr = [120, 240, 30], latr = [15, 45, 15], level = [''], vr=[-999,-999,21], rt = 10, lines = [0.], cmap = cmo.balance, vticklabel = [''], fsizex = 8, fsizey = 5, lcol = 'k', lwdth = 1, cntcol = 'k', dxc = 0.015, dyc = 0.15, dycb = 0.08, cbt = 0.03, dxax = 4., dyax = 1.2, ctght = False, fontsize = 10, unitcbr = r'[m]', unitx = 1.02, unity = -1.5, ncols = 2, vtrtgt = [], xmintrk = 140, xmaxtrk = 170, tmintrks = [16, 16, -.8], tmaxtrks = [21, 21, 3.2], tinttrks = [6, 6, 6], xtgt = 143, xticks = np.linspace(140, 170, 4), xticklabels = ['140E', '150E', '160E', '170E'], latmintrk = 34, latmaxtrk = 40, latinttrk = 4, fontsizexy = 8, flabel = [], clonlatedge = True):
 
     
-    print(pngfile)
-    R0 = 6.375e6
-    lonmin, lonmax, lonint = lonr
-    latmin, latmax, latint = latr
-    nrowm = int(np.shape(varf)[0]/ncols)
-    nrows = nrowm
+#     print(pngfile)
+#     R0 = 6.375e6
+#     lonmin, lonmax, lonint = lonr
+#     latmin, latmax, latint = latr
+#     nrowm = int(np.shape(varf)[0]/ncols)
+#     nrows = nrowm
     
-    plt.rcParams['font.size'] = fontsize
-    fig = plt.figure(figsize = (fsizex, fsizey))
-    if nrows == 2:
-        plt.subplots_adjust(left=0.05, right = 0.96, top = .95, bottom = 0.15)
-    elif nrows == 1:
-        plt.subplots_adjust(left=0.05, right = 0.96, top = .95, bottom = 0.15)   
-    else:
-        plt.subplots_adjust(left=0.05, right = 0.96, top = 1.5, bottom = 0.1)
+#     plt.rcParams['font.size'] = fontsize
+#     fig = plt.figure(figsize = (fsizex, fsizey))
+#     if nrows == 2:
+#         plt.subplots_adjust(left=0.05, right = 0.96, top = .95, bottom = 0.15)
+#     elif nrows == 1:
+#         plt.subplots_adjust(left=0.05, right = 0.96, top = .95, bottom = 0.15)   
+#     else:
+#         plt.subplots_adjust(left=0.05, right = 0.96, top = 1.5, bottom = 0.1)
         
         
-    ax = mc.set_maps(fig, nrows, ncols, xlim = [lonmin, lonmax], ylim = [latmin, latmax], lon_interval = lonint, lat_interval = latint)
+#     ax = mc.set_maps(fig, nrows, ncols, xlim = [lonmin, lonmax], ylim = [latmin, latmax], lon_interval = lonint, lat_interval = latint)
     
-    ax, images, vticks, vticklabels = mc.imcfs(ax, lon, lat, varf, nrows, ncols, vr = vr, rt = rt, level = level, cmap = cmap, vticklabel = vticklabel)
-    if np.size(varfl) > 0:
+#     ax, images, vticks, vticklabels = mc.imcfs(ax, lon, lat, varf, nrows, ncols, vr = vr, rt = rt, level = level, cmap = cmap, vticklabel = vticklabel)
+#     if np.size(varfl) > 0:
 
-        ax, lls = mc.imcs(ax, lon, lat, varfl, nrows, ncols, level = lines, lfontsize = 8, lwidth = 1.0, cntcol = cntcol)     
+#         ax, lls = mc.imcs(ax, lon, lat, varfl, nrows, ncols, level = lines, lfontsize = 8, lwidth = 1.0, cntcol = cntcol)     
 
-    caxl = ax[-1,0].get_position()
-    caxr = ax[-1,-1].get_position()
-    caxv = ax[-1,0].get_position()
-    cax = fig.add_axes([caxl.x0, caxv.y0-dycb,caxr.x1-caxl.x0, cbt])
-    cbar = plt.colorbar(images[-1], cax = cax, orientation = 'horizontal', ticks = vticks[-1])        
-    if unitcbr != '':
-        cax.text(unitx, unity, unitcbr, transform=cax.transAxes)    
+#     caxl = ax[-1,0].get_position()
+#     caxr = ax[-1,-1].get_position()
+#     caxv = ax[-1,0].get_position()
+#     cax = fig.add_axes([caxl.x0, caxv.y0-dycb,caxr.x1-caxl.x0, cbt])
+#     cbar = plt.colorbar(images[-1], cax = cax, orientation = 'horizontal', ticks = vticks[-1])        
+#     if unitcbr != '':
+#         cax.text(unitx, unity, unitcbr, transform=cax.transAxes)    
         
-    nfg = 0    
-    for nr in range(nrowm):        
-        for nc in range(ncols):
-            if len(vartrk) > 0:                
-                ntrs = np.shape(vartrk[nfg][0])[0]
-                for ntr in range(ntrs):
-                    ax[nr,nc].plot(vartrk[nfg][0][ntr]-180, vartrk[nfg][1][ntr], color = lcol, linewidth = lwdth)
+#     nfg = 0    
+#     for nr in range(nrowm):        
+#         for nc in range(ncols):
+#             if len(vartrk) > 0:                
+#                 ntrs = np.shape(vartrk[nfg][0])[0]
+#                 for ntr in range(ntrs):
+#                     ax[nr,nc].plot(vartrk[nfg][0][ntr]-180, vartrk[nfg][1][ntr], color = lcol, linewidth = lwdth)
 
-                nmax = np.where((xmintrk<vtrtgt[nfg][0][:-1])*(vtrtgt[nfg][0][1:]<=xmintrk))[0][0]                
-                ax[nr,nc].plot(vtrtgt[nfg][0][:nmax]-180, vtrtgt[nfg][-1][:nmax], color = 'g', linewidth = 2)
+#                 nmax = np.where((xmintrk<vtrtgt[nfg][0][:-1])*(vtrtgt[nfg][0][1:]<=xmintrk))[0][0]                
+#                 ax[nr,nc].plot(vtrtgt[nfg][0][:nmax]-180, vtrtgt[nfg][-1][:nmax], color = 'g', linewidth = 2)
 
-            label = '('+chr(ord("a")+nfg)+')'
-            if np.size(flabel) > 0:
-                label = label + ' ' + flabel[nfg]
+#             label = '('+chr(ord("a")+nfg)+')'
+#             if np.size(flabel) > 0:
+#                 label = label + ' ' + flabel[nfg]
             
-            ax[nr,nc].text(lonr[0]-180+dxc*(lonr[1]-lonr[0]), latr[1]-dyc*(latr[1]-latr[0]),  label, ha = 'left', va = 'bottom')             
+#             ax[nr,nc].text(lonr[0]-180+dxc*(lonr[1]-lonr[0]), latr[1]-dyc*(latr[1]-latr[0]),  label, ha = 'left', va = 'bottom')             
             
-            nfg += 1
-            if clonlatedge:
-                if nr == nrows-1:
-                    for lonc in np.arange(lonr[0], lonr[1]+1, lonr[2]):
-                        if np.round(lonc) < 180:                    
-                            txt = str(np.round(lonc))+'E'
-                        elif np.round(lonc) > 180:
-                            txt = str(np.round(360-lonc))+'W'
-                        else:
-                            txt = '180'                    
-                        ax[nr,nc].text(lonc-180, latr[0]-dxax, txt, ha = 'center', va = 'top', fontsize = fontsizexy)
-                if nc == 0:                        
-                    for latc in np.arange(latr[0], latr[1]+1, latr[2]):
-                        ax[nr,nc].text(lonr[0]-180-dyax, latc, str(int(latc))+'N', ha = 'right', va = 'center', fontsize = fontsizexy)                
-            else:
-                for lonc in np.arange(lonr[0], lonr[1]+1, lonr[2]):
-                    if np.round(lonc) < 180:                    
-                        txt = str(np.round(lonc))+'E'
-                    elif np.round(lonc) > 180:
-                        txt = str(np.round(360-lonc))+'W'
-                    else:
-                        txt = '180'                    
-                    ax[nr,nc].text(lonc-180, latr[0]-dxax, txt, ha = 'center', va = 'top', fontsize = fontsizexy)         
-                for latc in np.arange(latr[0], latr[1]+1, latr[2]):
-                    ax[nr,nc].text(lonr[0]-180-dyax, latc, str(int(latc))+'N', ha = 'right', va = 'center', fontsize = fontsizexy)                
+#             nfg += 1
+#             if clonlatedge:
+#                 if nr == nrows-1:
+#                     for lonc in np.arange(lonr[0], lonr[1]+1, lonr[2]):
+#                         if np.round(lonc) < 180:                    
+#                             txt = str(np.round(lonc))+'E'
+#                         elif np.round(lonc) > 180:
+#                             txt = str(np.round(360-lonc))+'W'
+#                         else:
+#                             txt = '180'                    
+#                         ax[nr,nc].text(lonc-180, latr[0]-dxax, txt, ha = 'center', va = 'top', fontsize = fontsizexy)
+#                 if nc == 0:                        
+#                     for latc in np.arange(latr[0], latr[1]+1, latr[2]):
+#                         ax[nr,nc].text(lonr[0]-180-dyax, latc, str(int(latc))+'N', ha = 'right', va = 'center', fontsize = fontsizexy)                
+#             else:
+#                 for lonc in np.arange(lonr[0], lonr[1]+1, lonr[2]):
+#                     if np.round(lonc) < 180:                    
+#                         txt = str(np.round(lonc))+'E'
+#                     elif np.round(lonc) > 180:
+#                         txt = str(np.round(360-lonc))+'W'
+#                     else:
+#                         txt = '180'                    
+#                     ax[nr,nc].text(lonc-180, latr[0]-dxax, txt, ha = 'center', va = 'top', fontsize = fontsizexy)         
+#                 for latc in np.arange(latr[0], latr[1]+1, latr[2]):
+#                     ax[nr,nc].text(lonr[0]-180-dyax, latc, str(int(latc))+'N', ha = 'right', va = 'center', fontsize = fontsizexy)                
                 
             
-    if ctght:
-        plt.tight_layout()
-    plt.savefig(pngfile)
-    plt.close()        
+#     if ctght:
+#         plt.tight_layout()
+#     plt.savefig(pngfile)
+#     plt.close()        
 
 
-def dh_track(pngfile, lon, lat, varf, varfl = [], vartrk = [], lonr = [120, 240, 30], latr = [20, 50, 10], level = [''], vr=[-999,-999,21], rt = 10, lines = [0.], cmap = cmo.balance, vticklabel = [''], fsizex = 8, fsizey = 2, lcol = 'k', lwdth = 1, cntcol = 'k', dxc = 0.015, dyc = 0.2, dxax = 1., dyax = 1., ctght = False, fontsize = 10, unitcbr = r'[${}^\circ$C]', unitx = 0.98, unity = -3):
+# def dh_track(pngfile, lon, lat, varf, varfl = [], vartrk = [], lonr = [120, 240, 30], latr = [20, 50, 10], level = [''], vr=[-999,-999,21], rt = 10, lines = [0.], cmap = cmo.balance, vticklabel = [''], fsizex = 8, fsizey = 2, lcol = 'k', lwdth = 1, cntcol = 'k', dxc = 0.015, dyc = 0.2, dxax = 1., dyax = 1., ctght = False, fontsize = 10, unitcbr = r'[${}^\circ$C]', unitx = 0.98, unity = -3):
 
-    print(pngfile)
-    R0 = 6.375e6
-    lonmin, lonmax, lonint = lonr
-    latmin, latmax, latint = latr
-    nrows = int(np.shape(varf)[0]/2)
-    ncols = 2
+#     print(pngfile)
+#     R0 = 6.375e6
+#     lonmin, lonmax, lonint = lonr
+#     latmin, latmax, latint = latr
+#     nrows = int(np.shape(varf)[0]/2)
+#     ncols = 2
     
-    plt.rcParams['font.size'] = fontsize
-    fig = plt.figure(figsize = (fsizex, fsizey))
-    ax = mc.set_maps(fig, nrows, ncols, xlim = [lonmin, lonmax], ylim = [latmin, latmax], lon_interval = lonint, lat_interval = latint)
+#     plt.rcParams['font.size'] = fontsize
+#     fig = plt.figure(figsize = (fsizex, fsizey))
+#     ax = mc.set_maps(fig, nrows, ncols, xlim = [lonmin, lonmax], ylim = [latmin, latmax], lon_interval = lonint, lat_interval = latint)
     
-    ax, images, vticks, vticklabels = mc.imcfs(ax, lon, lat, varf, nrows, ncols, vr = vr, rt = rt, level = level, cmap = cmap, vticklabel = vticklabel)
-    if np.size(varfl) > 0:
-        ax, lls = mc.imcs(ax, lon, lat, varfl, nrows, ncols, level = lines, lfontsize = 9, lwidth = 1.0, cntcol = cntcol)     
+#     ax, images, vticks, vticklabels = mc.imcfs(ax, lon, lat, varf, nrows, ncols, vr = vr, rt = rt, level = level, cmap = cmap, vticklabel = vticklabel)
+#     if np.size(varfl) > 0:
+#         ax, lls = mc.imcs(ax, lon, lat, varfl, nrows, ncols, level = lines, lfontsize = 9, lwidth = 1.0, cntcol = cntcol)     
     
-    nfg = 0    
-    for nr in range(nrows):
-        caxl = ax[nr,0].get_position()
-        caxr = ax[nr,-1].get_position()
-        caxv = ax[nr,0].get_position()
-        cax = fig.add_axes([caxl.x0, caxv.y0-0.15,caxr.x1-caxl.x0, 0.03])        
-        cbar = plt.colorbar(images[2*nr+1], cax = cax, orientation = 'horizontal', ticks = vticks[2*nr+1])
-        if unitcbr != '':
-            cax.text(unitx, unity, unitcbr, transform=cax.transAxes)    
-        cbars = [cbar]
-        if np.size(vticklabels) != 1:
-            if vticklabels[0] != ['']:
-                cbar.ax.set_xticklabels(vticklabels[0])
+#     nfg = 0    
+#     for nr in range(nrows):
+#         caxl = ax[nr,0].get_position()
+#         caxr = ax[nr,-1].get_position()
+#         caxv = ax[nr,0].get_position()
+#         cax = fig.add_axes([caxl.x0, caxv.y0-0.15,caxr.x1-caxl.x0, 0.03])        
+#         cbar = plt.colorbar(images[2*nr+1], cax = cax, orientation = 'horizontal', ticks = vticks[2*nr+1])
+#         if unitcbr != '':
+#             cax.text(unitx, unity, unitcbr, transform=cax.transAxes)    
+#         cbars = [cbar]
+#         if np.size(vticklabels) != 1:
+#             if vticklabels[0] != ['']:
+#                 cbar.ax.set_xticklabels(vticklabels[0])
         
-        for nc in range(ncols):
-            if len(vartrk) > 0:                
-                ntrs = np.shape(vartrk[nc][0])[0]
-                for ntr in range(ntrs):
-                    ax[nr,nc].plot(vartrk[nc][0][ntr]-180, vartrk[nc][1][ntr], color = lcol, linewidth = lwdth)
+#         for nc in range(ncols):
+#             if len(vartrk) > 0:                
+#                 ntrs = np.shape(vartrk[nc][0])[0]
+#                 for ntr in range(ntrs):
+#                     ax[nr,nc].plot(vartrk[nc][0][ntr]-180, vartrk[nc][1][ntr], color = lcol, linewidth = lwdth)
             
-            ax[nr,nc].text(lonr[0]-180+dxc*(lonr[1]-lonr[0]), latr[1]-dyc*(latr[1]-latr[0]), '('+chr(ord("a")+nfg)+')', ha = 'left', va = 'bottom')
+#             ax[nr,nc].text(lonr[0]-180+dxc*(lonr[1]-lonr[0]), latr[1]-dyc*(latr[1]-latr[0]), '('+chr(ord("a")+nfg)+')', ha = 'left', va = 'bottom')
             
-            nfg += 1
-            for lonc in np.arange(lonr[0], lonr[1]+1, lonr[2]):
-                if np.round(lonc) < 180:                    
-                    txt = str(np.round(lonc))+'E'
-                elif np.round(lonc) > 180:
-                    txt = str(np.round(360-lonc))+'W'
-                else:
-                    txt = '180'                    
-                ax[nr,nc].text(lonc-180, latr[0]-dxax, txt, ha = 'center', va = 'top')                
-            for latc in np.arange(latr[0], latr[1]+1, latr[2]):
-                ax[nr,nc].text(lonr[0]-180-dyax, latc, str(int(latc))+'N', ha = 'right', va = 'center')                
+#             nfg += 1
+#             for lonc in np.arange(lonr[0], lonr[1]+1, lonr[2]):
+#                 if np.round(lonc) < 180:                    
+#                     txt = str(np.round(lonc))+'E'
+#                 elif np.round(lonc) > 180:
+#                     txt = str(np.round(360-lonc))+'W'
+#                 else:
+#                     txt = '180'                    
+#                 ax[nr,nc].text(lonc-180, latr[0]-dxax, txt, ha = 'center', va = 'top')                
+#             for latc in np.arange(latr[0], latr[1]+1, latr[2]):
+#                 ax[nr,nc].text(lonr[0]-180-dyax, latc, str(int(latc))+'N', ha = 'right', va = 'center')                
 
-    if ctght:
-        plt.tight_layout()
-    plt.savefig(pngfile)
-    plt.close()        
+#     if ctght:
+#         plt.tight_layout()
+#     plt.savefig(pngfile)
+#     plt.close()        
     
 
-def mlt_tend_maps_3rgn(pngbase, pngsuff, lon, lat, varf, nrows, ncols, rgns, varl = [], level = [''], vr=[-999,-999,21], rt = 10, cmap = cmo.balance, sngl_cbar = False, lines = [0.], lwdth = 1.0, vticklabel = [''], rnp = 3):
+# def mlt_tend_maps_3rgn(pngbase, pngsuff, lon, lat, varf, nrows, ncols, rgns, varl = [], level = [''], vr=[-999,-999,21], rt = 10, cmap = cmo.balance, sngl_cbar = False, lines = [0.], lwdth = 1.0, vticklabel = [''], rnp = 3):
 
-    nn = 0
-    for rgn in rgns.keys():
-        fsizey = 4 * nrows            
-        if rgn == 'NP':
-            fsizey = rnp * nrows
-        lonmin, lonmax, lonint = rgns[rgn][0]
-        latmin, latmax, latint = rgns[rgn][1]
+#     nn = 0
+#     for rgn in rgns.keys():
+#         fsizey = 4 * nrows            
+#         if rgn == 'NP':
+#             fsizey = rnp * nrows
+#         lonmin, lonmax, lonint = rgns[rgn][0]
+#         latmin, latmax, latint = rgns[rgn][1]
 
-        lonlatc = '_'+str(lonmin)+'-'+str(lonmax)+'E'+'-'+str(latmin)+'-'+str(latmax)+'N'        
+#         lonlatc = '_'+str(lonmin)+'-'+str(lonmax)+'E'+'-'+str(latmin)+'-'+str(latmax)+'N'        
 
-        imin = np.maximum(np.argmin(np.abs(lon-0.5-lonmin)), 1); imax = np.argmin(np.abs(lon+0.5-lonmax)) + 1
-        jmin = np.maximum(np.argmin(np.abs(lat-0.5-latmin)), 1); jmax = np.argmin(np.abs(lat+0.5-latmax)) + 1
+#         imin = np.maximum(np.argmin(np.abs(lon-0.5-lonmin)), 1); imax = np.argmin(np.abs(lon+0.5-lonmax)) + 1
+#         jmin = np.maximum(np.argmin(np.abs(lat-0.5-latmin)), 1); jmax = np.argmin(np.abs(lat+0.5-latmax)) + 1
 
-        pngfile=pngbase+lonlatc+'_'+rgn+pngsuff
-        print(pngfile)
-        if np.size(varl) == 0:
-            mc.surface_map_mc_ctp(pngfile, lon[imin-1:imax+1], lat[jmin-1:jmax+1], varf[:,jmin-1:jmax+1, imin-1:imax+1], nrows, ncols, vr=vr, rt = rt, level = level, xlim = [lonmin, lonmax], ylim = [latmin, latmax], cmap = cmap, sngl_cbar = sngl_cbar, lon_interval = lonint, lat_interval = latint, vticklabel = vticklabel, fsizey= fsizey)
-        else:
-            if np.size(lines[0]) > 1:
-                line = lines[nn]
-            else:
-                line = lines
+#         pngfile=pngbase+lonlatc+'_'+rgn+pngsuff
+#         print(pngfile)
+#         if np.size(varl) == 0:
+#             mc.surface_map_mc_ctp(pngfile, lon[imin-1:imax+1], lat[jmin-1:jmax+1], varf[:,jmin-1:jmax+1, imin-1:imax+1], nrows, ncols, vr=vr, rt = rt, level = level, xlim = [lonmin, lonmax], ylim = [latmin, latmax], cmap = cmap, sngl_cbar = sngl_cbar, lon_interval = lonint, lat_interval = latint, vticklabel = vticklabel, fsizey= fsizey)
+#         else:
+#             if np.size(lines[0]) > 1:
+#                 line = lines[nn]
+#             else:
+#                 line = lines
                 
-            mc.surface_map_mc_ctp(pngfile, lon[imin-1:imax+1], lat[jmin-1:jmax+1], varf[:,jmin-1:jmax+1, imin-1:imax+1], nrows, ncols, varl = varl[:,jmin-1:jmax+1, imin-1:imax+1],vr = vr, rt = rt, level = level, xlim = [lonmin, lonmax], ylim = [latmin, latmax], cmap = cmap, sngl_cbar = sngl_cbar, lon_interval = lonint, lat_interval = latint, linesc = True, lines = line, fsizey= fsizey, lwidth = lwdth, caxs = True)
-        nn += 1
+#             mc.surface_map_mc_ctp(pngfile, lon[imin-1:imax+1], lat[jmin-1:jmax+1], varf[:,jmin-1:jmax+1, imin-1:imax+1], nrows, ncols, varl = varl[:,jmin-1:jmax+1, imin-1:imax+1],vr = vr, rt = rt, level = level, xlim = [lonmin, lonmax], ylim = [latmin, latmax], cmap = cmap, sngl_cbar = sngl_cbar, lon_interval = lonint, lat_interval = latint, linesc = True, lines = line, fsizey= fsizey, lwidth = lwdth, caxs = True)
+#         nn += 1
             
         
-def mlt_tend_maps_ssh_track_3rgn(pngbase, pngsuff, lon, lat, varf, varfl, vartrk, nrows, ncols, rgns, level = [''], vr=[-999,-999,21], rt = 10, lines = [0.], cmap = cmo.balance, sngl_cbar = False, xmintrk = 120, xmaxtrk = 240, tmintrk = 16, tmaxtrk = 24, tinttrk = 5, cdf = False, clg = True, vticklabel = ['']):
+# def mlt_tend_maps_ssh_track_3rgn(pngbase, pngsuff, lon, lat, varf, varfl, vartrk, nrows, ncols, rgns, level = [''], vr=[-999,-999,21], rt = 10, lines = [0.], cmap = cmo.balance, sngl_cbar = False, xmintrk = 120, xmaxtrk = 240, tmintrk = 16, tmaxtrk = 24, tinttrk = 5, cdf = False, clg = True, vticklabel = ['']):
 
-    n = -1
-    for rgn in rgns.keys():
-        n += 1
-        lonmin, lonmax, lonint = rgns[rgn][0]
-        latmin, latmax, latint = rgns[rgn][1]
+#     n = -1
+#     for rgn in rgns.keys():
+#         n += 1
+#         lonmin, lonmax, lonint = rgns[rgn][0]
+#         latmin, latmax, latint = rgns[rgn][1]
 
-        lonlatc = '_'+str(lonmin)+'-'+str(lonmax)+'E'+'-'+str(latmin)+'-'+str(latmax)+'N'        
+#         lonlatc = '_'+str(lonmin)+'-'+str(lonmax)+'E'+'-'+str(latmin)+'-'+str(latmax)+'N'        
 
-        imin = np.maximum(np.argmin(np.abs(lon-0.5-lonmin)), 1); imax = np.argmin(np.abs(lon+0.5-lonmax)) + 1
-        jmin = np.maximum(np.argmin(np.abs(lat-0.5-latmin)), 1); jmax = np.argmin(np.abs(lat+0.5-latmax)) + 1
+#         imin = np.maximum(np.argmin(np.abs(lon-0.5-lonmin)), 1); imax = np.argmin(np.abs(lon+0.5-lonmax)) + 1
+#         jmin = np.maximum(np.argmin(np.abs(lat-0.5-latmin)), 1); jmax = np.argmin(np.abs(lat+0.5-latmax)) + 1
 
-        pngfile=pngbase+lonlatc+'_'+rgn+pngsuff        
-        plt.rcParams['font.size'] = 20
-        fig = plt.figure(figsize = (11, 8))
-        ax = mc.set_maps(fig, nrows, ncols, xlim = [lonmin, lonmax], ylim = [latmin, latmax], lon_interval = lonint, lat_interval = latint)
+#         pngfile=pngbase+lonlatc+'_'+rgn+pngsuff        
+#         plt.rcParams['font.size'] = 20
+#         fig = plt.figure(figsize = (11, 8))
+#         ax = mc.set_maps(fig, nrows, ncols, xlim = [lonmin, lonmax], ylim = [latmin, latmax], lon_interval = lonint, lat_interval = latint)
         
         
-        ax, images, vticks, vticklabels = mc.imcfs(ax, lon[imin-1:imax+1], lat[jmin-1:jmax+1], varf[:,jmin-1:jmax+1,imin-1:imax+1], nrows, ncols, vr = vr, rt = rt, level = level, cmap = cmap, vticklabel = vticklabel)
-        fig, ax, cbars = mc.cbs(fig, ax, images, 2, 2, vticks, vticklabels = vticklabels)   
+#         ax, images, vticks, vticklabels = mc.imcfs(ax, lon[imin-1:imax+1], lat[jmin-1:jmax+1], varf[:,jmin-1:jmax+1,imin-1:imax+1], nrows, ncols, vr = vr, rt = rt, level = level, cmap = cmap, vticklabel = vticklabel)
+#         fig, ax, cbars = mc.cbs(fig, ax, images, 2, 2, vticks, vticklabels = vticklabels)   
 
-        if np.size(np.shape(lines[0])) == 0:
-            line = lines
-        elif np.size(np.shape(lines[0])) == 1:
-            line = lines[n]        
+#         if np.size(np.shape(lines[0])) == 0:
+#             line = lines
+#         elif np.size(np.shape(lines[0])) == 1:
+#             line = lines[n]        
         
-        ax[0,0], ll = mc.imc(ax[0,0], lon[imin-1:imax+1], lat[jmin-1:jmax+1], varfl[0, jmin-1:jmax+1, imin-1:imax+1], levels = line)
-        ax[0,1], ll = mc.imc(ax[0,1], lon[imin-1:imax+1], lat[jmin-1:jmax+1], varfl[1, jmin-1:jmax+1, imin-1:imax+1], levels = line)
+#         ax[0,0], ll = mc.imc(ax[0,0], lon[imin-1:imax+1], lat[jmin-1:jmax+1], varfl[0, jmin-1:jmax+1, imin-1:imax+1], levels = line)
+#         ax[0,1], ll = mc.imc(ax[0,1], lon[imin-1:imax+1], lat[jmin-1:jmax+1], varfl[1, jmin-1:jmax+1, imin-1:imax+1], levels = line)
     
-        data_crs = ccrs.PlateCarree()
-        ax[1,0].plot(vartrk[0][0], vartrk[0][1], 'k', transform = data_crs)
-        ax[1,0].plot(vartrk[1][0], vartrk[1][1], '--k', transform = data_crs)        
+#         data_crs = ccrs.PlateCarree()
+#         ax[1,0].plot(vartrk[0][0], vartrk[0][1], 'k', transform = data_crs)
+#         ax[1,0].plot(vartrk[1][0], vartrk[1][1], '--k', transform = data_crs)        
         
-        axp = ax[1,1].get_position()
-        ax[1,1].remove()
-        cbars[-1].remove()
+#         axp = ax[1,1].get_position()
+#         ax[1,1].remove()
+#         cbars[-1].remove()
         
-        axadd = fig.add_axes([0.55, 0.1, 0.4, 0.35])        
+#         axadd = fig.add_axes([0.55, 0.1, 0.4, 0.35])        
 
-        dlon = 0.1
-        dlonrm = 10
-        nrm = int(dlonrm/dlon)
-        lonLI = np.min(lon) + dlon * np.arange(int((np.max(lon)-np.min(lon))/dlon)+1)
-        iiminM = np.where(lonLI > np.min(vartrk[0][0]))[0][0]
-        iimaxM = np.where(lonLI < np.max(vartrk[0][0]))[0][-1] + 1
+#         dlon = 0.1
+#         dlonrm = 10
+#         nrm = int(dlonrm/dlon)
+#         lonLI = np.min(lon) + dlon * np.arange(int((np.max(lon)-np.min(lon))/dlon)+1)
+#         iiminM = np.where(lonLI > np.min(vartrk[0][0]))[0][0]
+#         iimaxM = np.where(lonLI < np.max(vartrk[0][0]))[0][-1] + 1
         
-        iiminMb = np.where(lonLI > np.min(vartrk[1][0]))[0][0]
-        iimaxMb = np.where(lonLI < np.max(vartrk[1][0]))[0][-1] + 1
+#         iiminMb = np.where(lonLI > np.min(vartrk[1][0]))[0][0]
+#         iimaxMb = np.where(lonLI < np.max(vartrk[1][0]))[0][-1] + 1
 
-        if np.size(np.shape(vartrk[0][2][0])) == 0:
-            nvs = 1
-        else:
-            nvs = np.shape(vartrk[0][2])[0]
+#         if np.size(np.shape(vartrk[0][2][0])) == 0:
+#             nvs = 1
+#         else:
+#             nvs = np.shape(vartrk[0][2])[0]
 
-        for nv in range(nvs):
-            lbl = ''
-            lblnp = ''
-            lblglb = ''            
+#         for nv in range(nvs):
+#             lbl = ''
+#             lblnp = ''
+#             lblglb = ''            
             
-            mlttMM = vartrk[0][2][nv]
-            mlttMMb = vartrk[1][2][nv]
+#             mlttMM = vartrk[0][2][nv]
+#             mlttMMb = vartrk[1][2][nv]
                 
-            if nv == 0:
-                if nvs == 1:
-                    mlttMM = vartrk[0][2]
-                    mlttMMb = vartrk[1][2]
-                    if cdf:
-                        lbl = 'NP-GLB'
-                    else:
-                        lblnp = 'NP-exp'
-                        lblglb = 'GLB-exp'                        
-                else:
-                    if cdf:
-                        lbl = 'T change'
-                    else:
-                        lblnp = 'T change (NP)'
-                        lblglb = 'T change (GLB)'
-                col = 'k'                    
-            elif nv == 1:
-                col = 'r'
-            elif nv == 2:
-                col = 'g'
-            elif nv == 3:
-                col = 'b'
-            elif nv == 4:
-                col = 'c'
-            elif nv == 5:
-                col = 'm'
-            elif nv == 6:
-                col = 'y'             
+#             if nv == 0:
+#                 if nvs == 1:
+#                     mlttMM = vartrk[0][2]
+#                     mlttMMb = vartrk[1][2]
+#                     if cdf:
+#                         lbl = 'NP-GLB'
+#                     else:
+#                         lblnp = 'NP-exp'
+#                         lblglb = 'GLB-exp'                        
+#                 else:
+#                     if cdf:
+#                         lbl = 'T change'
+#                     else:
+#                         lblnp = 'T change (NP)'
+#                         lblglb = 'T change (GLB)'
+#                 col = 'k'                    
+#             elif nv == 1:
+#                 col = 'r'
+#             elif nv == 2:
+#                 col = 'g'
+#             elif nv == 3:
+#                 col = 'b'
+#             elif nv == 4:
+#                 col = 'c'
+#             elif nv == 5:
+#                 col = 'm'
+#             elif nv == 6:
+#                 col = 'y'             
                 
          
-            mlttMMLI = interpolate.interp1d(vartrk[0][0], mlttMM)(lonLI[iiminM:iimaxM])
+#             mlttMMLI = interpolate.interp1d(vartrk[0][0], mlttMM)(lonLI[iiminM:iimaxM])
         
-            mlttMMLIb = interpolate.interp1d(vartrk[1][0], mlttMMb)(lonLI[iiminMb:iimaxMb])
-            if nv == 0:
-                iintminM = np.maximum(np.argmin(np.abs(lonLI - xmintrk + 0.5*dlonrm)) - iiminM, 0)
-                iintmaxM = np.argmin(np.abs(lonLI - xmintrk - 0.5*dlonrm)) + 1 - iiminM
+#             mlttMMLIb = interpolate.interp1d(vartrk[1][0], mlttMMb)(lonLI[iiminMb:iimaxMb])
+#             if nv == 0:
+#                 iintminM = np.maximum(np.argmin(np.abs(lonLI - xmintrk + 0.5*dlonrm)) - iiminM, 0)
+#                 iintmaxM = np.argmin(np.abs(lonLI - xmintrk - 0.5*dlonrm)) + 1 - iiminM
 
-                iintminMb = np.maximum(np.argmin(np.abs(lonLI - xmintrk + 0.5*dlonrm)) - iiminMb, 0)
-                iintmaxMb = np.argmin(np.abs(lonLI - xmintrk - 0.5*dlonrm)) + 1 - iiminMb                
+#                 iintminMb = np.maximum(np.argmin(np.abs(lonLI - xmintrk + 0.5*dlonrm)) - iiminMb, 0)
+#                 iintmaxMb = np.argmin(np.abs(lonLI - xmintrk - 0.5*dlonrm)) + 1 - iiminMb                
                 
-                mltiniMM = np.mean(mlttMMLI[iintminM:iintmaxM])
-                mltiniMMb = np.mean(mlttMMLIb[iintminMb:iintmaxMb])
-            else:
-                mlttMMLI = mlttMMLI - np.mean(mlttMMLI[iintminM:iintmaxM]) + mltiniMM
-                mlttMMLIb = mlttMMLIb - np.mean(mlttMMLIb[iintminMb:iintmaxMb]) + mltiniMMb
+#                 mltiniMM = np.mean(mlttMMLI[iintminM:iintmaxM])
+#                 mltiniMMb = np.mean(mlttMMLIb[iintminMb:iintmaxMb])
+#             else:
+#                 mlttMMLI = mlttMMLI - np.mean(mlttMMLI[iintminM:iintmaxM]) + mltiniMM
+#                 mlttMMLIb = mlttMMLIb - np.mean(mlttMMLIb[iintminMb:iintmaxMb]) + mltiniMMb
 
                 
-            if cdf:
-                iimin = np.maximum(iiminM, iiminMb)
-                iimax = np.minimum(iimaxM, iimaxMb)
+#             if cdf:
+#                 iimin = np.maximum(iiminM, iiminMb)
+#                 iimax = np.minimum(iimaxM, iimaxMb)
 
-                axadd.plot(lonLI[iimin:iimax], mlttMMLI[iimin-iiminM:]-mlttMMLIb[iimin-iiminMb:], col, label = lbl, linewidth = 1)
-                axadd.plot(np.convolve(lonLI[iimin:iimaxM], np.ones(nrm)/nrm,mode = 'valid'),  np.convolve(mlttMMLI[iimin-iiminM:]-mlttMMLIb[iimin-iiminMb:], np.ones(nrm)/nrm,mode = 'valid'), col, linewidth = 3)   
+#                 axadd.plot(lonLI[iimin:iimax], mlttMMLI[iimin-iiminM:]-mlttMMLIb[iimin-iiminMb:], col, label = lbl, linewidth = 1)
+#                 axadd.plot(np.convolve(lonLI[iimin:iimaxM], np.ones(nrm)/nrm,mode = 'valid'),  np.convolve(mlttMMLI[iimin-iiminM:]-mlttMMLIb[iimin-iiminMb:], np.ones(nrm)/nrm,mode = 'valid'), col, linewidth = 3)   
 
-            else:
-                axadd.plot(lonLI[iiminM:iimaxM], mlttMMLI, col, label = lblnp, linewidth = 1)
-                axadd.plot(lonLI[iiminMb:iimaxMb], mlttMMLIb, '--'+col, label = lblglb, linewidth = 1)
-                axadd.plot(np.convolve(lonLI[iiminM:iimaxM], np.ones(nrm)/nrm,mode = 'valid'),  np.convolve(mlttMMLI, np.ones(nrm)/nrm,mode = 'valid'), col, linewidth = 3)
-                axadd.plot(np.convolve(lonLI[iiminMb:iimaxMb], np.ones(nrm)/nrm,mode = 'valid'),  np.convolve(mlttMMLIb, np.ones(nrm)/nrm,mode = 'valid'), '--'+col, linewidth = 3)            
+#             else:
+#                 axadd.plot(lonLI[iiminM:iimaxM], mlttMMLI, col, label = lblnp, linewidth = 1)
+#                 axadd.plot(lonLI[iiminMb:iimaxMb], mlttMMLIb, '--'+col, label = lblglb, linewidth = 1)
+#                 axadd.plot(np.convolve(lonLI[iiminM:iimaxM], np.ones(nrm)/nrm,mode = 'valid'),  np.convolve(mlttMMLI, np.ones(nrm)/nrm,mode = 'valid'), col, linewidth = 3)
+#                 axadd.plot(np.convolve(lonLI[iiminMb:iimaxMb], np.ones(nrm)/nrm,mode = 'valid'),  np.convolve(mlttMMLIb, np.ones(nrm)/nrm,mode = 'valid'), '--'+col, linewidth = 3)            
                 
-        axadd.set_xlim(xmintrk, xmaxtrk)
-        axadd.set_ylim(tmintrk, tmaxtrk)
-        axadd.set_yticks(np.linspace(tmintrk, tmaxtrk, tinttrk))        
+#         axadd.set_xlim(xmintrk, xmaxtrk)
+#         axadd.set_ylim(tmintrk, tmaxtrk)
+#         axadd.set_yticks(np.linspace(tmintrk, tmaxtrk, tinttrk))        
 
-        if clg:
-            axadd.legend()
+#         if clg:
+#             axadd.legend()
         
-        plt.tight_layout()
-        plt.savefig(pngfile)
-        plt.close()        
+#         plt.tight_layout()
+#         plt.savefig(pngfile)
+#         plt.close()        
 
-def crsscts_trck(pngfile, depth, lons, varfs, nrows, ncols, vec = [], vr=[-999,-999,21], rt = 10, cmap = cm.viridis, xr = [-999, -999], yr = [-999, -999], xticks = [], yticks = [], veciint = 2, vecjint = 2, units = 'width', scale = None, scale_units = None, angles = 'uv', level = [], vticklabel = [], fsizex = 11, fsizey = 8, fontsize = 20):
+# def crsscts_trck(pngfile, depth, lons, varfs, nrows, ncols, vec = [], vr=[-999,-999,21], rt = 10, cmap = cm.viridis, xr = [-999, -999], yr = [-999, -999], xticks = [], yticks = [], veciint = 2, vecjint = 2, units = 'width', scale = None, scale_units = None, angles = 'uv', level = [], vticklabel = [], fsizex = 11, fsizey = 8, fontsize = 20):
 
-    plt.rcParams['font.size'] = fontsize 
-    fig = plt.figure(figsize = (fsizex, fsizey))
-    ax = np.reshape(fig.subplots(nrows, ncols), (nrows, ncols))
-    nm = -1
-    for nr in range(nrows):
-        for nc in range(ncols):
-            nm += 1
-            if np.size(np.shape(lons)) == 1:
-                X, Y = np.meshgrid(lons, depth)
-            else:
-                X, Y = np.meshgrid(lons[nm], depth)                
-            if np.size(cmap) == 1:
-                cmptmp = cmap
-            else:
-                cmptmp = cmap[nm]                
-            if np.size(level) == 0:
-                if np.size(np.shape(vr)) == 1:
-                    vr0 = vr
-                else:
-                    vr0 = vr[nm]                    
-                image = ax[nr,nc].contourf(X, Y, varfs[nm], np.linspace(vr0[0], vr0[1], (vr0[2]-1)*rt+1), cmap = cmptmp, extend = 'both')
-                cbar = plt.colorbar(image, ax = ax[nr,nc], orientation = 'horizontal', ticks = np.linspace(vr0[0],vr0[1],vr0[2]))                
-            else:
-                if np.size(level[0]) == 1:                    
-                    image = ax[nr,nc].contourf(X, Y, varfs[nm], level, cmap = cmptmp, extend = 'both')
-                    cbar = plt.colorbar(image, ax = ax[nr,nc], orientation = 'horizontal', ticks = level)                    
-                    if np.size(vticklabel) != 0:
-                        cbar.ax.set_xticklabels(vticklabel[nm])                    
-                else:
-                    image = ax[nr,nc].contourf(X, Y, varfs[nm], level[nm], cmap = cmptmp, extend = 'both')
-                    cbar = plt.colorbar(image, ax = ax[nr,nc], orientation = 'horizontal', ticks = level[nm])
-                    if np.size(vticklabel) != 0:
-                        cbar.ax.set_xticklabels(vticklabel[nm])
+#     plt.rcParams['font.size'] = fontsize 
+#     fig = plt.figure(figsize = (fsizex, fsizey))
+#     ax = np.reshape(fig.subplots(nrows, ncols), (nrows, ncols))
+#     nm = -1
+#     for nr in range(nrows):
+#         for nc in range(ncols):
+#             nm += 1
+#             if np.size(np.shape(lons)) == 1:
+#                 X, Y = np.meshgrid(lons, depth)
+#             else:
+#                 X, Y = np.meshgrid(lons[nm], depth)                
+#             if np.size(cmap) == 1:
+#                 cmptmp = cmap
+#             else:
+#                 cmptmp = cmap[nm]                
+#             if np.size(level) == 0:
+#                 if np.size(np.shape(vr)) == 1:
+#                     vr0 = vr
+#                 else:
+#                     vr0 = vr[nm]                    
+#                 image = ax[nr,nc].contourf(X, Y, varfs[nm], np.linspace(vr0[0], vr0[1], (vr0[2]-1)*rt+1), cmap = cmptmp, extend = 'both')
+#                 cbar = plt.colorbar(image, ax = ax[nr,nc], orientation = 'horizontal', ticks = np.linspace(vr0[0],vr0[1],vr0[2]))                
+#             else:
+#                 if np.size(level[0]) == 1:                    
+#                     image = ax[nr,nc].contourf(X, Y, varfs[nm], level, cmap = cmptmp, extend = 'both')
+#                     cbar = plt.colorbar(image, ax = ax[nr,nc], orientation = 'horizontal', ticks = level)                    
+#                     if np.size(vticklabel) != 0:
+#                         cbar.ax.set_xticklabels(vticklabel[nm])                    
+#                 else:
+#                     image = ax[nr,nc].contourf(X, Y, varfs[nm], level[nm], cmap = cmptmp, extend = 'both')
+#                     cbar = plt.colorbar(image, ax = ax[nr,nc], orientation = 'horizontal', ticks = level[nm])
+#                     if np.size(vticklabel) != 0:
+#                         cbar.ax.set_xticklabels(vticklabel[nm])
                     
-            ax[nr,nc].set_xlim(xr[0], xr[1])
-            ax[nr,nc].set_ylim(yr[0], yr[1])
-            if xticks != []:
-                ax[nr,nc].set_xticks(xticks)
-            if yticks != []:
-                ax[nr,nc].set_yticks(yticks)                                
+#             ax[nr,nc].set_xlim(xr[0], xr[1])
+#             ax[nr,nc].set_ylim(yr[0], yr[1])
+#             if xticks != []:
+#                 ax[nr,nc].set_xticks(xticks)
+#             if yticks != []:
+#                 ax[nr,nc].set_yticks(yticks)                                
             
-            if vec != []:
-                vecmap = ax[nr,nc].quiver(X[::vecjint,::veciint], Y[::vecjint,::veciint], vec[nm][0][::vecjint,::veciint], vec[nm][1][::vecjint,::veciint], scale = scale, scale_units = scale_units, angles = angles, units = units)
+#             if vec != []:
+#                 vecmap = ax[nr,nc].quiver(X[::vecjint,::veciint], Y[::vecjint,::veciint], vec[nm][0][::vecjint,::veciint], vec[nm][1][::vecjint,::veciint], scale = scale, scale_units = scale_units, angles = angles, units = units)
             
 
-    plt.savefig(pngfile)
+#     plt.savefig(pngfile)
 
-def sfccs_cnt(pngfile, lon, lat, depth, var, vsfc, vvct, latcs, loncs, lonmin, lonmax, latmin, latmax, dmin = 0, dmax = 300, cmap = cmo.dense, vr = [23,27,5], rt = 10, vsr = [-1., 1., 21], viint=5, vjint=5, vkint=5, units = 'width', scale = None, scale_units = None, angles = 'uv', rto = 1.11e5, hal = 1.5, headlength= 3, headwidth=2):
+# def sfccs_cnt(pngfile, lon, lat, depth, var, vsfc, vvct, latcs, loncs, lonmin, lonmax, latmin, latmax, dmin = 0, dmax = 300, cmap = cmo.dense, vr = [23,27,5], rt = 10, vsr = [-1., 1., 21], viint=5, vjint=5, vkint=5, units = 'width', scale = None, scale_units = None, angles = 'uv', rto = 1.11e5, hal = 1.5, headlength= 3, headwidth=2):
 
-    R0 = 6.375e6 * 0.1   
-    imin = np.maximum(np.argmin(np.abs(lon-0.1-lonmin)), 1); imax = np.argmin(np.abs(lon+0.1-lonmax)) + 1
-    jmin = np.maximum(np.argmin(np.abs(lat-0.1-latmin)), 1); jmax = np.argmin(np.abs(lat+0.1-latmax)) + 1    
-    kmin = np.maximum(np.argmin(np.abs(depth-dmin))-1, 0);   kmax = np.argmin(np.abs(depth-dmax)) + 2
+#     R0 = 6.375e6 * 0.1   
+#     imin = np.maximum(np.argmin(np.abs(lon-0.1-lonmin)), 1); imax = np.argmin(np.abs(lon+0.1-lonmax)) + 1
+#     jmin = np.maximum(np.argmin(np.abs(lat-0.1-latmin)), 1); jmax = np.argmin(np.abs(lat+0.1-latmax)) + 1    
+#     kmin = np.maximum(np.argmin(np.abs(depth-dmin))-1, 0);   kmax = np.argmin(np.abs(depth-dmax)) + 2
     
-    plt.rcParams['font.size'] = 12
-    nrows = int(0.5*(1+np.size(latcs)+np.size(loncs)+1))
-    ncols = 2
+#     plt.rcParams['font.size'] = 12
+#     nrows = int(0.5*(1+np.size(latcs)+np.size(loncs)+1))
+#     ncols = 2
     
-    fig = plt.figure(figsize = (11, 8))    
-    ax = np.reshape(fig.subplots(nrows, ncols), (nrows, ncols))
-    nm = -1    
-    for nr in range(nrows):
-        for nc in range(ncols):
-            nm += 1
-            if nm == 0:                          
-                X, Y = np.meshgrid(lon[imin:imax], lat[jmin:jmax])
-                varf = var[0,jmin:jmax,imin:imax]
-                vsf = vsfc[jmin:jmax,imin:imax]
-                xmin = lonmin; xmax = lonmax
-                ymin = latmin; ymax = latmax                
-            elif nm < 1+np.size(latcs):
-                X, Y = np.meshgrid(lon[imin:imax], depth[dmin:dmax])
-                jc = np.argmin(np.abs(lat-latcs[nm-1]))
-                varf = var[kmin:kmax,jc,imin:imax]
+#     fig = plt.figure(figsize = (11, 8))    
+#     ax = np.reshape(fig.subplots(nrows, ncols), (nrows, ncols))
+#     nm = -1    
+#     for nr in range(nrows):
+#         for nc in range(ncols):
+#             nm += 1
+#             if nm == 0:                          
+#                 X, Y = np.meshgrid(lon[imin:imax], lat[jmin:jmax])
+#                 varf = var[0,jmin:jmax,imin:imax]
+#                 vsf = vsfc[jmin:jmax,imin:imax]
+#                 xmin = lonmin; xmax = lonmax
+#                 ymin = latmin; ymax = latmax                
+#             elif nm < 1+np.size(latcs):
+#                 X, Y = np.meshgrid(lon[imin:imax], depth[dmin:dmax])
+#                 jc = np.argmin(np.abs(lat-latcs[nm-1]))
+#                 varf = var[kmin:kmax,jc,imin:imax]
 
-                vvf = np.array([vvct[0],vvct[2]])[:,kmin:kmax,jc,imin:imax].copy()
-                m2d = rto * np.cos(np.deg2rad(latcs[nm-1]))
-                vvf[1] = m2d * vvf[1].copy()
-                xmin = lonmin; xmax = lonmax
-                ymin = dmax; ymax = dmin
-                vhint = viint
-                hmin = imin; hmax = imax; hint = viint
-            else:
-                X, Y = np.meshgrid(lat[jmin:jmax], depth[dmin:dmax])
-                ic = np.argmin(np.abs(lon-loncs[nm-np.size(latcs)-1]))
-                varf = var[kmin:kmax,jmin:jmax,ic]
-                vvf = vvct[1:,kmin:kmax,jmin:jmax,ic].copy()
-                m2d = rto
-                vvf[1] = m2d * vvf[1].copy()
-                xmin = latmin; xmax = latmax
-                ymin = dmax; ymax = dmin                
-                vhint = vjint
-                hmin = jmin; hmax = jmax; hint = vjint                
+#                 vvf = np.array([vvct[0],vvct[2]])[:,kmin:kmax,jc,imin:imax].copy()
+#                 m2d = rto * np.cos(np.deg2rad(latcs[nm-1]))
+#                 vvf[1] = m2d * vvf[1].copy()
+#                 xmin = lonmin; xmax = lonmax
+#                 ymin = dmax; ymax = dmin
+#                 vhint = viint
+#                 hmin = imin; hmax = imax; hint = viint
+#             else:
+#                 X, Y = np.meshgrid(lat[jmin:jmax], depth[dmin:dmax])
+#                 ic = np.argmin(np.abs(lon-loncs[nm-np.size(latcs)-1]))
+#                 varf = var[kmin:kmax,jmin:jmax,ic]
+#                 vvf = vvct[1:,kmin:kmax,jmin:jmax,ic].copy()
+#                 m2d = rto
+#                 vvf[1] = m2d * vvf[1].copy()
+#                 xmin = latmin; xmax = latmax
+#                 ymin = dmax; ymax = dmin                
+#                 vhint = vjint
+#                 hmin = jmin; hmax = jmax; hint = vjint                
                 
                 
-            image = ax[nr,nc].contourf(X, Y, varf, np.linspace(vr[0], vr[1], (vr[2]-1)*rt+1), cmap = cmap, extend = 'both')
-            cbar = plt.colorbar(image, ax = ax[nr,nc], orientation = 'horizontal', ticks = np.linspace(vr[0],vr[1],vr[2]))
+#             image = ax[nr,nc].contourf(X, Y, varf, np.linspace(vr[0], vr[1], (vr[2]-1)*rt+1), cmap = cmap, extend = 'both')
+#             cbar = plt.colorbar(image, ax = ax[nr,nc], orientation = 'horizontal', ticks = np.linspace(vr[0],vr[1],vr[2]))
 
-            if nm == 0:
-                imsfc = ax[nr,nc].contour(X, Y, vsf, np.linspace(vsr[0], vsr[1], vsr[2]), colors = 'k')
-                for nl in range(np.size(latcs)):
-                    ax[nr,nc].plot([lonmin, lonmax], [latcs[nl], latcs[nl]], 'k')
-                for nl in range(np.size(loncs)):
-                    ax[nr,nc].plot([loncs[nl], loncs[nl]], [latmin, latmax], 'k')                    
-            else:                
-                for k in range(kmin, kmax, vkint):
-                    for h in range(hmin,hmax, hint):
-                        ax[nr,nc].quiver(X[k,h], Y[k,h], vvf[0][k,h], vvf[1][k,h], scale = scale, scale_units = scale_units, angles = angles, units = units, headaxislength = hal, headlength= headlength, headwidth=headwidth)
+#             if nm == 0:
+#                 imsfc = ax[nr,nc].contour(X, Y, vsf, np.linspace(vsr[0], vsr[1], vsr[2]), colors = 'k')
+#                 for nl in range(np.size(latcs)):
+#                     ax[nr,nc].plot([lonmin, lonmax], [latcs[nl], latcs[nl]], 'k')
+#                 for nl in range(np.size(loncs)):
+#                     ax[nr,nc].plot([loncs[nl], loncs[nl]], [latmin, latmax], 'k')                    
+#             else:                
+#                 for k in range(kmin, kmax, vkint):
+#                     for h in range(hmin,hmax, hint):
+#                         ax[nr,nc].quiver(X[k,h], Y[k,h], vvf[0][k,h], vvf[1][k,h], scale = scale, scale_units = scale_units, angles = angles, units = units, headaxislength = hal, headlength= headlength, headwidth=headwidth)
                         
             
-            ax[nr,nc].set_xlim(xmin,xmax)
-            ax[nr,nc].set_ylim(ymin,ymax)            
+#             ax[nr,nc].set_xlim(xmin,xmax)
+#             ax[nr,nc].set_ylim(ymin,ymax)            
                 
-    plt.savefig(pngfile)
+#     plt.savefig(pngfile)
 
 
-def sfccs_cnt_3d(pngfile, lon, lat, depth, var, vsfc, vvct, latcs, loncs, lonmin, lonmax, latmin, latmax, dmin = 0, dmax = 300, cmap = cmo.dense, vr = [23,27,5], rt = 10, vsr = [-1., 1., 21], viint=5, vjint=5, vkint=5, units = 'width', scale = None, scale_units = None, angles = 'uv', rto = 1.11e5, arrow_length_ratio=.3, cstrm = False, nstrm = 21, vrstrm=[-0.4,0.4, 21], title = '', fontsize=20):
+# def sfccs_cnt_3d(pngfile, lon, lat, depth, var, vsfc, vvct, latcs, loncs, lonmin, lonmax, latmin, latmax, dmin = 0, dmax = 300, cmap = cmo.dense, vr = [23,27,5], rt = 10, vsr = [-1., 1., 21], viint=5, vjint=5, vkint=5, units = 'width', scale = None, scale_units = None, angles = 'uv', rto = 1.11e5, arrow_length_ratio=.3, cstrm = False, nstrm = 21, vrstrm=[-0.4,0.4, 21], title = '', fontsize=20):
 
-    R0 = 6.375e6 
-    imin = np.maximum(np.argmin(np.abs(lon-lonmin))-2, 0); imax = np.minimum(np.argmin(np.abs(lon-lonmax)) + 2, np.size(lon))
-    jmin = np.maximum(np.argmin(np.abs(lat-latmin))-2, 0); jmax = np.minimum(np.argmin(np.abs(lat-latmax)) + 2, np.size(lat))
-    kmin = np.maximum(np.argmin(np.abs(depth-dmin))-1, 0); kmax = np.minimum(np.argmin(np.abs(depth-dmax)) + 2, np.size(depth))    
+#     R0 = 6.375e6 
+#     imin = np.maximum(np.argmin(np.abs(lon-lonmin))-2, 0); imax = np.minimum(np.argmin(np.abs(lon-lonmax)) + 2, np.size(lon))
+#     jmin = np.maximum(np.argmin(np.abs(lat-latmin))-2, 0); jmax = np.minimum(np.argmin(np.abs(lat-latmax)) + 2, np.size(lat))
+#     kmin = np.maximum(np.argmin(np.abs(depth-dmin))-1, 0); kmax = np.minimum(np.argmin(np.abs(depth-dmax)) + 2, np.size(depth))    
     
-    plt.rcParams['font.size'] = fontsize
+#     plt.rcParams['font.size'] = fontsize
     
-    fig = plt.figure(figsize = (11, 8))    
-    ax = fig.add_subplot(111, projection="3d")
+#     fig = plt.figure(figsize = (11, 8))    
+#     ax = fig.add_subplot(111, projection="3d")
 
-    ax.set_xlim(lonmin,lonmax)
-    ax.set_ylim(latmin,latmax)
-    ax.set_zlim(dmax,dmin)  
+#     ax.set_xlim(lonmin,lonmax)
+#     ax.set_ylim(latmin,latmax)
+#     ax.set_zlim(dmax,dmin)  
 
-    nms = 1 + np.size(latcs) + np.size(loncs)
-    for nm in range(nms):
-        if nm == 0:                          
-            X, Y = np.meshgrid(lon[imin:imax], lat[jmin:jmax])
-            Z = var[0,jmin:jmax,imin:imax]
-            Z[Z < vr[0]] = vr[0]
-            Z[Z > vr[1]] = vr[1]            
-            vsf = vsfc[jmin:jmax,imin:imax]
-            zdir = 'z'
-            offset = dmin            
-        elif nm < 1+np.size(latcs):
-            X, Z = np.meshgrid(lon[imin:imax], depth[kmin:kmax])
-            offset = latcs[nm-1]                        
-            Xv = X.copy(); Yv = offset*np.ones_like(X); Zv = Z.copy()
-            jc = np.argmin(np.abs(lat-offset))
-            Y = var[kmin:kmax,jc,imin:imax]
-            Y[Y < vr[0]] = vr[0]
-            Y[Y > vr[1]] = vr[1]                        
-            if cstrm:
-                vstr = vec2strm_func(vvct[0][kmin:kmax,jc,imin:imax], vvct[2][kmin:kmax,jc,imin:imax], R0 * np.deg2rad(lon[imin:imax]-lon[imin]) * np.cos(np.deg2rad(offset)), depth, dy0 = 1)
-                Xs = X.copy(); Ys = vstr.copy()
+#     nms = 1 + np.size(latcs) + np.size(loncs)
+#     for nm in range(nms):
+#         if nm == 0:                          
+#             X, Y = np.meshgrid(lon[imin:imax], lat[jmin:jmax])
+#             Z = var[0,jmin:jmax,imin:imax]
+#             Z[Z < vr[0]] = vr[0]
+#             Z[Z > vr[1]] = vr[1]            
+#             vsf = vsfc[jmin:jmax,imin:imax]
+#             zdir = 'z'
+#             offset = dmin            
+#         elif nm < 1+np.size(latcs):
+#             X, Z = np.meshgrid(lon[imin:imax], depth[kmin:kmax])
+#             offset = latcs[nm-1]                        
+#             Xv = X.copy(); Yv = offset*np.ones_like(X); Zv = Z.copy()
+#             jc = np.argmin(np.abs(lat-offset))
+#             Y = var[kmin:kmax,jc,imin:imax]
+#             Y[Y < vr[0]] = vr[0]
+#             Y[Y > vr[1]] = vr[1]                        
+#             if cstrm:
+#                 vstr = vec2strm_func(vvct[0][kmin:kmax,jc,imin:imax], vvct[2][kmin:kmax,jc,imin:imax], R0 * np.deg2rad(lon[imin:imax]-lon[imin]) * np.cos(np.deg2rad(offset)), depth, dy0 = 1)
+#                 Xs = X.copy(); Ys = vstr.copy()
                 
-            vvf = vvct[:,kmin:kmax,jc,imin:imax].copy()
-            m2d = rto * np.cos(np.deg2rad(latcs[nm-1]))
-            vvf[2] = m2d * vvf[2].copy()
-            vvf[1] = 0.
-            hmin = imin; hmax = imax; hint = viint
-            zdir = 'y'
-        else:
-            Y, Z = np.meshgrid(lat[jmin:jmax], depth[kmin:kmax])
-            offset = loncs[nm-np.size(latcs)-1]            
-            Xv = offset*np.ones_like(X); Yv = Y.copy(); Zv = Z.copy()
-            ic = np.argmin(np.abs(lon-offset))
-            X = var[kmin:kmax,jmin:jmax,ic]
-            X[X < vr[0]] = vr[0]
-            X[X > vr[1]] = vr[1]
+#             vvf = vvct[:,kmin:kmax,jc,imin:imax].copy()
+#             m2d = rto * np.cos(np.deg2rad(latcs[nm-1]))
+#             vvf[2] = m2d * vvf[2].copy()
+#             vvf[1] = 0.
+#             hmin = imin; hmax = imax; hint = viint
+#             zdir = 'y'
+#         else:
+#             Y, Z = np.meshgrid(lat[jmin:jmax], depth[kmin:kmax])
+#             offset = loncs[nm-np.size(latcs)-1]            
+#             Xv = offset*np.ones_like(X); Yv = Y.copy(); Zv = Z.copy()
+#             ic = np.argmin(np.abs(lon-offset))
+#             X = var[kmin:kmax,jmin:jmax,ic]
+#             X[X < vr[0]] = vr[0]
+#             X[X > vr[1]] = vr[1]
             
-            if cstrm:
-                vstr = vec2strm_func(vvct[1][kmin:kmax,jmin:jmax,ic], vvct[2][kmin:kmax,jmin:jmax,ic], R0 * np.deg2rad(lat[imin:imax]-lat[imin]), depth, dy0 = 1)
-                Xs = vstr.copy(); Ys = Y.copy()
+#             if cstrm:
+#                 vstr = vec2strm_func(vvct[1][kmin:kmax,jmin:jmax,ic], vvct[2][kmin:kmax,jmin:jmax,ic], R0 * np.deg2rad(lat[imin:imax]-lat[imin]), depth, dy0 = 1)
+#                 Xs = vstr.copy(); Ys = Y.copy()
                 
-            vvf = vvct[:,kmin:kmax,jmin:jmax,ic].copy()
-            m2d = rto
-            vvf[2] = m2d * vvf[2].copy()
-            vvf[0] = 0.    
-            vhint = vjint
-            hmin = jmin; hmax = jmax; hint = vjint
-            zdir = 'x'
+#             vvf = vvct[:,kmin:kmax,jmin:jmax,ic].copy()
+#             m2d = rto
+#             vvf[2] = m2d * vvf[2].copy()
+#             vvf[0] = 0.    
+#             vhint = vjint
+#             hmin = jmin; hmax = jmax; hint = vjint
+#             zdir = 'x'
 
-        image = ax.contourf(X, Y, Z, np.linspace(vr[0], vr[1], (vr[2]-1)*rt+1), cmap = cmap, zdir = zdir, offset = offset)        
+#         image = ax.contourf(X, Y, Z, np.linspace(vr[0], vr[1], (vr[2]-1)*rt+1), cmap = cmap, zdir = zdir, offset = offset)        
                    
-        if nm == 0:
-            vsf[vsf<vsr[0]] = vsr[0]
-            vsf[vsf>vsr[1]] = vsr[1]                        
-            imsfc = ax.contour(X, Y, vsf, np.linspace(vsr[0], vsr[1], vsr[2]), colors = 'k', zdir = zdir, offset = offset)
+#         if nm == 0:
+#             vsf[vsf<vsr[0]] = vsr[0]
+#             vsf[vsf>vsr[1]] = vsr[1]                        
+#             imsfc = ax.contour(X, Y, vsf, np.linspace(vsr[0], vsr[1], vsr[2]), colors = 'k', zdir = zdir, offset = offset)
 
-        else:
-            if cstrm:                
-                imsfc = ax.contour(Xs, Ys, Z, vrstrm[2], vmin=vrstrm[0], vmax = vrstrm[1], colors = 'k', zdir = zdir, offset = offset)                
+#         else:
+#             if cstrm:                
+#                 imsfc = ax.contour(Xs, Ys, Z, vrstrm[2], vmin=vrstrm[0], vmax = vrstrm[1], colors = 'k', zdir = zdir, offset = offset)                
 
-            else:                
-                for k in range(kmin, kmax, vkint):
-                    for h in range(hmin,hmax, hint):
-                        ax.quiver(Xv[k,h], Yv[k,h], Zv[k,h], vvf[0][k,h], vvf[1][k,h], vvf[2][k,h], length = scale, colors = 'k', arrow_length_ratio=arrow_length_ratio)
+#             else:                
+#                 for k in range(kmin, kmax, vkint):
+#                     for h in range(hmin,hmax, hint):
+#                         ax.quiver(Xv[k,h], Yv[k,h], Zv[k,h], vvf[0][k,h], vvf[1][k,h], vvf[2][k,h], length = scale, colors = 'k', arrow_length_ratio=arrow_length_ratio)
                     
-    cbar = plt.colorbar(image, ax = ax, orientation = 'horizontal', ticks = np.linspace(vr[0],vr[1],vr[2]))
-    plt.title(title)
-    plt.tight_layout()
+#     cbar = plt.colorbar(image, ax = ax, orientation = 'horizontal', ticks = np.linspace(vr[0],vr[1],vr[2]))
+#     plt.title(title)
+#     plt.tight_layout()
     
-    fig.savefig(pngfile)
+#     fig.savefig(pngfile)
 
-def vec2strm_func(u, v, x, y, dx0 = -999, dy0 = -999, nt = 100):
-    im, jm = np.shape(u)
-    if dx0 == -999:
-        x0 = 0.5 * (x[:-1]+x[1:])
-        x0 = np.sort(np.r_[x,x0])
-        dx0 = x0[1]-x0[0]
-    else:
-        x0 = np.arange(np.min(x), np.max(x), dx0)
-    if dy0 == -999:
-        y0 = 0.5 * (y[:-1]+y[1:])
-        y0 = np.sort(np.r_[y,y0])
-        dy0 = y0[1]-y0[0]
-    else:
-        y0 = np.arange(np.min(y), np.max(y), dy0)
+# def vec2strm_func(u, v, x, y, dx0 = -999, dy0 = -999, nt = 100):
+#     im, jm = np.shape(u)
+#     if dx0 == -999:
+#         x0 = 0.5 * (x[:-1]+x[1:])
+#         x0 = np.sort(np.r_[x,x0])
+#         dx0 = x0[1]-x0[0]
+#     else:
+#         x0 = np.arange(np.min(x), np.max(x), dx0)
+#     if dy0 == -999:
+#         y0 = 0.5 * (y[:-1]+y[1:])
+#         y0 = np.sort(np.r_[y,y0])
+#         dy0 = y0[1]-y0[0]
+#     else:
+#         y0 = np.arange(np.min(y), np.max(y), dy0)
 
 
-    u[np.abs(u)>1.e1] = 0.
-    v[np.abs(v)>1.e1] = 0.
+#     u[np.abs(u)>1.e1] = 0.
+#     v[np.abs(v)>1.e1] = 0.
     
-    ui = interpolate.interp2d(x, y, u)(x0,y0)
-    vi = interpolate.interp2d(x, y, v)(x0,y0)    
+#     ui = interpolate.interp2d(x, y, u)(x0,y0)
+#     vi = interpolate.interp2d(x, y, v)(x0,y0)    
 
-    b = 0.5*(np.diff(vi[:-1]+vi[1:], axis=1)/dx0 - np.diff(ui[:,:-1]+ui[:,1:], axis=0)/dy0)
+#     b = 0.5*(np.diff(vi[:-1]+vi[1:], axis=1)/dx0 - np.diff(ui[:,:-1]+ui[:,1:], axis=0)/dy0)
     
-    p = np.zeros_like(b)
+#     p = np.zeros_like(b)
 
-    for it in range(nt):
-        pd = p.copy()
+#     for it in range(nt):
+#         pd = p.copy()
 
-        p[1:-1,1:-1] = (((pd[1:-1, 2:] + pd[1:-1, :-2]) * dy0**2 +
-                         (pd[2:, 1:-1] + pd[:-2, 1:-1]) * dx0**2 -
-                         b[1:-1, 1:-1] * dx0**2 * dy0**2) / 
-                        (2 * (dx0**2 + dy0**2)))        
-        p[0,:] = 0
-        p[-1,:] = 0
-        p[:,0] = 0
-        p[:,-1] = 0
+#         p[1:-1,1:-1] = (((pd[1:-1, 2:] + pd[1:-1, :-2]) * dy0**2 +
+#                          (pd[2:, 1:-1] + pd[:-2, 1:-1]) * dx0**2 -
+#                          b[1:-1, 1:-1] * dx0**2 * dy0**2) / 
+#                         (2 * (dx0**2 + dy0**2)))        
+#         p[0,:] = 0
+#         p[-1,:] = 0
+#         p[:,0] = 0
+#         p[:,-1] = 0
 
-    pout = interpolate.interp2d(0.5*(x0[:-1]+x0[1:]), 0.5*(y0[:-1]+y0[1:]), p)(x,y)    
+#     pout = interpolate.interp2d(0.5*(x0[:-1]+x0[1:]), 0.5*(y0[:-1]+y0[1:]), p)(x,y)    
 
-    pout = pout - np.mean(pout)
+#     pout = pout - np.mean(pout)
 
-    return pout
+#     return pout
 
 
-def rm1d(var0, dx0, dx):
+# def rm1d(var0, dx0, dx):
 
-    nn = int(dx/dx0)
-    var = np.convolve(var0, np.ones(nn)/nn, mode = 'valid')
+#     nn = int(dx/dx0)
+#     var = np.convolve(var0, np.ones(nn)/nn, mode = 'valid')
     
-    return var
+#     return var

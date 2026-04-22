@@ -75,35 +75,35 @@ def read_JRA55_UP_CLM(ybgn, yend, km = 37, kr = [], level = [], fbase = '/nas/pe
         return lon, lat, lev, varM
 
 
-def read_JRA55_UP2_CLM(ybgn, yend, km = 37, kr = [], level = [], fbase = '/nas/personal/usijimay/obs/WindProfile/JRA55/MONCLM/anl_p125_ugrd.'):
+# def read_JRA55_UP2_CLM(ybgn, yend, km = 37, kr = [], level = [], fbase = '/nas/personal/usijimay/obs/WindProfile/JRA55/MONCLM/anl_p125_ugrd.'):
 
-    fnamec = fbase+str(ybgn)+str(yend)
-    varname = 'ua'
-    if os.path.isfile(fnamec):
-        nc = netCDF4.Dataset(fnamec, 'r')
-        lon  = nc.variables['lon'][:]
-        lat  = nc.variables['lat'][:]
-        lev  = nc.variables['depth'][:]
-        varM = nc.variables[varname][:]
-    else:
-        if np.size(kr) == 1:
-            lon, lat, var = read_JRA55_UP(ybgn, yend, km = km, kr = kr, level = level, fbase = fbase.replace('MONCLM', 'Monthly').replace('ugrd2', 'ugrd'))
-        else:
-            lon, lat, lev, var = read_JRA55_UP(ybgn, yend, km = km, kr = kr, level = level, fbase = fbase.replace('MONCLM', 'Monthly').replace('ugrd2', 'ugrd'))
-        varM = np.mean(var**2, axis=0)
-        fdir = os.path.dirname(fnamec)
-        if os.path.isdir(fdir) == False:
-            os.makedirs(fdir)
+#     fnamec = fbase+str(ybgn)+str(yend)
+#     varname = 'ua'
+#     if os.path.isfile(fnamec):
+#         nc = netCDF4.Dataset(fnamec, 'r')
+#         lon  = nc.variables['lon'][:]
+#         lat  = nc.variables['lat'][:]
+#         lev  = nc.variables['depth'][:]
+#         varM = nc.variables[varname][:]
+#     else:
+#         if np.size(kr) == 1:
+#             lon, lat, var = read_JRA55_UP(ybgn, yend, km = km, kr = kr, level = level, fbase = fbase.replace('MONCLM', 'Monthly').replace('ugrd2', 'ugrd'))
+#         else:
+#             lon, lat, lev, var = read_JRA55_UP(ybgn, yend, km = km, kr = kr, level = level, fbase = fbase.replace('MONCLM', 'Monthly').replace('ugrd2', 'ugrd'))
+#         varM = np.mean(var**2, axis=0)
+#         fdir = os.path.dirname(fnamec)
+#         if os.path.isdir(fdir) == False:
+#             os.makedirs(fdir)
 
-        if np.size(kr) == 1:
-            ncw.write_woa1x1_3d(fnamec, np.arange(12), lon, lat, varM, varname)
-        else:
-            ncw.write_woa1x1_4d(fnamec, np.arange(12), lev, lon, lat, varM, varname)            
+#         if np.size(kr) == 1:
+#             ncw.write_woa1x1_3d(fnamec, np.arange(12), lon, lat, varM, varname)
+#         else:
+#             ncw.write_woa1x1_4d(fnamec, np.arange(12), lev, lon, lat, varM, varname)            
             
-    if np.size(kr) == 1:        
-        return lon, lat, varM
-    else:
-        return lon, lat, lev, varM
+#     if np.size(kr) == 1:        
+#         return lon, lat, varM
+#     else:
+#         return lon, lat, lev, varM
     
 
     

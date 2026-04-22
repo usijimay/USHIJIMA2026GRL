@@ -14,19 +14,17 @@ def figdir(dpi = None):
 
     return fdir
 
+# def anldir():
 
+#     fdir = '/data16/theme-C/usijimay/mrisrv/glb287/JPN/anlpy/'    
 
-def anldir():
+#     return fdir
 
-    fdir = '/data16/theme-C/usijimay/mrisrv/glb287/JPN/anlpy/'    
-
-    return fdir
-
-def libdir():
+# def libdir():
     
-    fdir = '/data16/theme-C/usijimay/mrisrv/glb287/anl_esm/anlpy/'
+#     fdir = '/data16/theme-C/usijimay/mrisrv/glb287/anl_esm/anlpy/'
 
-    return fdir    
+#     return fdir    
 
 def datadir():
     
