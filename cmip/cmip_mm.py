@@ -691,188 +691,188 @@ def read_models():
     return models    
                 
 
-def plot_ulatlev(pngfile, lev, lat, varf, varl, ncols, nrows, xr = [-90,90], yr = [1000, 0], vr = [-12, 12, 5], rt = 10, level = [], levl = np.linspace(-100, 100, 101), latl = [], latf = [], fontsize = 12, fsizex = 8, fsizey = 11, cmap = cmo.balance, extend = 'both', sngl_cbar = False, vecx = [], vecy = [], scale = 1, scale_units = 'xy', iskp = 1, jskp = 1, labels = []):
+# def plot_ulatlev(pngfile, lev, lat, varf, varl, ncols, nrows, xr = [-90,90], yr = [1000, 0], vr = [-12, 12, 5], rt = 10, level = [], levl = np.linspace(-100, 100, 101), latl = [], latf = [], fontsize = 12, fsizex = 8, fsizey = 11, cmap = cmo.balance, extend = 'both', sngl_cbar = False, vecx = [], vecy = [], scale = 1, scale_units = 'xy', iskp = 1, jskp = 1, labels = []):
 
-    nexp = np.shape(varf)[0]
-    plt.rcParams['font.size'] = fontsize
-    fig = plt.figure(figsize = (fsizex, fsizey))
-    ax = np.reshape(fig.subplots(nrows, ncols), (nrows, ncols))
+#     nexp = np.shape(varf)[0]
+#     plt.rcParams['font.size'] = fontsize
+#     fig = plt.figure(figsize = (fsizex, fsizey))
+#     ax = np.reshape(fig.subplots(nrows, ncols), (nrows, ncols))
 
-    jm = np.size(lat); km = np.size(lev)
-    if np.size(varl) == jm*km:
-        varl = np.tile(varl[np.newaxis].T, nexp).T
-    if np.size(latl) == km:
-        latl = np.tile(latl[np.newaxis].T, nexp).T
-    if np.size(latf) == km:
-        latf = np.tile(latf[np.newaxis].T, nexp).T
+#     jm = np.size(lat); km = np.size(lev)
+#     if np.size(varl) == jm*km:
+#         varl = np.tile(varl[np.newaxis].T, nexp).T
+#     if np.size(latl) == km:
+#         latl = np.tile(latl[np.newaxis].T, nexp).T
+#     if np.size(latf) == km:
+#         latf = np.tile(latf[np.newaxis].T, nexp).T
 
-    if np.size(vecx) == jm*km:
-        vecx = np.tile(vecx[np.newaxis].T, nexp).T
-    if np.size(vecy) == jm*km:
-        vecy = np.tile(vecy[np.newaxis].T, nexp).T
+#     if np.size(vecx) == jm*km:
+#         vecx = np.tile(vecx[np.newaxis].T, nexp).T
+#     if np.size(vecy) == jm*km:
+#         vecy = np.tile(vecy[np.newaxis].T, nexp).T
 
-    X, Y = np.meshgrid(lat, lev)
-    nn = -1
-    for nr in range(nrows):
-        for nc in range(ncols):
-            nn += 1            
-            if nn < nexp:
-                if np.size(vr[0]) > 1:
-                    vr0 = vr[nn]
-                else:
-                    vr0 = vr
-                if np.size(levl[0]) > 1:
-                    levl0 = levl[nn]
-                else:
-                    levl0 = levl
-                if np.size(level) == 0:
-                    level0 = np.linspace(vr0[0], vr0[1], (vr0[2]-1)*rt+1)
+#     X, Y = np.meshgrid(lat, lev)
+#     nn = -1
+#     for nr in range(nrows):
+#         for nc in range(ncols):
+#             nn += 1            
+#             if nn < nexp:
+#                 if np.size(vr[0]) > 1:
+#                     vr0 = vr[nn]
+#                 else:
+#                     vr0 = vr
+#                 if np.size(levl[0]) > 1:
+#                     levl0 = levl[nn]
+#                 else:
+#                     levl0 = levl
+#                 if np.size(level) == 0:
+#                     level0 = np.linspace(vr0[0], vr0[1], (vr0[2]-1)*rt+1)
 
-                image = ax[nr,nc].contourf(X, Y, varf[nn], level0, extend = extend, cmap = cmap)
-                if sngl_cbar == False:
-                    cbar = plt.colorbar(image, ax = ax[nr, nc], orientation = 'horizontal', ticks = np.linspace(vr0[0], vr0[1], vr0[2]))
-                ax[nr,nc].contour(X, Y, varl[nn], levl0, colors = 'k', linewidths = 0.5)
-                if np.size(latl) != 0:
-                    ax[nr,nc].plot(latl[nn], lev, 'y', linewidth = 2)                    
-                if np.size(latf) != 0:
-                    ax[nr,nc].plot(latf[nn], lev, 'g', linewidth = 2)                
+#                 image = ax[nr,nc].contourf(X, Y, varf[nn], level0, extend = extend, cmap = cmap)
+#                 if sngl_cbar == False:
+#                     cbar = plt.colorbar(image, ax = ax[nr, nc], orientation = 'horizontal', ticks = np.linspace(vr0[0], vr0[1], vr0[2]))
+#                 ax[nr,nc].contour(X, Y, varl[nn], levl0, colors = 'k', linewidths = 0.5)
+#                 if np.size(latl) != 0:
+#                     ax[nr,nc].plot(latl[nn], lev, 'y', linewidth = 2)                    
+#                 if np.size(latf) != 0:
+#                     ax[nr,nc].plot(latf[nn], lev, 'g', linewidth = 2)                
                 
-                if (np.size(vecx) != 0) *  (np.size(vecy) != 0):
-                    ax[nr,nc].quiver(X[::jskp,::iskp], Y[::jskp,::iskp], vecx[nn,::jskp,::iskp], vecy[nn,::jskp,::iskp], color = 'w', linewidths = 1, angles='xy', scale = scale, scale_units = scale_units, headwidth=5, headlength = 5, headaxislength = 1)    
+#                 if (np.size(vecx) != 0) *  (np.size(vecy) != 0):
+#                     ax[nr,nc].quiver(X[::jskp,::iskp], Y[::jskp,::iskp], vecx[nn,::jskp,::iskp], vecy[nn,::jskp,::iskp], color = 'w', linewidths = 1, angles='xy', scale = scale, scale_units = scale_units, headwidth=5, headlength = 5, headaxislength = 1)    
 
-                ax[nr,nc].set_xlim(xr[0], xr[1])
-                ax[nr,nc].set_ylim(yr[0], yr[1])
-                if np.size(xr) == 3:
-                    ax[nr,nc].set_xticks(np.linspace(xr[0], xr[1], xr[2]))
-                if np.size(yr) == 3:
-                    ax[nr,nc].set_yticks(np.linspace(yr[0], yr[1], yr[2]))
-                if np.size(labels) > nn:
-                    ax[nr,nc].set_title(labels[nn])
-            else:
-                ax[nr,nc].remove()
-    plt.tight_layout()
-    plt.savefig(pngfile)
-
-
-def plot_ulatlev_em(pngfile, models, levem, latem, varaem, varcem, ncols, nrows, xr = [-90,90], yr = [1000, 0], vr = [-12, 12, 5], rt = 10, level = [], levl = np.linspace(-100, 100, 101), latl = [], latf = [], fontsize = 12, fsizex = 8, fsizey = 16, cmap = cmo.balance, extend = 'both', cem = True, vecx = {}, vecy = [], vecx0 = [], vecy0 = [], scale = 1, scale_units = 'xy', iskp = 1, jskp = 1, vecxf0 = 4.e5/6.375e6, vecyf0 = 4.e5*1.e-2*1.e-2, vecxf = 1.e6/6.375e6, vecyf = 1.e-2*1.e6*1.e-2, vlatem = [], vlevem = []):
-
-    nexp = np.size(models)
-    model0 = 'EMS'+str(np.size(models))
-    lat0 = latem[model0]; lev0 = 1.e-2*levem[model0]
-    plt.rcParams['font.size'] = fontsize
-    fig = plt.figure(figsize = (fsizex, fsizey))
-    ax = np.reshape(fig.subplots(nrows, ncols), (nrows, ncols))
-
-    if np.size(level) == 0:
-        level = np.linspace(vr[0], vr[1], (vr[2]-1)*rt+1)
+#                 ax[nr,nc].set_xlim(xr[0], xr[1])
+#                 ax[nr,nc].set_ylim(yr[0], yr[1])
+#                 if np.size(xr) == 3:
+#                     ax[nr,nc].set_xticks(np.linspace(xr[0], xr[1], xr[2]))
+#                 if np.size(yr) == 3:
+#                     ax[nr,nc].set_yticks(np.linspace(yr[0], yr[1], yr[2]))
+#                 if np.size(labels) > nn:
+#                     ax[nr,nc].set_title(labels[nn])
+#             else:
+#                 ax[nr,nc].remove()
+#     plt.tight_layout()
+#     plt.savefig(pngfile)
 
 
-    nn = -1
-    for nr in range(nrows):
-        for nc in range(ncols):
-            nn += 1
-            if nn < nexp:
-                model = models[nn]
-                lat = latem[model]; lev = 1.e-2*levem[model]
-                X, Y = np.meshgrid(lat, lev)                
-                image = ax[nr,nc].contourf(X, Y, varcem[model]-varaem[model], level, extend = extend, cmap = cmap)
-                ax[nr,nc].contour(X, Y, varaem[model], levl, colors = 'k', linewidths = 0.5)
-                if np.size(latl) != 0:
-                    ax[nr,nc].plot(latl[model], lev, 'y', linewidth = 2)                    
-                if np.size(latf) != 0:
-                    ax[nr,nc].plot(latf[model], lev, 'g', linewidth = 2)                
+# def plot_ulatlev_em(pngfile, models, levem, latem, varaem, varcem, ncols, nrows, xr = [-90,90], yr = [1000, 0], vr = [-12, 12, 5], rt = 10, level = [], levl = np.linspace(-100, 100, 101), latl = [], latf = [], fontsize = 12, fsizex = 8, fsizey = 16, cmap = cmo.balance, extend = 'both', cem = True, vecx = {}, vecy = [], vecx0 = [], vecy0 = [], scale = 1, scale_units = 'xy', iskp = 1, jskp = 1, vecxf0 = 4.e5/6.375e6, vecyf0 = 4.e5*1.e-2*1.e-2, vecxf = 1.e6/6.375e6, vecyf = 1.e-2*1.e6*1.e-2, vlatem = [], vlevem = []):
 
-                if (np.size(vecx) != 0) *  (np.size(vecy) != 0):
-                    if (np.size(vlatem) != 0)*(np.size(vlevem) != 0):
-                        vlat = vlatem[model]
-                        vlev = 1.e-2*vlevem[model]
-                    else:
-                        vlat = lat
-                        vlev = lev
-                    X, Y = np.meshgrid(vlat, vlev)                
-                    if (np.size(vecx0) != 0) *  (np.size(vecy0) != 0):
-                        vx = vecxf*(vecx[model]-vecx0[model])/np.deg2rad(lat[1]-lat[0])
-                        vy = vecyf*(vecy[model]-vecy0[model])
-                    else:
-                        vx = vecxf0*vecx[model]/np.deg2rad(lat[1]-lat[0])
-                        vy = vecyf0*vecy[model]
+#     nexp = np.size(models)
+#     model0 = 'EMS'+str(np.size(models))
+#     lat0 = latem[model0]; lev0 = 1.e-2*levem[model0]
+#     plt.rcParams['font.size'] = fontsize
+#     fig = plt.figure(figsize = (fsizex, fsizey))
+#     ax = np.reshape(fig.subplots(nrows, ncols), (nrows, ncols))
+
+#     if np.size(level) == 0:
+#         level = np.linspace(vr[0], vr[1], (vr[2]-1)*rt+1)
+
+
+#     nn = -1
+#     for nr in range(nrows):
+#         for nc in range(ncols):
+#             nn += 1
+#             if nn < nexp:
+#                 model = models[nn]
+#                 lat = latem[model]; lev = 1.e-2*levem[model]
+#                 X, Y = np.meshgrid(lat, lev)                
+#                 image = ax[nr,nc].contourf(X, Y, varcem[model]-varaem[model], level, extend = extend, cmap = cmap)
+#                 ax[nr,nc].contour(X, Y, varaem[model], levl, colors = 'k', linewidths = 0.5)
+#                 if np.size(latl) != 0:
+#                     ax[nr,nc].plot(latl[model], lev, 'y', linewidth = 2)                    
+#                 if np.size(latf) != 0:
+#                     ax[nr,nc].plot(latf[model], lev, 'g', linewidth = 2)                
+
+#                 if (np.size(vecx) != 0) *  (np.size(vecy) != 0):
+#                     if (np.size(vlatem) != 0)*(np.size(vlevem) != 0):
+#                         vlat = vlatem[model]
+#                         vlev = 1.e-2*vlevem[model]
+#                     else:
+#                         vlat = lat
+#                         vlev = lev
+#                     X, Y = np.meshgrid(vlat, vlev)                
+#                     if (np.size(vecx0) != 0) *  (np.size(vecy0) != 0):
+#                         vx = vecxf*(vecx[model]-vecx0[model])/np.deg2rad(lat[1]-lat[0])
+#                         vy = vecyf*(vecy[model]-vecy0[model])
+#                     else:
+#                         vx = vecxf0*vecx[model]/np.deg2rad(lat[1]-lat[0])
+#                         vy = vecyf0*vecy[model]
                     
 
-                    ax[nr,nc].quiver(X[::jskp,::iskp], Y[::jskp,::iskp], vx[::jskp,::iskp], vy[::jskp,::iskp], color = 'blue', linewidths = 1, angles='xy', scale = scale, scale_units = scale_units, headwidth=5, headlength = 5, headaxislength = 1)    
+#                     ax[nr,nc].quiver(X[::jskp,::iskp], Y[::jskp,::iskp], vx[::jskp,::iskp], vy[::jskp,::iskp], color = 'blue', linewidths = 1, angles='xy', scale = scale, scale_units = scale_units, headwidth=5, headlength = 5, headaxislength = 1)    
 
-                ax[nr,nc].set_xlim(xr[0], xr[1])
-                ax[nr,nc].set_ylim(yr[0], yr[1])
-                if np.size(xr) == 3:
-                    ax[nr,nc].set_xticks(np.linspace(xr[0], xr[1], xr[2]))
-                if np.size(yr) == 3:
-                    ax[nr,nc].set_yticks(np.linspace(yr[0], yr[1], yr[2]))
-                ax[nr,nc].set_title(model)
-                if nn == 0:
-                    varaMM = intp2D(lat, lev, varaem[model], lat0, lev0)/nexp
-                    varcMM = intp2D(lat, lev, varcem[model], lat0, lev0)/nexp
-                    if (np.size(vecx) != 0) *  (np.size(vecy) != 0):
-                        vxMM = intp2D(vlat, vlev, vx, lat0, lev0)/nexp
-                        vyMM = intp2D(vlat, vlev, vy, lat0, lev0)/nexp
-                    if np.size(latl) != 0:
-                        latlMM = latl[model]/nexp
-                    if np.size(latf) != 0:
-                        latfMM = latf[model]/nexp
-                else:
-                    varaMM = varaMM + intp2D(lat, lev, varaem[model], lat0, lev0)/nexp
-                    varcMM = varcMM + intp2D(lat, lev, varcem[model], lat0, lev0)/nexp
-                    if (np.size(vecx) != 0) *  (np.size(vecy) != 0):
-                        vxMM = vxMM + intp2D(vlat, vlev, vx, lat0, lev0)/nexp
-                        vyMM = vyMM + intp2D(vlat, vlev, vy, lat0, lev0)/nexp
-                    if np.size(latl) != 0:
-                        latlMM = latlMM + latl[model]/nexp
-                    if np.size(latf) != 0:
-                        latfMM = latfMM + latf[model]/nexp
+#                 ax[nr,nc].set_xlim(xr[0], xr[1])
+#                 ax[nr,nc].set_ylim(yr[0], yr[1])
+#                 if np.size(xr) == 3:
+#                     ax[nr,nc].set_xticks(np.linspace(xr[0], xr[1], xr[2]))
+#                 if np.size(yr) == 3:
+#                     ax[nr,nc].set_yticks(np.linspace(yr[0], yr[1], yr[2]))
+#                 ax[nr,nc].set_title(model)
+#                 if nn == 0:
+#                     varaMM = intp2D(lat, lev, varaem[model], lat0, lev0)/nexp
+#                     varcMM = intp2D(lat, lev, varcem[model], lat0, lev0)/nexp
+#                     if (np.size(vecx) != 0) *  (np.size(vecy) != 0):
+#                         vxMM = intp2D(vlat, vlev, vx, lat0, lev0)/nexp
+#                         vyMM = intp2D(vlat, vlev, vy, lat0, lev0)/nexp
+#                     if np.size(latl) != 0:
+#                         latlMM = latl[model]/nexp
+#                     if np.size(latf) != 0:
+#                         latfMM = latf[model]/nexp
+#                 else:
+#                     varaMM = varaMM + intp2D(lat, lev, varaem[model], lat0, lev0)/nexp
+#                     varcMM = varcMM + intp2D(lat, lev, varcem[model], lat0, lev0)/nexp
+#                     if (np.size(vecx) != 0) *  (np.size(vecy) != 0):
+#                         vxMM = vxMM + intp2D(vlat, vlev, vx, lat0, lev0)/nexp
+#                         vyMM = vyMM + intp2D(vlat, vlev, vy, lat0, lev0)/nexp
+#                     if np.size(latl) != 0:
+#                         latlMM = latlMM + latl[model]/nexp
+#                     if np.size(latf) != 0:
+#                         latfMM = latfMM + latf[model]/nexp
 
-                if nc == 0:
-                    if nr == nrows-1:
-                        ax[nr,nc].tick_params(labelbottom=True, labelleft=True)
-                    else:
-                        ax[nr,nc].tick_params(labelbottom=False, labelleft=True)
-                else:
-                    if nr == nrows-1:
-                        ax[nr,nc].tick_params(labelbottom=True, labelleft=False)
-                    elif (nr == nrows-2)*(nc > nexp - (nrows-1)*ncols):
-                        ax[nr,nc].tick_params(labelbottom=True, labelleft=False)
-                    else:
-                        ax[nr,nc].tick_params(labelbottom=False, labelleft=False)
-            elif nn == nexp:
-                model = model0
-                lat = latem[model]; lev = 1.e-2*levem[model]
+#                 if nc == 0:
+#                     if nr == nrows-1:
+#                         ax[nr,nc].tick_params(labelbottom=True, labelleft=True)
+#                     else:
+#                         ax[nr,nc].tick_params(labelbottom=False, labelleft=True)
+#                 else:
+#                     if nr == nrows-1:
+#                         ax[nr,nc].tick_params(labelbottom=True, labelleft=False)
+#                     elif (nr == nrows-2)*(nc > nexp - (nrows-1)*ncols):
+#                         ax[nr,nc].tick_params(labelbottom=True, labelleft=False)
+#                     else:
+#                         ax[nr,nc].tick_params(labelbottom=False, labelleft=False)
+#             elif nn == nexp:
+#                 model = model0
+#                 lat = latem[model]; lev = 1.e-2*levem[model]
                 
-                X, Y = np.meshgrid(lat, lev)                
-                image = ax[nr,nc].contourf(X, Y, varcMM-varaMM, level, extend = extend, cmap = cmap)
-                ax[nr,nc].contour(X, Y, varaMM, levl, colors = 'k', linewidths = 0.5)
-                if np.size(latl) != 0:
-                    ax[nr,nc].plot(latlMM, lev, 'y', linewidth = 2)                    
-                if np.size(latf) != 0:
-                    ax[nr,nc].plot(latfMM, lev, 'g', linewidth = 2)                
-                if (np.size(vecx) != 0) *  (np.size(vecy) != 0):
-                    ax[nr,nc].quiver(X[::jskp,::iskp], Y[::jskp,::iskp], vxMM[::jskp,::iskp], vyMM[::jskp,::iskp], color = 'blue', linewidths = 1, angles='xy', scale = scale, scale_units = scale_units, headwidth=5, headlength = 5, headaxislength = 1)    
+#                 X, Y = np.meshgrid(lat, lev)                
+#                 image = ax[nr,nc].contourf(X, Y, varcMM-varaMM, level, extend = extend, cmap = cmap)
+#                 ax[nr,nc].contour(X, Y, varaMM, levl, colors = 'k', linewidths = 0.5)
+#                 if np.size(latl) != 0:
+#                     ax[nr,nc].plot(latlMM, lev, 'y', linewidth = 2)                    
+#                 if np.size(latf) != 0:
+#                     ax[nr,nc].plot(latfMM, lev, 'g', linewidth = 2)                
+#                 if (np.size(vecx) != 0) *  (np.size(vecy) != 0):
+#                     ax[nr,nc].quiver(X[::jskp,::iskp], Y[::jskp,::iskp], vxMM[::jskp,::iskp], vyMM[::jskp,::iskp], color = 'blue', linewidths = 1, angles='xy', scale = scale, scale_units = scale_units, headwidth=5, headlength = 5, headaxislength = 1)    
 
 
-                ax[nr,nc].set_xlim(xr[0], xr[1])
-                ax[nr,nc].set_ylim(yr[0], yr[1])
-                if np.size(xr) == 3:
-                    ax[nr,nc].set_xticks(np.linspace(xr[0], xr[1], xr[2]))
-                if np.size(yr) == 3:
-                    ax[nr,nc].set_yticks(np.linspace(yr[0], yr[1], yr[2]))
+#                 ax[nr,nc].set_xlim(xr[0], xr[1])
+#                 ax[nr,nc].set_ylim(yr[0], yr[1])
+#                 if np.size(xr) == 3:
+#                     ax[nr,nc].set_xticks(np.linspace(xr[0], xr[1], xr[2]))
+#                 if np.size(yr) == 3:
+#                     ax[nr,nc].set_yticks(np.linspace(yr[0], yr[1], yr[2]))
 
-                ax[nr,nc].set_title(model)
-                if nc == 0:
-                    ax[nr,nc].tick_params(labelbottom=True, labelleft=True)
-                else:
-                    ax[nr,nc].tick_params(labelbottom=True, labelleft=False)
-            else:
-                ax[nr,nc].remove()
+#                 ax[nr,nc].set_title(model)
+#                 if nc == 0:
+#                     ax[nr,nc].tick_params(labelbottom=True, labelleft=True)
+#                 else:
+#                     ax[nr,nc].tick_params(labelbottom=True, labelleft=False)
+#             else:
+#                 ax[nr,nc].remove()
 
 
-    plt.tight_layout()
-    plt.savefig(pngfile)
+#     plt.tight_layout()
+#     plt.savefig(pngfile)
 
 def ReadData2dClim(varname, model, expid, ybgn, yend, regrid = False, dirbase = '/data16/theme-C/usijimay'):    
     
@@ -939,23 +939,23 @@ def ReadData3dClim(varname, model, expid, ybgn, yend, regrid = False, dirbase = 
 
     return lon, lat, lev, varM
 
-def ReadData3d(varname, model, expid, ybgn, yend, regrid = False, dirbase = '/data16/theme-C/usijimay'):
+# def ReadData3d(varname, model, expid, ybgn, yend, regrid = False, dirbase = '/data16/theme-C/usijimay'):
     
-    TID = cd.TableID(varname)
-    if regrid:
-        if TID[0] == 'A':
-            grdname = '250deg-144x73'
-        else:
-            grdname = '100deg-360x180'
-        fnameins = cd.datafiles(varname, model, expid, ybgn = ybgn, yend = yend, regrid = regrid, dirbase = '/Public/CMIPs/regrid/CMIP6/'+grdname+'/')
-    else:
-        fnameins = cd.datafiles(varname, model, expid, ybgn = ybgn, yend = yend, regrid = regrid, dirbase = '/Public/CMIPs/CMIP6/')
+#     TID = cd.TableID(varname)
+#     if regrid:
+#         if TID[0] == 'A':
+#             grdname = '250deg-144x73'
+#         else:
+#             grdname = '100deg-360x180'
+#         fnameins = cd.datafiles(varname, model, expid, ybgn = ybgn, yend = yend, regrid = regrid, dirbase = '/Public/CMIPs/regrid/CMIP6/'+grdname+'/')
+#     else:
+#         fnameins = cd.datafiles(varname, model, expid, ybgn = ybgn, yend = yend, regrid = regrid, dirbase = '/Public/CMIPs/CMIP6/')
 
-    lon, lat, lev, time, var = cd.ReadData3d(fnameins, varname, ybgn, yend)
-    im = np.size(lon); jm = np.size(lat); km = np.size(lev)
-    var = var.reshape(-1,12,km,jm,im)        
+#     lon, lat, lev, time, var = cd.ReadData3d(fnameins, varname, ybgn, yend)
+#     im = np.size(lon); jm = np.size(lat); km = np.size(lev)
+#     var = var.reshape(-1,12,km,jm,im)        
 
-    return lon, lat, lev, var
+#     return lon, lat, lev, var
 
 
 def ReadData2dMMClim(varname, models, expid, ybgn, yend, regrid = False, dirbase = '/data16/theme-C/usijimay', lon = [], lat = []):    
@@ -1116,69 +1116,69 @@ def am(var, axis=0):
 
     return varann
 
-def am0(var, nn, axis=0):
+# def am0(var, nn, axis=0):
 
-    if np.size(var) == 0:
-        varann = var
-    else:
-        day = np.array(calendar.mdays[1:])        
-        varann = np.average(var, weights = day, axis=axis)
+#     if np.size(var) == 0:
+#         varann = var
+#     else:
+#         day = np.array(calendar.mdays[1:])        
+#         varann = np.average(var, weights = day, axis=axis)
 
-    return varann
+#     return varann
 
 
-def sm(var, axis=0, nr=1):
+# def sm(var, axis=0, nr=1):
 
-    if np.size(var) == 0:
-        varsm = np.tile(var, 4)
-    else:
-        day = np.roll(np.array(calendar.mdays[1:]), nr).reshape(4,3)
-        for n in range(axis):
-            day = day[np.newaxis]
-        shape = np.array(np.shape(var)).astype(int)
-        varsm = np.roll(var, nr, axis=axis).reshape(np.r_[shape[:axis],4,3,shape[axis+1:]])
-        varsm = (np.sum(varsm.T * day.T, axis=-2-axis)/np.sum(day.T, axis=-2-axis)).T
+#     if np.size(var) == 0:
+#         varsm = np.tile(var, 4)
+#     else:
+#         day = np.roll(np.array(calendar.mdays[1:]), nr).reshape(4,3)
+#         for n in range(axis):
+#             day = day[np.newaxis]
+#         shape = np.array(np.shape(var)).astype(int)
+#         varsm = np.roll(var, nr, axis=axis).reshape(np.r_[shape[:axis],4,3,shape[axis+1:]])
+#         varsm = (np.sum(varsm.T * day.T, axis=-2-axis)/np.sum(day.T, axis=-2-axis)).T
         
-    return varsm
+#     return varsm
 
-def sm0(var, nn, axis=0, nr=1):
+# def sm0(var, nn, axis=0, nr=1):
 
-    if np.size(var) == 0:
-        varsm0 = var
-    else:
-        day = np.roll(np.array(calendar.mdays[1:]), nr).reshape(4,3)
-        for n in range(axis):
-            day = day[np.newaxis]
-        shape = np.array(np.shape(var)).astype(int)
-        varsm = np.roll(var, nr, axis=axis).reshape(np.r_[shape[:axis],4,3,shape[axis+1:]])
-        varsm = (np.sum(varsm.T * day.T, axis=-2-axis)/np.sum(day.T, axis=-2-axis)).T
-        if axis==0:
-            varsm0 = varsm[nn]
-        elif axis==1:
-            varsm0 = varsm[:,nn]
-        elif axis==2:
-            varsm0 = varsm[:,:,nn]
-        elif axis==3:
-            varsm0 = varsm[:,:,:,nn]
-        elif axis==4:
-            varsm0 = varsm[:,:,:,:,nn]                        
+#     if np.size(var) == 0:
+#         varsm0 = var
+#     else:
+#         day = np.roll(np.array(calendar.mdays[1:]), nr).reshape(4,3)
+#         for n in range(axis):
+#             day = day[np.newaxis]
+#         shape = np.array(np.shape(var)).astype(int)
+#         varsm = np.roll(var, nr, axis=axis).reshape(np.r_[shape[:axis],4,3,shape[axis+1:]])
+#         varsm = (np.sum(varsm.T * day.T, axis=-2-axis)/np.sum(day.T, axis=-2-axis)).T
+#         if axis==0:
+#             varsm0 = varsm[nn]
+#         elif axis==1:
+#             varsm0 = varsm[:,nn]
+#         elif axis==2:
+#             varsm0 = varsm[:,:,nn]
+#         elif axis==3:
+#             varsm0 = varsm[:,:,:,nn]
+#         elif axis==4:
+#             varsm0 = varsm[:,:,:,:,nn]                        
         
-    return varsm0
+#     return varsm0
 
-def omsk(varM, msk):
+# def omsk(varM, msk):
 
-    if np.size(msk) > 0:
-        if type(varM) is np.ma.MaskedArray:    
-            msk0 = 1-varM.mask.astype(float)
-        else:
-            msk0 = 1-np.isnan(varM).astype(float)
-        if np.shape(msk0) == np.shape(varM):
-            varM = varM.data * msk0 * msk - 9.99e33 * (1- msk0 * msk)
-        else:
-            varM = varM.data * msk - 9.99e33 * (1-msk)
+#     if np.size(msk) > 0:
+#         if type(varM) is np.ma.MaskedArray:    
+#             msk0 = 1-varM.mask.astype(float)
+#         else:
+#             msk0 = 1-np.isnan(varM).astype(float)
+#         if np.shape(msk0) == np.shape(varM):
+#             varM = varM.data * msk0 * msk - 9.99e33 * (1- msk0 * msk)
+#         else:
+#             varM = varM.data * msk - 9.99e33 * (1-msk)
 
-        varM = np.ma.masked_array(varM, mask = (varM<-9.99e31), fill_value = -9.99e33)
+#         varM = np.ma.masked_array(varM, mask = (varM<-9.99e31), fill_value = -9.99e33)
 
-    return varM
+#     return varM
 
 
