@@ -573,7 +573,7 @@ def plot_ulatlev(pngfile, lev, lat, varf, varl, ncols, nrows, xr = [-90,90], yr 
 
 #     return lon, lat, var0M, varM
 
-    
+
 def read_amip3D(expid0, expids, fbase, varname, ybgn, yend, msk = []):
 
     nexps = np.size(expids)
