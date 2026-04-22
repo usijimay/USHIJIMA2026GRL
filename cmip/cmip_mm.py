@@ -82,15 +82,16 @@ def read_data3D(varname, expid, ybgn, yend, models = None, cann = True):
         model = models[nmdl]
         print(model)
         if varname == 'tos':
-            lon, lat, varM = ReadData2d(varname, model, expid, ybgn, yend, regrid = True)
+            lon, lat, varM = ReadData2dClim(varname, model, expid, ybgn, yend, regrid = True)
+            lev = np.array([])
         else:
-            lon, lat, lev, varM = ReadData3d(varname, model, expid, ybgn, yend, regrid = False)            
+            lon, lat, lev, varM = ReadData3dClim(varname, model, expid, ybgn, yend, regrid = False)            
         
         lonem[model] = lon
         latem[model] = lat
         levem[model] = lev
         if cann:
-            varsem[model] = am(varM, axis=1)
+            varsem[model] = am(varM, axis=0)
         else:
             varsem[model] = varM             
 
