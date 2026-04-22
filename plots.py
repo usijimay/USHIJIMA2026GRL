@@ -591,7 +591,8 @@ def read_amip3D(expid0, expids, fbase, varname, ybgn, yend, msk = []):
     var0M = omsk(var0M, msk)    
 
     return lon, lat, lev, var0M, varM
-    
+
+
 def omsk(varM, msk):
 
     if np.size(msk) > 0:
@@ -622,88 +623,6 @@ def am(var, axis=0):
 
     return varann
 
-# def am0(var, ns, axis=0):
-
-#     if np.size(var) == 0:
-#         varann = var
-#     else:
-#         day = np.array(calendar.mdays[1:])        
-#         varann = np.average(var, weights = day, axis=axis)
-
-#     return varann
-
-# def sm(var, axis=0, nr=1):
-
-#     if np.size(var) == 0:
-#         varsm = np.tile(var, 4)
-#     else:
-#         day = np.roll(np.array(calendar.mdays[1:]), nr).reshape(4,3)
-#         for n in range(axis):
-#             day = day[np.newaxis]
-#         shape = np.array(np.shape(var)).astype(int)
-#         varsm = np.roll(var, nr, axis=axis).reshape(np.r_[shape[:axis],4,3,shape[axis+1:]])
-#         varsm = (np.sum(varsm.T * day.T, axis=-2-axis)/np.sum(day.T, axis=-2-axis)).T
-        
-#     return varsm
-
-# def sm0(var, nn, axis=0, nr=1):
-
-#     if np.size(var) == 0:
-#         varsm0 = var
-#     else:
-#         day = np.roll(np.array(calendar.mdays[1:]), nr).reshape(4,3)
-#         for n in range(axis):
-#             day = day[np.newaxis]
-#         shape = np.array(np.shape(var)).astype(int)
-#         varsm = np.roll(var, nr, axis=axis).reshape(np.r_[shape[:axis],4,3,shape[axis+1:]])
-#         varsm = (np.sum(varsm.T * day.T, axis=-2-axis)/np.sum(day.T, axis=-2-axis)).T
-#         if axis==0:
-#             varsm0 = varsm[nn]
-#         elif axis==1:
-#             varsm0 = varsm[:,nn]
-#         elif axis==2:
-#             varsm0 = varsm[:,:,nn]
-#         elif axis==3:
-#             varsm0 = varsm[:,:,:,nn]
-#         elif axis==4:
-#             varsm0 = varsm[:,:,:,:,nn]                        
-        
-#     return varsm0
-
-
-# def djfm(var, axis=0, nr=1):
-
-#     if np.size(var) == 0:
-#         vdjf = var
-#     else:
-#         nshps = np.arange(np.size(np.shape(var)), dtype = int)    
-#         vdjf = sm(var, axis=axis).transpose(np.r_[axis, nshps[:axis], nshps[1+axis:]])[0]
-
-#     return vdjf
-
-
-# def polyfit2d(x, var, axis=-1):
-#     shape = np.shape(var)
-#     if axis == -1:
-#         var = var.reshape(np.r_[-1, shape[axis]])        
-#         nn = np.prod(shape[:axis]).astype(int)
-#         if nn > 1:
-#             a = np.zeros(nn)
-#             b = np.zeros(nn)
-#             c = np.zeros(nn)            
-#         for n in range(np.shape(var)[0]):
-#             a0, b0, c0 = np.polyfit(x, var[n], 2)
-#             if nn > 1:
-#                 a[n] = a0
-#                 b[n] = -0.5*b0/a0
-#                 c[n] = c0 - 0.25*b0*b0/a0
-#             else:
-#                 a = a0
-#                 b = -0.5*b0/a0
-#                 c = c0 - 0.25*b0*b0/a0
-#                 
-#     return a, b, c
-            
 
 def read_sst(expid0, expids, ybgn, yend, msk = []):
 
