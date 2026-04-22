@@ -18,7 +18,7 @@ import matplotlib.ticker as mticker
 import matplotlib.path as mpath
 from mpl_toolkits.mplot3d import Axes3D
 
-def fig1(pngfile, lon, lat, varf, varfl = [], lonr = [120, 210, 30], latr = [20, 50, 10], level = [''], vr=[-999,-999,21], rt = 10, lines = [0.], cmap = cmo.balance, vticklabel = [''], fsizex = 8, fsizey = 3.2, lwdth = 1, cntcol = 'k', dxc = 0.04, dyc = 0.08, dxax = 3., dyax = 1.2, ctght = False, fontsize = 10, unitcbr = r'[${}^\circ$C]', unitx = 1.02, unity = -3, bgc = 'w', sngl_cbar = True, dycb = 0.08, cbt = 0.025, top = 0.96, btm = 0.18, fontsizexy = 10, flabel = [], flabelc = 'k', bbox = [], tlabel = [], dyt = 0.02, clonlatedge = True, cfig2 = False, ncols = 3, dxcb = 0., cbrf4 = False, cbrf5 = False, left = 0.05, right = 0.96, dpi = None, textzo = 30, hspace = None, wspace = None): 
+def fig1(pngfile, lon, lat, varf, varfl = [], lonr = [120, 210, 30], latr = [20, 50, 10], level = [''], vr=[-999,-999,21], rt = 10, lines = [0.], cmap = cmo.balance, vticklabel = [''], fsizex = 8, fsizey = 3.2, lwdth = 1, cntcol = 'k', dxc = 0.04, dyc = 0.08, dxax = 3., dyax = 1.2, ctght = False, fontsize = 10, unitcbr = r'[${}^\circ$C]', unitx = 1.02, unity = -3, bgc = 'w', sngl_cbar = True, dycb = 0.08, cbt = 0.025, top = 0.96, btm = 0.18, fontsizexy = 10, flabel = [], flabelc = 'k', bbox = [], tlabel = [], dyt = 0.02, clonlatedge = True, cfig2 = False, ncols = 3, dxcb = 0., cbrf4 = False, cbrf5 = False, cbrfs5 = False, left = 0.05, right = 0.96, dpi = None, textzo = 30, hspace = None, wspace = None, vecx = None, vecy = None, levv = [], scale = 1, scale_units = 'xy', iskp = 1, jskp = 1, vcols = 'w', cefvxs = [], cefvys = [], lvecxs = [], lvecys = [], tvecxs = [], tvecys = []): 
 
     print(pngfile)
     R0 = 6.375e6
@@ -26,7 +26,13 @@ def fig1(pngfile, lon, lat, varf, varfl = [], lonr = [120, 210, 30], latr = [20,
     latmin, latmax, latint = latr
 
     nrows = int(np.shape(varf)[0]/ncols)
-    
+
+    if (not vecx is None)*(not vecy is None):
+        Xv, Yv = np.meshgrid(lon, lat)
+        if np.size(vcols) == 1:
+            vcols = np.tile(vcols, nrows*ncols)   
+
+            
     plt.rcParams['font.size'] = fontsize
     
     fig = plt.figure(figsize = (fsizex, fsizey))
@@ -49,10 +55,14 @@ def fig1(pngfile, lon, lat, varf, varfl = [], lonr = [120, 210, 30], latr = [20,
             if np.size(lines[0]) > 1:                    
                 ax0, image0, vtick0, vticklabel0 = mc.imcf(ax[n][m], lon, lat, varf[nm-1], vr=vr[nm-1], rt = rt, cmap = cmap)
             else:
-                ax0, image0, vtick0, vticklabel0 = mc.imcf(ax[n][m], lon, lat, varf[nm-1], vr=vr, rt = rt, cmap = cmap)
+                ax0, image0, vtick0, vticklabel0 = mc.imcf(ax[n][m], lon, lat, varf[nm-1], vr=vr, rt = rt, cmap = cmap)            
                 
             ax[n][m] = ax0
 
+            if (not vecx is None)*(not vecy is None):            
+                ax[n][m].quiver(Xv[::jskp,::iskp], Yv[::jskp,::iskp], vecx[nm-1,::jskp,::iskp], vecy[nm-1,::jskp,::iskp], color = vcols[nm-1], facecolor = vcols[nm-1], edgecolor = vcols[nm-1], linewidths = 1, angles='xy', scale = scale, scale_units = scale_units, headwidth=5, headlength = 5, headaxislength = 1, transform = ccrs.PlateCarree())
+                    
+                    
             ax[n][m].add_feature(cfeature.LAND, color = 'w')
             ax[n][m].coastlines(lw=1, color = 'grey')  
             ax[n][m] = mc.ax_setgrd(ax[n][m], xlim = [lonmin, lonmax], ylim = [latmin, latmax], lon_interval = lonint, lat_interval = latint, lw_ax = 0.25)            
@@ -115,6 +125,21 @@ def fig1(pngfile, lon, lat, varf, varfl = [], lonr = [120, 210, 30], latr = [20,
                     if np.size(vticklabels) != 1:
                         if np.size(vticklabels[0]) > 1:                        
                             cbar.ax.set_xticklabels(vticklabels[ncols*nr+nc])
+        elif cbrfs5:
+            if (nr == 0) or (nr == nrows-1):
+                for nc in range(ncols):
+                    cax0 = ax[nr,nc].get_position()
+                    cax  = fig.add_axes([cax0.x0+0.5*dxcb, cax0.y0-dycb,cax0.x1-cax0.x0-dxcb, cbt])        
+                    cbar = plt.colorbar(images[ncols*nr+nc], cax = cax, orientation = 'horizontal', ticks = vticks[ncols*nr+nc])
+                    if np.size(unitcbr) == 1:
+                        if unitcbr != '':
+                            cax.text(unitx, unity, unitcbr, transform=cax.transAxes)
+                    else:
+                        cax.text(unitx, unity, unitcbr[nc], transform=cax.transAxes)                            
+                    cbars = [cbar]
+                    if np.size(vticklabels) != 1:
+                        if np.size(vticklabels[0]) > 1:                        
+                            cbar.ax.set_xticklabels(vticklabels[ncols*nr+nc])                        
         else:
             caxl = ax[nr,0].get_position()
             caxr = ax[nr,-1].get_position()

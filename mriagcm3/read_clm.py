@@ -1,3 +1,4 @@
+import os
 import netCDF4
 
 def main(expid, fbase, varname, nd, ybgn, yend, idirbase = '/data38/theme-C/usijimay/TSE-C/AMIP/', odirbase = '/data38/theme-C/usijimay/TSE-C/AMIP/'):
@@ -17,8 +18,8 @@ def main(expid, fbase, varname, nd, ybgn, yend, idirbase = '/data38/theme-C/usij
 def ReadData3DClm(expid, fbase, varname, ybgn, yend, cann = False, dirbase = '/data38/theme-C/usijimay/TSE-C/AMIP/', dirbase0 = '/data38/theme-C/usijimay/TSE-C/AMIP/'):     
 
     fname = dirbase + expid + '/d_analy_a/'+str(ybgn)+'-'+str(yend)+'/'+fbase+str(ybgn)+'-'+str(yend)
-    # if os.path.isfile(fname) == False:
-    #     main(expid, fbase, varname, 3, ybgn, yend, idirbase = dirbase0, odirbase = dirbase)
+    if os.path.isfile(fname) == False:
+        main(expid, fbase, varname, 3, ybgn, yend, idirbase = dirbase0, odirbase = dirbase)
 
     nc = netCDF4.Dataset(fname, 'r')
     lon = nc.variables['lon'][:]
