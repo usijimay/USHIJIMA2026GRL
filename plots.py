@@ -354,8 +354,8 @@ def main(cintm = False, cerr = False, dpi = 900):
     NN0M = np.ma.concatenate([np.nan*np.ones_like(NN0M.T[:,:,:1]), NN0M.T, np.nan*np.ones_like(NN0M.T[:,:,-1:])], axis=2).T
     NNM = np.ma.concatenate([np.nan*np.ones_like(NNM.T[:,:,:1]), NNM.T, np.nan*np.ones_like(NNM.T[:,:,-1:])], axis=2).T
 
-    N0M = np.sqrt(NN0M)
-    NM  = np.sqrt(NNM)
+    N0M = np.sqrt(np.maximum(NN0M,0.))
+    NM  = np.sqrt(np.maximum(NNM,0.))
         
     dbdy0M = (9.81/pt0M.T[:,1:-1] * (pt0M.T[:,2:]-pt0M.T[:,:-2])).T/(R0*np.deg2rad(lat[2:]-lat[:-2])[:,np.newaxis])
     dbdyM = (9.81/ptM.T[:,1:-1] * (ptM.T[:,2:]-ptM.T[:,:-2])).T/(R0*np.deg2rad(lat[2:]-lat[:-2])[:,np.newaxis])    
@@ -555,30 +555,10 @@ def plot_ulatlev(pngfile, lev, lat, varf, varl, ncols, nrows, xr = [-90,90], yr 
         plt.savefig(pngfile, dpi = dpi)                
              
 
-# def read_amip2D(expid0, expids, fbase, varname, ybgn, yend, msk = []):
-
-#     nexps = np.size(expids)
-#     for nexp in range(nexps):
-#         print(expids[nexp])
-#         lon, lat, var0 = mrc.ReadData2DClm(expids[nexp], fbase, varname, ybgn, yend, dirbase = dirbase + '/TSE-C/AMIP/', dirbase0 = dirbase + '/TSE-C/AMIP/')
-#         if nexp == 0:
-#             varM = var0[np.newaxis]
-#         else:
-#             varM = np.ma.vstack((varM, var0[np.newaxis]))
-
-#     varM = omsk(varM, msk)
-
-#     lon, lat, var0M = mrc.ReadData2DClm(expid0, fbase, varname, ybgn, yend, dirbase = dirbase + '/TSE-C/AMIP/', dirbase0 = dirbase + '/TSE-C/AMIP/')
-#     var0M = omsk(var0M, msk)    
-
-#     return lon, lat, var0M, varM
-
-
 def read_amip3D(expid0, expids, fbase, varname, ybgn, yend, msk = []):
 
     nexps = np.size(expids)
     for nexp in range(nexps):
-        # print(expids[nexp])
         lon, lat, lev, var0 = mrc.ReadData3DClm(expids[nexp], fbase, varname, ybgn, yend, dirbase = dirbase + '/TSE-C/AMIP/', dirbase0 = dirbase + '/TSE-C/AMIP/')
         if nexp == 0:
             varM = var0[np.newaxis]

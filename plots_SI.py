@@ -63,60 +63,6 @@ def am(var, axis=0):
         varann = np.average(var, weights = day, axis=axis)
 
     return varann
-    
-
-# def am0(var, ns, axis=0):
-
-#     if np.size(var) == 0:
-#         varann = var
-#     else:
-#         day = np.array(calendar.mdays[1:])        
-#         varann = np.average(var, weights = day, axis=axis)
-
-#     return varann
-
-# # Unused functions - commented out
-# def plot_ulatlev(pngfile, lev, lat, varf, varl, ncols, nrows, xr = [-90,90], yr = [1000, 0], vr = [-12, 12, 5], rt = 10, level = [], levl = np.linspace(-100, 100, 101), latl = [], latf = [], fontsize = 10, fsizex = 8, fsizey = 8, cmap = cmo.balance, extend = 'both', sngl_cbar = True, vecx = [], vecy = [], levv = [], scale = 1, scale_units = 'xy', iskp = 1, jskp = 1, vcols = ['w'], unitx = 1.02, unity = -2.9, unitcbr = r'[${\rm m \ s^{-1}}$]', labels = [], bbox = dict(facecolor='white', alpha=0.7), dxc = 0.04, dyc = 0.04):
-#     pass
-
-# def read_amip2D(expid0, expids, fbase, varname, ybgn, yend, msk = []):
-#     pass
-
-# def read_amip3D(expid0, expids, fbase, varname, ybgn, yend, msk = []):
-#     pass
-    
-# def omsk(varM, msk):
-#     pass
-
-# def ZonalMean(lon, var, axis = 0, lonmin = 120, lonmax = 240):
-#     pass
-
-# def am(var, axis=0):
-#     pass
-
-# def sm(var, axis=0, nr=1):
-#     pass
-
-# def sm0(var, nn, axis=0, nr=1):
-#     pass
-
-# def djfm(var, axis=0, nr=1):
-#     pass
-
-# def polyfit2d(x, var, axis=-1):
-#     pass
-            
-# def each_plot_map(expid0, expids, lon, lat, var0M, varM, yearc, lonmin = 120, lonmax = 240, lonint = 30, latmin = 20, latmax = 60, latint = 10, varcM = []):
-#     pass
-
-# def plot_ulat(pngfile, expids, lat, vlatM, xmin = 0, xmax = 10, latmin = 20, latmax = 60, fontsize = 12, vlatoM = [], vlatcM = [], vlatV = [], vlatoV = [], vlatcV = [], vlatsM = []):
-#     pass
-
-# def plot_abcbar(pngfile, labels, abcs, fontsize = 12, abco = [], abcc = [], abcr = [], ymin = 0, ymax = 10):
-#     pass
-
-# def read_sst(expid0, expids, ybgn, yend, msk = []):
-#     pass
 
     
 main(cintm = cintm, dpi = dpi)

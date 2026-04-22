@@ -50,9 +50,6 @@ def read_input4MIPs(ybgn, yend, filename = '', varname = 'tos', dtype = 'nc', lo
 def read_nc(filename, varname = 'tos', lonname = 'lon', latname = 'lat'):
     
     nc = netCDF4.Dataset(filename, 'r')
-    # lon = nc.variables['lon'][:]
-    # lat = nc.variables['lat'][:]
-    
     lon = nc.variables[lonname][:]
     lat = nc.variables[latname][:]    
     var = nc.variables[varname][:]        
