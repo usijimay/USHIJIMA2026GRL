@@ -3,11 +3,15 @@ import numpy as np
 import sys
 import pygrib
 import netCDF4
-sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/../io_interface")
-import io_interface.nc_write as ncw
+# sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/../io_interface")
+# import io_interface.nc_write as ncw
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(BASE)
+import config.config as cf
+import io_interface.io_interface.nc_write as ncw
 
 
-def read_JRA55_UP(ybgn, yend, km = 37, kr = [], level = [], fbase = '/nas/personal/usijimay/obs/WindProfile/JRA55/Monthly/anl_p125_ugrd.'):
+def read_JRA55_UP(ybgn, yend, km = 37, kr = [], level = [], fbase = cf.datadir()+'/obs/WindProfile/JRA55/Monthly/anl_p125_ugrd.'):
     
     lon = np.arange(0,360,1.25)
     lat = np.arange(-90,91.25,1.25)
@@ -44,7 +48,7 @@ def read_JRA55_UP(ybgn, yend, km = 37, kr = [], level = [], fbase = '/nas/person
         return lon, lat, level, var
 
 
-def read_JRA55_UP_CLM(ybgn, yend, km = 37, kr = [], level = [], fbase = '/nas/personal/usijimay/obs/WindProfile/JRA55/MONCLM/anl_p125_ugrd.'):
+def read_JRA55_UP_CLM(ybgn, yend, km = 37, kr = [], level = [], fbase = cd.datadir()+'/obs/WindProfile/JRA55/MONCLM/anl_p125_ugrd.'):
 
     fnamec = fbase+str(ybgn)+str(yend)
     varname = 'ua'

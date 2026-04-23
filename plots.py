@@ -26,14 +26,15 @@ exptyp = 'region'
 areasns = ['glb', 'snp', 'exsnp', 'wnp', 'ceq', 'enp']
 expids = np.array(list(map(lambda x: 'MPE3_agcm_EMS35_annclm_'+x, areasns))).astype(object)
 
+dirbase = cf.datadir()
+
 ybgn = 1985; yend = 2014
-cintm = False
 cerr = False
 # dpi = None
 dpi = 900
-dirbase = '/data16/theme-C/usijimay'
 
-def main(cintm = False, cerr = False, dpi = 900):
+
+def main(cerr = False, dpi = 900):
     global lon, lat
     global var0, varm0, varc0
     global var, varm, varc
@@ -41,7 +42,7 @@ def main(cintm = False, cerr = False, dpi = 900):
 
     suff = '.png'        
     figdir =  cf.figdir(dpi = None)
-        
+   
     R0 = 6.375e6    
     lonmin=120; lonmax=240
 
@@ -68,7 +69,7 @@ def main(cintm = False, cerr = False, dpi = 900):
     lmxo = cmm.u1d2lpeak(ulto[ktgt0], latoa, latmin = 15, latmax = 65, mode = '')
     
     models, lmxaem, lmxcem = cmm.latupeak(ybgn, yend, lonmin = lonmin, lonmax = lonmax, level = 20000, mode = '') 
-    lono, lato, levo, uacM, uaaM, dbdycM, dbdyaM, dbdzcM, dbdzaM, egrcM, egraM = cmm.read_datas_MMM(ybgn, yend, am, cintm = cintm, dirbase = dirbase)
+    lono, lato, levo, uacM, uaaM, dbdycM, dbdyaM, dbdzcM, dbdzaM, egrcM, egraM = cmm.read_datas_MMM(ybgn, yend, am, dirbase = dirbase)
     lon, lat, lev, ua0M, uaM = read_amip3D(expid0, expids, 'hs_ua.', 'ua', ybgn, yend)    
     
     ktgt = np.where(lev == 200)[0][0]
@@ -637,6 +638,6 @@ def read_sst(expid0, expids, ybgn, yend, msk = []):
 
     return var0M, varM
 
-main(cintm = cintm, cerr = cerr, dpi = dpi)
+main(cerr = cerr, dpi = dpi)
 
 

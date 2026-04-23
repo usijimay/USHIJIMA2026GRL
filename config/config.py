@@ -1,5 +1,6 @@
+import os
+
 def figdir(dpi = None):
-    import os
 
     date = '20260422/'
     if dpi == None:
@@ -16,7 +17,8 @@ def figdir(dpi = None):
 
 
 def datadir():
-    
-    fdir = '/data16/theme-C/usijimay/mrisrv/glb050/'    
+
+    BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    fdir = os.path.dirname(BASE)+'/Data/'
 
     return fdir
