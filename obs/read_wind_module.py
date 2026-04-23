@@ -3,8 +3,6 @@ import numpy as np
 import sys
 import pygrib
 import netCDF4
-# sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/../io_interface")
-# import io_interface.nc_write as ncw
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE)
 import config.config as cf

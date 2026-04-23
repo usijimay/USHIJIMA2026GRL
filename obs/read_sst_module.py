@@ -9,7 +9,7 @@ BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE)
 import config.config as cf
 
-def read_input4MIPs(ybgn, yend, filename = '', varname = 'tos', dtype = 'nc', lonname = 'lon', latname = 'lat', cann = False, camip = False, dirbase =  cf.datadir()+'/obs/'):
+def read_input4MIPs(ybgn, yend, filename = '', varname = 'tos', dtype = 'nc', lonname = 'lon', latname = 'lat', cann = False, camip = False, dirbase =  cf.datadir()+'/obs/', cbcs = False):
     
     if camip:
         if filename == '':
@@ -41,8 +41,11 @@ def read_input4MIPs(ybgn, yend, filename = '', varname = 'tos', dtype = 'nc', lo
         
     else:    
         if filename == '':
-            filename = dirbase + '/SST/input4MIPs/tos_input4MIPs_SSTsAndSeaIce_CMIP_PCMDI-AMIP-1-1-0_gs1x1_187001-201512.nc'
-
+            if cbcs:
+                filename = dirbase + '/SST/input4MIPs/tosbcs_input4MIPs_SSTsAndSeaIce_CMIP_PCMDI-AMIP-1-1-0_gs1x1_187001-201512.nc'
+            else:
+                filename = dirbase + '/SST/input4MIPs/tos_input4MIPs_SSTsAndSeaIce_CMIP_PCMDI-AMIP-1-1-0_gs1x1_187001-201512.nc'
+                
         lon, lat, var = read_nc(filename, varname = varname, lonname = lonname, latname = latname)
         var = var[12*(ybgn-1870):12*(yend+1-1870)].reshape(-1,12,180,360)
 

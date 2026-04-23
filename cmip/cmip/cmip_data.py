@@ -3,27 +3,20 @@ import sys
 import numpy as np
 import netCDF4
 import calendar
-# import socket
-
-
 
 def datadirbase(regrid = True, mipera = 6, crpublic = False, vartyp = 'O'):
     BASE = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     sys.path.append(BASE)
     import config.config as cf    
     
-    # sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/../../machine")
-    # import varsrv
     if regrid:
         if vartyp == 'O':
             grdname = '100deg-360x180'                    
         else:
             grdname = '250deg-144x73'
 
-        # dirbase = cf.datadir()+'/CMIP/regrid/'+grdname+'_CLIM/CMIP6/'
         dirbase = cf.datadir()+'/CMIP/regrid/'+grdname+'/CMIP6/'                
     else:
-        # dirbase = cf.datadir()+'/CMIP/CMIP6/CLIM/'
         dirbase = cf.datadir()+'/CMIP/CMIP6/'        
 
     return dirbase
@@ -40,17 +33,6 @@ def modeldir(varname, model, expid, dirbase = '',  regrid = False, mipera = 6, i
     return mdir
 
     
-# def datafiles(varname, model, expid, ybgn = 1981, yend = 2000, dirbase = '',  pforcingdir = 'r1i1p', spf = False, regrid = False, prgd = 'gn', grdtyp = ' ', spg = False, showcomment = False, pexpid='historical', suff = '.nc', mipera = 6, interval = 'mon', ctop = False, nlev = -1):
-
-#     if ('ssp' in expid)*(ybgn < 2015):
-#         input_fileb = datafile(varname, model, expid, ybgn = 2015, yend = yend, dirbase = dirbase,  pforcingdir = pforcingdir, spf = spf, regrid = regrid, prgd = prgd, grdtyp = grdtyp, spg = spg, showcomment = showcomment, suff = suff, ctop = ctop, nlev = nlev)
-#         input_filea = datafile(varname, model, pexpid, ybgn = ybgn, yend = 2014, dirbase = dirbase,  pforcingdir = pforcingdir, spf = spf, regrid = regrid, prgd = prgd, grdtyp = grdtyp, spg = spg, showcomment = showcomment, suff = suff, ctop = ctop, nlev = nlev)
-#         input_file = np.r_[input_filea, input_fileb]
-#     else:
-#         input_file = datafile(varname, model, expid, ybgn = ybgn, yend = yend, dirbase = dirbase,  pforcingdir = pforcingdir, spf = spf, regrid = regrid, prgd = prgd, grdtyp = grdtyp, spg = spg, showcomment = showcomment, suff = suff, ctop = ctop, nlev = nlev)
-
-#     return input_file
-
 def datafile(varname, model, expid, ybgn = 1981, yend = 2000, dirbase = '',  pforcingdir = 'r1i1p', spf = False, regrid = False, prgd = 'gn', grdtyp = ' ', spg = False, showcomment = False, suff = '.nc', mipera = 6, interval = 'mon', ctop = False, nlev = -1):
 
     inputdir = modeldir(varname, model, expid, dirbase = dirbase, regrid = regrid, mipera = mipera, interval = interval)
@@ -147,8 +129,6 @@ def datafile(varname, model, expid, ybgn = 1981, yend = 2000, dirbase = '',  pfo
             yfend = int(inputfile[:-nsf+1][-7:-3])            
             if (ybgn <= yfend) * (yfbgn <= yend):
                 input_file = np.append(input_file, inputdir + inputfile)
-        # if str(ybgn)+'01-'+str(yend)+'12_clm.nc' in inputfile:
-        #     input_file = inputdir+inputfile
         
     if np.size(input_file) > 1:
         input_file = np.sort(input_file)

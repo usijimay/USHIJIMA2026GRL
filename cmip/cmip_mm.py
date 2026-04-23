@@ -3,16 +3,11 @@ import sys
 import calendar
 import netCDF4
 import numpy as np
-# import matplotlib.pyplot as plt
-# import cmocean.cm as cmo
 from scipy import interpolate
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE)
 import config.config as cf
 import cmip.cmip.cmip_data as cd
-# sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/../io_interface")
-# import io_interface.nc_write as ncw
-# sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/../obs")
 import obs.read_sst_module as rs
 import io_interface.io_interface.nc_write as ncw
 
@@ -169,167 +164,47 @@ def read_datas_MM(ybgn, yend, fnc, models = None, cem = False, dirbase = cf.data
         lono, lato, tosM = ReadData2dClim('tos', model, 'historical', ybgn, yend, regrid = True, dirbase = dirbase)
 
         lonu, latu, levu, uacM = ReadData3dClim('ua', model, 'historical', ybgn, yend, regrid = False, dirbase = dirbase)
-        # lonv, latv, levv, vacM = ReadData3dClim('va', model, 'historical', ybgn, yend, regrid = False, dirbase = dirbase)
-        # lonw, latw, levw, wacM = ReadData3dClim('wap', model, 'historical', ybgn, yend, regrid = False, dirbase = dirbase)
-        # lont, latt, levt, tacM = ReadData3dClim('ta', model, 'historical', ybgn, yend, regrid = False, dirbase = dirbase)
-        # lont, latt, levt, zgcM = ReadData3dClim('zg', model, 'historical', ybgn, yend, regrid = False, dirbase = dirbase)
-
         lonu, latu, levu, uaaM = ReadData3dClim('ua', model, 'amip', ybgn, yend, regrid = False, dirbase = dirbase)
-        # lonv, latv, levv, vaaM = ReadData3dClim('va', model, 'amip', ybgn, yend, regrid = False, dirbase = dirbase)
-        # lonw, latw, levw, waaM = ReadData3dClim('wap', model, 'amip', ybgn, yend, regrid = False, dirbase = dirbase)
-        # lont, latt, levt, taaM = ReadData3dClim('ta', model, 'amip', ybgn, yend, regrid = False, dirbase = dirbase)
-        # lont, latt, levt, zgaM = ReadData3dClim('zg', model, 'amip', ybgn, yend, regrid = False, dirbase = dirbase)
         
         lonuem[model] = lonu
         latuem[model] = latu
         levuem[model] = levu
-        # lonvem[model] = lonv
-        # latvem[model] = latv
-        # levvem[model] = levv
-        # lonwem[model] = lonw
-        # latwem[model] = latw
-        # levwem[model] = levw
-        # lontem[model] = lont
-        # lattem[model] = latt
-        # levtem[model] = levt
         tosMem[model] = tosM
         uacMem[model] = uacM
-        # vacMem[model] = vacM
-        # wacMem[model] = wacM
-        # tacMem[model] = tacM
-        # zgcMem[model] = zgcM
         uaaMem[model] = uaaM
-        # vaaMem[model] = vaaM
-        # waaMem[model] = waaM
-        # taaMem[model] = taaM
-        # zgaMem[model] = zgaM
 
         if cem:
             if nmdl == 0:
                 tosMM = tosM.copy()/nmdls
                 uacMM = intp3D(lonu, latu, levu, uacM, lono, lato, lev0)/nmdls
-                # vacMM = intp3D(lonv, latv, levv, vacM, lono, lato, lev0)/nmdls
-                # wacMM = intp3D(lonw, latw, levw, wacM, lono, lato, lev0)/nmdls
-                # tacMM = intp3D(lont, latt, levt, tacM, lono, lato, lev0)/nmdls
-                # zgcMM = intp3D(lont, latt, levt, zgcM, lono, lato, lev0)/nmdls
                 uaaMM = intp3D(lonu, latu, levu, uaaM, lono, lato, lev0)/nmdls
-                # vaaMM = intp3D(lonv, latv, levv, vaaM, lono, lato, lev0)/nmdls
-                # waaMM = intp3D(lonw, latw, levw, waaM, lono, lato, lev0)/nmdls
-                # taaMM = intp3D(lont, latt, levt, taaM, lono, lato, lev0)/nmdls
-                # zgaMM = intp3D(lont, latt, levt, zgaM, lono, lato, lev0)/nmdls
             else:
                 tosMM = tosMM + tosM.copy()/nmdls
                 uacMM = uacMM + intp3D(lonu, latu, levu, uacM, lono, lato, lev0)/nmdls
-                # vacMM = vacMM + intp3D(lonu, latv, levv, vacM, lono, lato, lev0)/nmdls
-                # wacMM = wacMM + intp3D(lonw, latw, levw, wacM, lono, lato, lev0)/nmdls
-                # tacMM = tacMM + intp3D(lont, latt, levt, tacM, lono, lato, lev0)/nmdls
-                # zgcMM = zgcMM + intp3D(lont, latt, levt, zgcM, lono, lato, lev0)/nmdls
                 uaaMM = uaaMM + intp3D(lonu, latu, levu, uaaM, lono, lato, lev0)/nmdls
-                # vaaMM = vaaMM + intp3D(lonv, latv, levv, vaaM, lono, lato, lev0)/nmdls
-                # waaMM = waaMM + intp3D(lonw, latw, levw, waaM, lono, lato, lev0)/nmdls
-                # taaMM = taaMM + intp3D(lont, latt, levt, taaM, lono, lato, lev0)/nmdls
-                # zgaMM = zgaMM + intp3D(lont, latt, levt, zgaM, lono, lato, lev0)/nmdls
 
     if cem:
         model = 'Multi-Model Mean'
         lonuem[model] = lono
         latuem[model] = lato
         levuem[model] = lev0
-        # lonvem[model] = lono
-        # latvem[model] = lato
-        # levvem[model] = lev0
-        # lonwem[model] = lono
-        # latwem[model] = lato
-        # levwem[model] = lev0
-        # lontem[model] = lono
-        # lattem[model] = lato
-        # levtem[model] = lev0
         tosMem[model] = tosMM
         uacMem[model] = uacMM
-        # vacMem[model] = vacMM
-        # wacMem[model] = wacMM
-        # tacMem[model] = tacMM
-        # zgcMem[model] = zgcMM
         uaaMem[model] = uaaMM
-        # vaaMem[model] = vaaMM
-        # waaMem[model] = waaMM
-        # taaMem[model] = taaMM
-        # zgaMem[model] = zgaMM            
         models = np.r_[models, [model]]
          
     toscfem = {}
     uaafem = {}
-    # vaafem = {}
-    # waafem = {}
-    # taafem = {}
-    # zgafem = {}
-    # dbdyafem = {}
-    # dbdzafem = {}
-    # egrafem = {}  
     uacfem = {}
-    # vacfem = {}
-    # wacfem = {}
-    # tacfem = {}
-    # zgcfem = {}
-    # dbdycfem = {}
-    # dbdzcfem = {}
-    # egrcfem  = {}          
     for model in models:
         toscf0 = fnc(tosMem[model])
         uacf0 = fnc(uacMem[model])
         uaaf0 = fnc(uaaMem[model])
-        # vacf0 = fnc(vacMem[model])
-        # vaaf0 = fnc(vaaMem[model])
-        # wacf0 = fnc(wacMem[model])
-        # waaf0 = fnc(waaMem[model])
-        # tacf0 = ((fnc(tacMem[model]).T * (1.e5/levtem[model])**(Rd/Cp))).T
-        # taaf0 = ((fnc(taaMem[model]).T * (1.e5/levtem[model])**(Rd/Cp))).T
-        # zgcf0 = fnc(zgcMem[model])
-        # zgaf0 = fnc(zgaMem[model])        
-            
-        # if latuem[model][0] != latvem[model][0]:
-        #     vacf0 = interpolate.interp1d(latvem[model], vacf0, kind = 'linear', axis=-2, fill_value = 'extrapolate')(np.array(latuem[model]))
-        #     vaaf0 = interpolate.interp1d(latvem[model], vaaf0, kind = 'linear', axis=-2, fill_value = 'extrapolate')(np.array(latuem[model]))
-        # if latuem[model][0] != latwem[model][0]:
-        #     wacf0 = interpolate.interp1d(latwem[model], wacf0, kind = 'linear', axis=-2, fill_value = 'extrapolate')(np.array(latuem[model]))
-        #     waaf0 = interpolate.interp1d(latwem[model], waaf0, kind = 'linear', axis=-2, fill_value = 'extrapolate')(np.array(latuem[model]))
-                
-        # dbdycf0 = (9.81/tacf0.T[:,1:-1] * (tacf0.T[:,2:]-tacf0.T[:,:-2])).T/(R0*np.deg2rad(lattem[model][2:]-lattem[model][:-2]))[:,np.newaxis]
-        # dbdycf0 = np.ma.concatenate([np.nan*np.ones_like(dbdycf0.T[:,:1]), dbdycf0.T, np.nan*np.ones_like(dbdycf0.T[:,-1:])], axis=1).T
-            
-        # dbdyaf0 = (9.81/taaf0.T[:,1:-1] * (taaf0.T[:,2:]-taaf0.T[:,:-2])).T/(R0*np.deg2rad(lattem[model][2:]-lattem[model][:-2]))[:,np.newaxis]
-        # dbdyaf0 = np.ma.concatenate([np.nan*np.ones_like(dbdyaf0.T[:,:1]), dbdyaf0.T, np.nan*np.ones_like(dbdyaf0.T[:,-1:])], axis=1).T
-                
-        # dbdzcf0 = (9.81/tacf0.T[:,:,1:-1] * (tacf0.T[:,:,2:]-tacf0.T[:,:,:-2])/(zgcf0.T[:,:,2:]-zgcf0.T[:,:,:-2])).T
-        # dbdzcf0 = np.ma.concatenate([np.nan*np.ones_like(dbdzcf0.T[:,:,:1]), dbdzcf0.T, np.nan*np.ones_like(dbdzcf0.T[:,:,-1:])], axis=2).T
-            
-        # dbdzaf0 = (9.81/taaf0.T[:,:,1:-1] * (taaf0.T[:,:,2:]-taaf0.T[:,:,:-2])/(zgaf0.T[:,:,2:]-zgaf0.T[:,:,:-2])).T
-        # dbdzaf0 = np.ma.concatenate([np.nan*np.ones_like(dbdzaf0.T[:,:,:1]), dbdzaf0.T, np.nan*np.ones_like(dbdzaf0.T[:,:,-1:])], axis=2).T                
-            
-        # egrcf0 = 0.31*np.abs(dbdycf0)/np.sqrt(np.maximum(dbdzcf0, 1.e-12)) * 86400.
-        # egraf0 = 0.31*np.abs(dbdyaf0)/np.sqrt(np.maximum(dbdzaf0, 1.e-12)) * 86400.
         
         toscfem[model] = toscf0
         uaafem[model] = uaaf0
-        # vaafem[model] = vaaf0
-        # waafem[model] = waaf0
-        # taafem[model] = taaf0
-        # zgafem[model] = zgaf0
-        # dbdyafem[model] = dbdyaf0
-        # dbdzafem[model] = dbdzaf0
-        # egrafem[model] = egraf0
-        
         uacfem[model] = uacf0
-        # vacfem[model] = vacf0
-        # wacfem[model] = wacf0
-        # tacfem[model] = tacf0
-        # zgcfem[model] = zgcf0
-        # dbdycfem[model] = dbdycf0
-        # dbdzcfem[model] = dbdzcf0
-        # egrcfem[model] = egrcf0
-            
 
-    # return models, lonuem, latuem, levuem, lonvem, latvem, levvem, lonwem, latwem, levwem, lontem, lattem, levtem, toscfem, uacfem, uaafem, vacfem, vaafem, wacfem, waafem, tacfem, taafem, zgcfem, zgafem, dbdycfem, dbdyafem, dbdzcfem, dbdzafem, egrcfem, egrafem
     return models, lonuem, latuem, levuem, toscfem, uacfem, uaafem
 
 
@@ -383,20 +258,6 @@ def read_datas_MMM(ybgn, yend, fnc, models = None, dirbase = cf.datadir()):
     
 def read_models(dirbase = cf.datadir()):
     
-    # ampmdl = os.listdir('/Public/CMIPs/CMIP6/CMIP/amip/Amon/uas/')
-    # cmpmdla = os.listdir('/Public/CMIPs/CMIP6/CMIP/historical/Amon/uas/')
-    # cmpmdlo = os.listdir('/Public/CMIPs/regrid/CMIP6/100deg-360x180/CMIP/historical/Omon/tos/')    
-
-    # ampmdl  = os.listdir(dirbase+'/CMIP/CMIP6/CLIM/CMIP/amip/Amon/ua/')    
-    # cmpmdla = os.listdir(dirbase+'/CMIP/CMIP6/CLIM/CMIP/historical/Amon/ua/')    
-    # cmpmdlo = os.listdir(dirbase+'/CMIP/regrid/100deg-360x180_CLIM/CMIP6/CMIP/historical/Omon/tos/')    
-    
-    # models = np.intersect1d(np.intersect1d(ampmdl, cmpmdla), cmpmdlo)
-    # models = models['CAS-ESM2-0' != models]
-    # models = models['ICON-ESM-LR' != models]
-    # models = models['IITM-ESM' != models]
-    # models = models['GISS-E2-1-G' != models]
-
     models = np.array(['ACCESS-CM2', 'ACCESS-ESM1-5', 'BCC-CSM2-MR', 'CAMS-CSM1-0',
                        'CMCC-CM2-HR4', 'CMCC-CM2-SR5', 'CNRM-CM6-1', 'CNRM-CM6-1-HR',
                        'CNRM-ESM2-1', 'CanESM5', 'EC-Earth3', 'EC-Earth3-AerChem',
@@ -419,25 +280,12 @@ def ReadData2dClim(varname, model, expid, ybgn, yend, regrid = False, dirbase = 
             grdname = '250deg-144x73'
         else:
             grdname = '100deg-360x180'
-        # fnameins = cd.datafiles(varname, model, expid, ybgn = ybgn, yend = yend, regrid = regrid, dirbase = '/Public/CMIPs/regrid/CMIP6/'+grdname+'/')
-        # fnameins = cd.datafile(varname, model, expid, ybgn = ybgn, yend = yend, regrid = regrid, dirbase = '/Public/CMIPs/regrid/CMIP6/'+grdname+'/')        
-        # fnamec = fnameins[-1][:-16].replace('/Public/CMIPs/regrid/CMIP6/'+grdname+'/', dirbase + '/CMIP/regrid/'+grdname+'_CLIM/CMIP6/')+str(ybgn)+'01-'+str(yend)+'12_clm.nc'
         fnameins = cd.datafile(varname, model, expid, ybgn = ybgn, yend = yend, regrid = regrid, dirbase = dirbase+'/CMIP/regrid/'+grdname+'/')        
         fnamec = fnameins[-1][:-16].replace(dirbase+'/CMIP/regrid/'+grdname+'/', dirbase + '/CMIP/regrid/'+grdname+'_CLIM/CMIP6/')+str(ybgn)+'01-'+str(yend)+'12_clm.nc'        
-        # fnamec = cd.datafile(varname, model, expid, ybgn = ybgn, yend = yend, regrid = regrid, dirbase = dirbase+'/CMIP/regrid/'+grdname+'_CLIM/CMIP6/')        
-        # fnameins[-1][:-16].replace('/Public/CMIPs/regrid/CMIP6/'+grdname+'/', dirbase + '/CMIP/regrid/'+grdname+'_CLIM/CMIP6/')+str(ybgn)+'01-'+str(yend)+'12_clm.nc'        
     else:
-        # fnameins = cd.datafiles(varname, model, expid, ybgn = ybgn, yend = yend, regrid = regrid, dirbase = '/Public/CMIPs/CMIP6/')
-        # fnameins = cd.datafile(varname, model, expid, ybgn = ybgn, yend = yend, regrid = regrid, dirbase = '/Public/CMIPs/CMIP6/')        
-        # fnamec = fnameins[-1][:-16].replace('/Public/CMIPs/CMIP6/', dirbase+'/CMIP/CMIP6/CLIM/')+str(ybgn)+'01-'+str(yend)+'12_clm.nc'
         fnameins = cd.datafile(varname, model, expid, ybgn = ybgn, yend = yend, regrid = regrid, dirbase = dirbase+'/CMIP/CMIP6/')        
         fnamec = fnameins[-1][:-16].replace(dirbase+'/CMIP/CMIP6/', dirbase+'/CMIP/CMIP6/CLIM/')+str(ybgn)+'01-'+str(yend)+'12_clm.nc'        
-        # fnamec = cd.datafile(varname, model, expid, ybgn = ybgn, yend = yend, regrid = regrid, dirbase = dirbase+'/CMIP/CMIP6/CLIM/')
 
-    # nc = netCDF4.Dataset(fnamec, 'r')
-    # lon = nc.variables['lon'][:]
-    # lat = nc.variables['lat'][:]
-    # varM = nc.variables[varname][:]        
     if os.path.isfile(fnamec):
         nc = netCDF4.Dataset(fnamec, 'r')
         lon = nc.variables['lon'][:]
@@ -464,27 +312,12 @@ def ReadData3dClim(varname, model, expid, ybgn, yend, regrid = False, dirbase = 
             grdname = '250deg-144x73'
         else:
             grdname = '100deg-360x180'
-        # fnameins = cd.datafiles(varname, model, expid, ybgn = ybgn, yend = yend, regrid = regrid, dirbase = '/Public/CMIPs/regrid/CMIP6/'+grdname+'/')
-        # fnameins = cd.datafile(varname, model, expid, ybgn = ybgn, yend = yend, regrid = regrid, dirbase = '/Public/CMIPs/regrid/CMIP6/'+grdname+'/')        
-        # fnamec = fnameins[-1][:-16].replace('/Public/CMIPs/regrid/CMIP6/'+grdname+'/', dirbase+'/CMIP/regrid/'+grdname+'_CLIM/CMIP6/')+str(ybgn)+'01-'+str(yend)+'12_clm.nc'
         fnameins = cd.datafile(varname, model, expid, ybgn = ybgn, yend = yend, regrid = regrid, dirbase = dirbase+'/CMIP/regrid/'+grdname+'/')        
         fnamec = fnameins[-1][:-16].replace(dirbase+'/CMIP/regrid/'+grdname+'/', dirbase + '/CMIP/regrid/'+grdname+'_CLIM/CMIP6/')+str(ybgn)+'01-'+str(yend)+'12_clm.nc'                
-        # fnamec = cd.datafile(varname, model, expid, ybgn = ybgn, yend = yend, regrid = regrid, dirbase = dirbase+'/CMIP/regrid/'+grdname+'_CLIM/CMIP6/')
     else:
-        # fnameins = cd.datafiles(varname, model, expid, ybgn = ybgn, yend = yend, regrid = regrid, dirbase = '/Public/CMIPs/CMIP6/')
-        # fnameins = cd.datafile(varname, model, expid, ybgn = ybgn, yend = yend, regrid = regrid, dirbase = '/Public/CMIPs/CMIP6/')        
-        # fnamec = fnameins[-1][:-16].replace('/Public/CMIPs/CMIP6/', dirbase+'/CMIP/CMIP6/CLIM/')+str(ybgn)+'01-'+str(yend)+'12_clm.nc'
         fnameins = cd.datafile(varname, model, expid, ybgn = ybgn, yend = yend, regrid = regrid, dirbase = dirbase+'/CMIP/CMIP6/')        
         fnamec = fnameins[-1][:-16].replace(dirbase+'/CMIP/CMIP6/', dirbase+'/CMIP/CMIP6/CLIM/')+str(ybgn)+'01-'+str(yend)+'12_clm.nc'                
-        # fnamec = cd.datafile(varname, model, expid, ybgn = ybgn, yend = yend, regrid = regrid, dirbase = dirbase+'/CMIP/CMIP6/CLIM/')
         
-    # print(fnamec)
-        
-    # nc = netCDF4.Dataset(fnamec, 'r')
-    # lon = nc.variables['lon'][:]
-    # lat = nc.variables['lat'][:]
-    # lev = nc.variables['depth'][:]
-    # varM = nc.variables[varname][:]        
     if os.path.isfile(fnamec):
         nc = netCDF4.Dataset(fnamec, 'r')
         lon = nc.variables['lon'][:]
@@ -513,10 +346,6 @@ def ReadData2dMMClim(varname, models, expid, ybgn, yend, regrid = False, dirbase
     forcing = 'r1i1p1f1'; grd = 'gr'
     fnamec = dirbase + '/CMIP/CMIP6/CLIM/CMIP/'+expid+'/'+TID+'/'+varname+'/'+model+'/'+forcing+'/gr/v20251226/'+varname+'_'+TID+'_'+model+'_'+expid+'_'+forcing+'_'+grd+'_'+str(ybgn)+'01-'+str(yend)+'12_clm.nc'
 
-    # nc = netCDF4.Dataset(fnamec, 'r')
-    # lon = nc.variables['lon'][:]
-    # lat = nc.variables['lat'][:]
-    # varM = nc.variables[varname][:]    
     if os.path.isfile(fnamec):
         nc = netCDF4.Dataset(fnamec, 'r')
         lon = nc.variables['lon'][:]
@@ -555,11 +384,6 @@ def ReadData3dMMClim(varname, models, expid, ybgn, yend, regrid = False, dirbase
     forcing = 'r1i1p1f1'; grd = 'gr'
     fnamec = dirbase + '/CMIP/CMIP6/CLIM/CMIP/'+expid+'/'+TID+'/'+varname+'/'+model+'/'+forcing+'/gr/v20251226/'+varname+'_'+TID+'_'+model+'_'+expid+'_'+forcing+'_'+grd+'_'+str(ybgn)+'01-'+str(yend)+'12_clm.nc'
 
-    # nc = netCDF4.Dataset(fnamec, 'r')
-    # lon = nc.variables['lon'][:]
-    # lat = nc.variables['lat'][:]
-    # lev = nc.variables['depth'][:]        
-    # varM = nc.variables[varname][:]    
     if os.path.isfile(fnamec):
         nc = netCDF4.Dataset(fnamec, 'r')
         lon = nc.variables['lon'][:]

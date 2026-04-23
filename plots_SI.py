@@ -41,7 +41,6 @@ def main(dpi = 900):
 
     lono, lato, toso = cmm.read_sst_amip(ybgn, yend, cann = True, dirbase = dirbase+'/obs')
     
-    # models, lonuem, latuem, levuem, lonvem, latvem, levvem, lonwem, latwem, levwem, lontem, lattem, levtem, toscfem, uacfem, uaafem, vacfem, vaafem, wacfem, waafem, tacfem, taafem, zgcfem, zgafem, dbdycfem, dbdyafem, dbdzcfem, dbdzafem, egrcfem, egrafem = cmm.read_datas_MM(ybgn, yend, am, cem = True, dirbase = dirbase)
     models, lonuem, latuem, levuem, toscfem, uacfem, uaafem = cmm.read_datas_MM(ybgn, yend, am, cem = True, dirbase = dirbase)    
 
     

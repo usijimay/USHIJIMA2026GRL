@@ -19,15 +19,31 @@ cbcs = True
 
 print("create amip SST boundary data")
 ruby_path = shutil.which("ruby")
-if ruby_path is None:
-    print("Ruby is not installed. Using a Python implementation instead, which may produce slightly different values.")
-    o2m.main(ybgn, yend, RES)    
+def can_use_ruby_gphys(ruby_path):
+    if ruby_path is None:
+        return False
+    try:
+        subprocess.run([ruby_path, "-e", 'require "numru/gphys"; include NumRu; include NMath'],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+        return True
+    except subprocess.CalledProcessError:
+        return False
+
+if not can_use_ruby_gphys(ruby_path):
+    print(
+        "Ruby or the required Ruby libraries are not available. "
+        "Using a Python implementation instead, which may produce slightly different values."
+    )
+    o2m.main(ybgn, yend, RES, cbcs=cbcs)
+
 else:
     if cbcs:
-        result = subprocess.run([ruby_path, BASE+"/boundary/sstice_linearinterp10.rb", RES, str(ybgn), str(yend), cf.datadir()+"obs/SST/input4MIPs/tosbcs_input4MIPs_SSTsAndSeaIce_CMIP_PCMDI-AMIP-1-1-0_gs1x1_187001-201512.nc", ])
+        sst_file = cf.datadir()+"obs/SST/input4MIPs/tosbcs_input4MIPs_SSTsAndSeaIce_CMIP_PCMDI-AMIP-1-1-0_gs1x1_187001-201512.nc"
     else:
-        result = subprocess.run([ruby_path, BASE+"/boundary/sstice_linearinterp10.rb", RES, str(ybgn), str(yend), cf.datadir()+"obs/SST/input4MIPs/tos_input4MIPs_SSTsAndSeaIce_CMIP_PCMDI-AMIP-1-1-0_gs1x1_187001-201512.nc", ])    
+        sst_file = cf.datadir()+"obs/SST/input4MIPs/tos_input4MIPs_SSTsAndSeaIce_CMIP_PCMDI-AMIP-1-1-0_gs1x1_187001-201512.nc"
 
+    subprocess.run([ruby_path, BASE + "/boundary/sstice_linearinterp10.rb", RES, str(ybgn), str(yend), sst_file], check=True)
+
+    
 print("create SST boundary data for GLB exp.")
 sga.main(models, ybgn, yend, RES)
 

@@ -44,14 +44,8 @@ def main(cerr = False, dpi = 900):
     figdir =  cf.figdir(dpi = None)
    
     R0 = 6.375e6    
-    lonmin=120; lonmax=240
-
-    # mtn = np.fromfile(dirbase+'/AGCM/cnst/TL159L80_const/mtn.grads', '>f').reshape(160,320)[::-1]/9.80665
-    # msko = (mtn < 5).astype(float)
-    # msk = msko.copy()
 
     msko = np.fromfile(dirbase+'/AGCM/cnst/omsk_TL159.dat', '>f').reshape(160,320)[::-1]
-    # msko = (mtn < 5).astype(float)
     msk = msko.copy()    
 
     lon, lat = ag.lonlat()
