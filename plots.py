@@ -29,12 +29,10 @@ expids = np.array(list(map(lambda x: 'MPE3_agcm_EMS35_annclm_'+x, areasns))).ast
 dirbase = cf.datadir()
 
 ybgn = 1985; yend = 2014
-cerr = False
 dpi = None
 # dpi = 900
 
-
-def main(cerr = False, dpi = 900):
+def main(dpi = 900):
     global lon, lat
     global var0, varm0, varc0
     global var, varm, varc
@@ -84,25 +82,7 @@ def main(cerr = False, dpi = 900):
             lctmp = np.array(lmxcem[model])            
         else:
             latmp = np.r_[latmp, np.array(lmxaem[model])]
-            lctmp = np.r_[lctmp, np.array(lmxcem[model])]         
-
-            
-    # # ---- error estimate for jet latitude ---- # #
-    if cerr:
-        lonoa, latoa, uaos = rw.read_JRA55_UP(ybgn, yend, level = 200, fbase = dirbase+'/obs/WindProfile/JRA55/Monthly/anl_p125_ugrd.')  
-        ultos = ZonalMean(lonoa, am(uaos, axis=1), lonmin=lonmin, lonmax=lonmax)
-        lmxos = np.zeros(yend-ybgn+1)
-        for n in range(yend-ybgn+1):
-            lmxos[n] = cmm.u1d2lpeak(ultos[n], latoa, latmin = 15, latmax = 65, mode = '')
-            
-        models, lmxasem, lmxcsem = cmm.latupeaks(ybgn, yend, lonmin = lonmin, lonmax = lonmax, level = 20000, mode = '')
-        lmxas = np.array([])
-        lmxcs = np.array([])        
-        for model in models:
-            lmxas = np.r_[lmxas, lmxasem[model]]
-            lmxcs = np.r_[lmxcs, lmxcsem[model]]                        
-    # # ---- error estimate for jet latitude ---- # #      
-        
+            lctmp = np.r_[lctmp, np.array(lmxcem[model])]                     
             
     labels = ['', 'AMIP-JRA55', 'historical-JRA55', 'historical-AMIP', 'GLB-CNTL', 'PAC-CNTL', '(GLB-PAC)-CNTL', 'WNP-CNTL', 'EQ-CNTL', 'ENP-CNTL']
 
@@ -130,23 +110,11 @@ def main(cerr = False, dpi = 900):
         model = models[nm]                        
         ax.bar(1/6+nm, lmxaem[model], width = 0.33, color = 'r')
         ax.bar(1/2+nm, lmxcem[model], width = 0.33, color = 'b')
-        if cerr:
-            # ax.errorbar(1/6+nm, lmxaem[model], yerr = np.std(lmxasem[model])/np.sqrt(yend-ybgn+1), linewidth = 2, color = 'r', capsize = 5)
-            # ax.errorbar(1/2+nm, lmxcem[model], yerr = np.std(lmxcsem[model])/np.sqrt(yend-ybgn+1), linewidth = 2, color = 'b', capsize = 5)
-            ax.errorbar(1/6+nm, np.mean(lmxasem[model]), yerr = np.std(lmxasem[model])/np.sqrt(yend-ybgn+1), fmt = 'x', linewidth = 2, color = 'r', capsize = 3)
-            ax.errorbar(1/2+nm, np.mean(lmxcsem[model]), yerr = np.std(lmxcsem[model])/np.sqrt(yend-ybgn+1), fmt = 'x', linewidth = 2, color = 'b', capsize = 3)     
                         
     nm += 1
     ax.bar(1/6+nm, lmxa, width = 0.33, color = 'r')
     ax.bar(1/2+nm, lmxc, width = 0.33, color = 'b')                                    
     ax.bar(4/3+nm, lmxo, width = 0.33, color = 'k')
-    if cerr:
-        # ax.errorbar(1/6+nm, lmxa, yerr = np.std(lmxas)/np.sqrt(np.size(lmxas)), linewidth = 2, color = 'r', capsize = 5)
-        # ax.errorbar(1/2+nm, lmxc, yerr = np.std(lmxcs)/np.sqrt(np.size(lmxcs)), linewidth = 2, color = 'b', capsize = 5)
-        # ax.errorbar(4/3+nm, lmxo, yerr = np.std(lmxos)/np.sqrt(np.size(lmxos)), linewidth = 2, color = 'k', capsize = 5)
-        ax.errorbar(1/6+nm, np.mean(lmxa), yerr = np.std(lmxas)/np.sqrt(np.size(lmxas)), fmt = 'x', linewidth = 2, color = 'r', capsize = 3)
-        ax.errorbar(1/2+nm, np.mean(lmxc), yerr = np.std(lmxcs)/np.sqrt(np.size(lmxcs)), fmt = 'x', linewidth = 2, color = 'b', capsize = 3)
-        ax.errorbar(4/3+nm, np.mean(lmxo), yerr = np.std(lmxos)/np.sqrt(np.size(lmxos)), fmt = 'x', linewidth = 2, color = 'k', capsize = 3)             
     
     ax.set_xlim(0, nm+2)
     ax.set_xticks(0.5+np.arange(nm+2))
@@ -636,6 +604,6 @@ def read_sst(expid0, expids, ybgn, yend, msk = []):
 
     return var0M, varM
 
-main(cerr = cerr, dpi = dpi)
+main(dpi = dpi)
 
 
