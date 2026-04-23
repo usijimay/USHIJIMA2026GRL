@@ -513,36 +513,36 @@ def ReadData2dMMClim(varname, models, expid, ybgn, yend, regrid = False, dirbase
     forcing = 'r1i1p1f1'; grd = 'gr'
     fnamec = dirbase + '/CMIP/CMIP6/CLIM/CMIP/'+expid+'/'+TID+'/'+varname+'/'+model+'/'+forcing+'/gr/v20251226/'+varname+'_'+TID+'_'+model+'_'+expid+'_'+forcing+'_'+grd+'_'+str(ybgn)+'01-'+str(yend)+'12_clm.nc'
 
-    nc = netCDF4.Dataset(fnamec, 'r')
-    lon = nc.variables['lon'][:]
-    lat = nc.variables['lat'][:]
-    varM = nc.variables[varname][:]    
-    # if os.path.isfile(fnamec):
-    #     nc = netCDF4.Dataset(fnamec, 'r')
-    #     lon = nc.variables['lon'][:]
-    #     lat = nc.variables['lat'][:]
-    #     varM = nc.variables[varname][:]
-    # else:
-    #     for nm, model in enumerate(models):
-    #         lon0, lat0, var0 = ReadData2dClim(varname, model, expid, ybgn, yend, regrid = regrid)            
-    #         if regrid:
-    #             if nm == 0:
-    #                 varM = var0[:]/nms
-    #             else:
-    #                 varM+= var0[:]/nms
-    #         else:
-    #             if nm == 0:                    
-    #                 varM = intp2D(lon0, lat0, var0, lon, lat)/nms
-    #             else:
-    #                 varM+= intp2D(lon0, lat0, var0, lon, lat)/nms
+    # nc = netCDF4.Dataset(fnamec, 'r')
+    # lon = nc.variables['lon'][:]
+    # lat = nc.variables['lat'][:]
+    # varM = nc.variables[varname][:]    
+    if os.path.isfile(fnamec):
+        nc = netCDF4.Dataset(fnamec, 'r')
+        lon = nc.variables['lon'][:]
+        lat = nc.variables['lat'][:]
+        varM = nc.variables[varname][:]
+    else:
+        for nm, model in enumerate(models):
+            lon0, lat0, var0 = ReadData2dClim(varname, model, expid, ybgn, yend, regrid = regrid)            
+            if regrid:
+                if nm == 0:
+                    varM = var0[:]/nms
+                else:
+                    varM+= var0[:]/nms
+            else:
+                if nm == 0:                    
+                    varM = intp2D(lon0, lat0, var0, lon, lat)/nms
+                else:
+                    varM+= intp2D(lon0, lat0, var0, lon, lat)/nms
 
-    #     if regrid:
-    #         lon = lon0[:]; lat = lat0[:]
+        if regrid:
+            lon = lon0[:]; lat = lat0[:]
 
-    #     fdir = os.path.dirname(fnamec)
-    #     if not os.path.isdir(fdir):
-    #         os.makedirs(fdir)
-    #     ncw.write_woa1x1_3d(fnamec, np.arange(12), lon, lat, varM, varname)      
+        fdir = os.path.dirname(fnamec)
+        if not os.path.isdir(fdir):
+            os.makedirs(fdir)
+        ncw.write_woa1x1_3d(fnamec, np.arange(12), lon, lat, varM, varname)      
 
     return lon, lat, varM
 
@@ -555,39 +555,39 @@ def ReadData3dMMClim(varname, models, expid, ybgn, yend, regrid = False, dirbase
     forcing = 'r1i1p1f1'; grd = 'gr'
     fnamec = dirbase + '/CMIP/CMIP6/CLIM/CMIP/'+expid+'/'+TID+'/'+varname+'/'+model+'/'+forcing+'/gr/v20251226/'+varname+'_'+TID+'_'+model+'_'+expid+'_'+forcing+'_'+grd+'_'+str(ybgn)+'01-'+str(yend)+'12_clm.nc'
 
-    nc = netCDF4.Dataset(fnamec, 'r')
-    lon = nc.variables['lon'][:]
-    lat = nc.variables['lat'][:]
-    lev = nc.variables['depth'][:]        
-    varM = nc.variables[varname][:]    
-    # if os.path.isfile(fnamec):
-    #     nc = netCDF4.Dataset(fnamec, 'r')
-    #     lon = nc.variables['lon'][:]
-    #     lat = nc.variables['lat'][:]
-    #     lev = nc.variables['depth'][:]        
-    #     varM = nc.variables[varname][:]
-    # else:
-    #     for nm, model in enumerate(models):
-    #         lon0, lat0, lev0, var0 = ReadData3dClim(varname, model, expid, ybgn, yend, regrid = regrid) 
-    #         if regrid:
-    #             if nm == 0:
-    #                 varM = var0[:]/nms
-    #             else:
-    #                 varM+= var0[:]/nms
-    #         else:
-    #             if nm == 0:                    
-    #                 varM = intp3D(lon0, lat0, lev0, var0, lon, lat, lev)/nms
-    #             else:
-    #                 varM+= intp3D(lon0, lat0, lev0, var0, lon, lat, lev)/nms
+    # nc = netCDF4.Dataset(fnamec, 'r')
+    # lon = nc.variables['lon'][:]
+    # lat = nc.variables['lat'][:]
+    # lev = nc.variables['depth'][:]        
+    # varM = nc.variables[varname][:]    
+    if os.path.isfile(fnamec):
+        nc = netCDF4.Dataset(fnamec, 'r')
+        lon = nc.variables['lon'][:]
+        lat = nc.variables['lat'][:]
+        lev = nc.variables['depth'][:]        
+        varM = nc.variables[varname][:]
+    else:
+        for nm, model in enumerate(models):
+            lon0, lat0, lev0, var0 = ReadData3dClim(varname, model, expid, ybgn, yend, regrid = regrid) 
+            if regrid:
+                if nm == 0:
+                    varM = var0[:]/nms
+                else:
+                    varM+= var0[:]/nms
+            else:
+                if nm == 0:                    
+                    varM = intp3D(lon0, lat0, lev0, var0, lon, lat, lev)/nms
+                else:
+                    varM+= intp3D(lon0, lat0, lev0, var0, lon, lat, lev)/nms
 
-    #     if regrid:
-    #         lon = lon0[:]; lat = lat0[:]; lev = lev0
+        if regrid:
+            lon = lon0[:]; lat = lat0[:]; lev = lev0
 
-    #     fdir = os.path.dirname(fnamec)
-    #     if not os.path.isdir(fdir):
-    #         os.makedirs(fdir)
+        fdir = os.path.dirname(fnamec)
+        if not os.path.isdir(fdir):
+            os.makedirs(fdir)
             
-    #     ncw.write_woa1x1_4d(fnamec, np.arange(12), lev, lon, lat, varM, varname)        
+        ncw.write_woa1x1_4d(fnamec, np.arange(12), lev, lon, lat, varM, varname)        
 
     return lon, lat, lev, varM
 

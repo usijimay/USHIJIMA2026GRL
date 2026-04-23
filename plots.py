@@ -30,8 +30,8 @@ dirbase = cf.datadir()
 
 ybgn = 1985; yend = 2014
 cerr = False
-# dpi = None
-dpi = 900
+dpi = None
+# dpi = 900
 
 
 def main(cerr = False, dpi = 900):
@@ -46,9 +46,13 @@ def main(cerr = False, dpi = 900):
     R0 = 6.375e6    
     lonmin=120; lonmax=240
 
-    mtn = np.fromfile(dirbase+'/AGCM/cnst/TL159L80_const/mtn.grads', '>f').reshape(160,320)[::-1]/9.80665
-    msko = (mtn < 5).astype(float)
-    msk = msko.copy()
+    # mtn = np.fromfile(dirbase+'/AGCM/cnst/TL159L80_const/mtn.grads', '>f').reshape(160,320)[::-1]/9.80665
+    # msko = (mtn < 5).astype(float)
+    # msk = msko.copy()
+
+    msko = np.fromfile(dirbase+'/AGCM/cnst/omsk_TL159.dat', '>f').reshape(160,320)[::-1]
+    # msko = (mtn < 5).astype(float)
+    msk = msko.copy()    
 
     lon, lat = ag.lonlat()
     sst0M, sstM = read_sst(expid0, expids, ybgn, yend, msk = msko)
@@ -610,7 +614,7 @@ def read_sst(expid0, expids, ybgn, yend, msk = []):
     for expid in expids:
         if  'EMS35' in expid:
             area = expid[expid.rfind('_')+1:]
-            data = dirbase+'/AGCM/CMIP_BIAS/EMS35_anom_v2/sst_TL159_CMIP6AMIP_1985-2014_annclm_'+area+'_anom_YYYY.dat'            
+            data = dirbase+'/AGCM/CMIP_BIAS/EMS35_anom/sst_TL159_CMIP6AMIP_1985-2014_annclm_'+area+'_anom_YYYY.dat'            
         for year in range(ybgn, yend+1):
             var00 = np.fromfile(data.replace('YYYY', str(year)), '>f').reshape(12,160,320)[:,::-1]-273.15
             if year == ybgn:

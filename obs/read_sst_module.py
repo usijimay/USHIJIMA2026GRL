@@ -1,11 +1,15 @@
 import os
+import sys
 import re
 import numpy as np
 import netCDF4
 import calendar
-import pandas as pd
+# import pandas as pd
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(BASE)
+import config.config as cf
 
-def read_input4MIPs(ybgn, yend, filename = '', varname = 'tos', dtype = 'nc', lonname = 'lon', latname = 'lat', cann = False, camip = False, dirbase =  ""):    
+def read_input4MIPs(ybgn, yend, filename = '', varname = 'tos', dtype = 'nc', lonname = 'lon', latname = 'lat', cann = False, camip = False, dirbase =  cf.datadir()+'/obs/'):
     
     if camip:
         if filename == '':
@@ -17,7 +21,8 @@ def read_input4MIPs(ybgn, yend, filename = '', varname = 'tos', dtype = 'nc', lo
         RES = 'TL159'
         dlon = 1.125    
         lon = np.arange(0., 360., dlon)
-        dblat = os.environ['HOME']+'/anl_esm/anlpy/remap_tools/remap_tools/'
+        # dblat = os.environ['HOME']+'/anl_esm/anlpy/remap_tools/remap_tools/'
+        dblat = BASE+'/mriagcm3/grid/'        
         flat = open(dblat+RES+'_lat.txt', 'r')   
         rls = flat.readlines()            
         flat.close()
@@ -33,7 +38,7 @@ def read_input4MIPs(ybgn, yend, filename = '', varname = 'tos', dtype = 'nc', lo
             else:
                 var = np.vstack((var, var0))
         var = var[:,:,::-1]
-
+        
     else:    
         if filename == '':
             filename = dirbase + '/SST/input4MIPs/tos_input4MIPs_SSTsAndSeaIce_CMIP_PCMDI-AMIP-1-1-0_gs1x1_187001-201512.nc'

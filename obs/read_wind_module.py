@@ -48,7 +48,7 @@ def read_JRA55_UP(ybgn, yend, km = 37, kr = [], level = [], fbase = cf.datadir()
         return lon, lat, level, var
 
 
-def read_JRA55_UP_CLM(ybgn, yend, km = 37, kr = [], level = [], fbase = cd.datadir()+'/obs/WindProfile/JRA55/MONCLM/anl_p125_ugrd.'):
+def read_JRA55_UP_CLM(ybgn, yend, km = 37, kr = [], level = [], fbase = cf.datadir()+'/obs/WindProfile/JRA55/MONCLM/anl_p125_ugrd.'):
 
     fnamec = fbase+str(ybgn)+str(yend)
     varname = 'ua'
