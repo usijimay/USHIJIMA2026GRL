@@ -39,7 +39,7 @@ def main(dpi = 900):
     global varmo, varco, rvarco
 
     suff = '.png'        
-    figdir =  cf.figdir(dpi = None)
+    figdir =  cf.figdir(dpi = dpi)
    
     R0 = 6.375e6    
 
