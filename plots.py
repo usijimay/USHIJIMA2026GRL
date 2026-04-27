@@ -42,7 +42,8 @@ def main(dpi = 900):
     figdir =  cf.figdir(dpi = dpi)
    
     R0 = 6.375e6    
-
+    lonmin=120; lonmax=240
+    
     msko = np.fromfile(dirbase+'/AGCM/cnst/omsk_TL159.dat', '>f').reshape(160,320)[::-1]
     msk = msko.copy()    
 
