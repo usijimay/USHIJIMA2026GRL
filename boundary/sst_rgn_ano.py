@@ -105,6 +105,14 @@ def main(areas, models, ybgn, yend, RES, ybgnc = 1985, yendc = 2014, data = cf.d
                         jj = np.where(cnd)[0]
                         for j in jj:
                             mska[jjmin+1+j,i] = 0
+            elif area == 'enp':                
+                mska[sstano > 0.] = 1.
+                mska[:int(rt*93)] = 0.
+                mska[int(rt*150):] = 0.
+                mska[:,:int(rt*120)] = 0.
+                mska[:,int(rt*263):] = 0.
+                mska[int(rt*120):int(rt*150),int(rt*120):int(rt*175)] = 0.
+                mska[int(rt*90):int(rt*120),int(rt*120):int(rt*165)] = 0.                
                             
             elif area == 'snp':
                 mska[int(rt*120):int(rt*155),int(rt*105):int(rt*265)] = 1.

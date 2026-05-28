@@ -29,8 +29,8 @@ expids = np.array(list(map(lambda x: 'MPE3_agcm_EMS35_annclm_'+x, areasns))).ast
 dirbase = cf.datadir()
 
 ybgn = 1985; yend = 2014
-# dpi = None
-dpi = 900
+dpi = None
+# dpi = 900
 
 def main(dpi = 900):
     global lon, lat
