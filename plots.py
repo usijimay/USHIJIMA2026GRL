@@ -93,7 +93,7 @@ def main(dpi = 900):
     lonminf = 90; lonmaxf = 270; lonintf = 60
     latminf =-20; latmaxf = 80; latintf = 20        
     dxax = 3; dyax = 1.2
-    fontsizexy = 10
+    fontsizexy = 8
     dxc = 0.04; dyc = 0.08
     unitx = 1.02; unity = -2.4; unitcbr = r'[${\rm m \ s^{-1}}$]'
 
@@ -119,10 +119,12 @@ def main(dpi = 900):
     
     ax.set_xlim(0, nm+2)
     ax.set_xticks(0.5+np.arange(nm+2))
-    ax.set_xticklabels(np.r_[models, ['Multi Model'], ['JRA55']])
-    ax.tick_params(axis='x', labelrotation=90)
+    ax.set_xticklabels(np.r_[models, ['Multi Model'], ['JRA55']], fontsize = 9)
+    ax.tick_params(axis='x', labelrotation=90, pad = -2.0)
     ax.set_ylim(latminca, latmaxca)
     ax.set_yticks(np.linspace(latminca, latmaxca, latintca))
+    ax.set_yticklabels(np.linspace(latminca, latmaxca, latintca).astype(int).astype(str).astype(object)+'N', fontsize = 9)
+    ax.tick_params(axis='y', pad = -2.0)    
     nfg = 0
     label = '('+chr(ord("a")+nfg)+')'+labels[nfg]
     ax.text(0.01*(nm+2), 0.02*latminca+0.98*latmaxca, label, ha = 'left', va = 'top', bbox = bbox)
@@ -418,7 +420,7 @@ def main(dpi = 900):
     fm.fig1(pngfile, lono, lato, varf, varfl = varl, lonr = [90, 270, 60], latr = [20, 80, 20], vr=vr, lines = lines, cmap = cmo.balance, flabel = labels, bbox = dict(facecolor='white', alpha=0.9), sngl_cbar = False, fsizey = 9, cbrf4 = True, cfig2 = False, dxc = 0.02, dyc = 0.06, top = .96, btm = 0.12, dycb = 0.05, cbt = 0.010, dxcb = 0.25, unitcbr = unitcbrs, unitx = 1.3, unity = -2.6, left = 0.08, right = 0.92, dpi = dpi, hspace = 0.3, wspace = 0.13, ncols = 1)        
 
 
-def plot_ulatlev(pngfile, lev, lat, varf, varl, ncols, nrows, xr = [-90,90], yr = [1000, 0], vr = [-12, 12, 5], rt = 10, level = [], levl = np.linspace(-100, 100, 101), latl = [], latf = [], fontsize = 10, fsizex = 8, fsizey = 8, cmap = cmo.balance, extend = 'both', sngl_cbar = True, vecx = [], vecy = [], levv = [], scale = 1, scale_units = 'xy', iskp = 1, jskp = 1, vcols = ['w'], unitx = 1.02, unity = -2.9, unitcbr = r'[${\rm m \ s^{-1}}$]', labels = [], bbox = dict(facecolor='white', alpha=0.9), dxc = 0.04, dyc = 0.04, dpi = None, crarw = True, cefvxs = [], cefvys = [], lvecxs = [], lvecys = [], tvecxs = [], tvecys = []):
+def plot_ulatlev(pngfile, lev, lat, varf, varl, ncols, nrows, xr = [-90,90], yr = [1000, 0], vr = [-12, 12, 5], rt = 10, level = [], levl = np.linspace(-100, 100, 101), latl = [], latf = [], fontsize = 10, fsizex = 8, fsizey = 8, cmap = cmo.balance, extend = 'both', sngl_cbar = True, vecx = [], vecy = [], levv = [], scale = 1, scale_units = 'xy', iskp = 1, jskp = 1, vcols = ['w'], unitx = 1.02, unity = -2.9, unitcbr = r'[${\rm m \ s^{-1}}$]', labels = [], bbox = dict(facecolor='white', alpha=0.9), dxc = 0.04, dyc = 0.04, dpi = None, crarw = True, cefvxs = [], cefvys = [], lvecxs = [], lvecys = [], tvecxs = [], tvecys = [], fontsizexy = 9):
 
     nexp = np.shape(varf)[0]
     plt.rcParams['font.size'] = fontsize
@@ -490,12 +492,13 @@ def plot_ulatlev(pngfile, lev, lat, varf, varl, ncols, nrows, xr = [-90,90], yr 
                     xlabels = xticks.astype(int).astype(str).astype(object)+'N'
                     xlabels[xticks == 0] = '0'
                     xlabels[xticks  < 0]  =  (-xticks[xticks < 0]).astype(int).astype(str).astype(object)+'S'
-                    ax[nr,nc].set_xticklabels(xlabels)                     
+                    ax[nr,nc].set_xticklabels(xlabels, fontsize = fontsizexy)
+                    ax[nr,nc].tick_params(axis='x', pad = -2.0)                        
                 ax[nr,nc].set_ylim(yr[0], yr[1])
                 if np.size(yr) == 3:
                     ax[nr,nc].set_yticks(np.linspace(yr[0], yr[1], yr[2]))
-                    ax[nr,nc].set_yticklabels(np.linspace(yr[0], yr[1], yr[2]).astype(int).astype(str).astype(object)+'hPa') 
-
+                    ax[nr,nc].set_yticklabels(np.linspace(yr[0], yr[1], yr[2]).astype(int).astype(str).astype(object)+'hPa', fontsize = fontsizexy) 
+                    ax[nr,nc].tick_params(axis='y', pad = -2.0) 
                 if nr != nrows-1:
                     ax[nr,nc].tick_params(labelbottom=False)                    
                 if nc != 0:
