@@ -85,7 +85,7 @@ def main(dpi = 900):
             latmp = np.r_[latmp, np.array(lmxaem[model])]
             lctmp = np.r_[lctmp, np.array(lmxcem[model])]                     
             
-    labels = ['', 'AMIP-JRA55', 'historical-JRA55', 'historical-AMIP', 'GLB-CNTL', 'PAC-CNTL', '(GLB-PAC)-CNTL', 'WNP-CNTL', 'EQ-CNTL', 'ENP-CNTL']
+    labels = ['', 'AMIP-JRA55', '(cpl-hist)-JRA55', '(cpl-hist)-AMIP', 'GLB-CNTL', 'PAC-CNTL', '(GLB-PAC)-CNTL', 'WNP-CNTL', 'EQ-CNTL', 'ENP-CNTL']
 
     bbox = dict(facecolor='white', alpha=0.9)    
     latminca = 32; latmaxca = 44; latintca = 7
@@ -306,7 +306,7 @@ def main(dpi = 900):
 
 
        
-    labels = ['AMIP-JRA55', 'historical-JRA55', 'historical-AMIP', 'GLB-CNTL', 'PAC-CNTL', '(GLB-PAC)-CNTL', 'WNP-CNTL', 'EQ-CNTL', 'ENP-CNTL']    
+    labels = ['AMIP-JRA55', '(cpl-hist)-JRA55', '(cpl-hist)-AMIP', 'GLB-CNTL', 'PAC-CNTL', '(GLB-PAC)-CNTL', 'WNP-CNTL', 'EQ-CNTL', 'ENP-CNTL']    
     vcols = ['k', 'k', 'g', 'k', 'k', 'k', 'k', 'k', 'k']    
     ncols = 3; nrows = round(np.shape(varf)[0]/ncols)
     vr = [-6, 6, 5]
@@ -388,7 +388,7 @@ def main(dpi = 900):
     
     nf += 1
     pngfile=figdir+'fig'+str(nf)+suff
-    fm.fig1(pngfile, lon, lat, varf, varfl = varl, lonr = [90, 270, 60], latr = [20, 80, 20], vr=vr, lines = lines, cmap = cmo.balance, flabel = labels, bbox = dict(facecolor='white', alpha=0.9), sngl_cbar = False, fsizey = 5.6, cbrf4 = True, cfig2 = False, dxc = 0.04, dyc = 0.12, top = .99, btm = 0.08, dycb = 0.056, cbt = 0.016, dxcb = 0.25, unitcbr = unitcbrs, unitx = 1.3, unity = -2.8, left = 0.05, right = 0.95, dpi = dpi, tlabel = tlabel, hspace = 0.15, wspace = 0.13)    
+    fm.fig1(pngfile, lon, lat, varf, varfl = varl, lonr = [90, 270, 60], latr = [20, 80, 20], vr=vr, lines = lines, cmap = cmo.balance, flabel = labels, bbox = dict(facecolor='white', alpha=0.9), sngl_cbar = False, fsizey = 5.6, cbrf4 = True, cfig2 = False, dxc = 0.04, dyc = 0.12, top = .99, btm = 0.08, dycb = 0.056, cbt = 0.016, dxcb = 0.25, unitcbr = unitcbrs, unitx = 1.3, unity = -2.8, left = 0.05, right = 0.95, dpi = dpi, tlabel = tlabel, hspace = 0.15, wspace = 0.13)
 
     varf = np.ma.array([
         1.e3*am(evzM[2,:,2] - evz0M[:,2], axis=0), 1.e3*am(evzM[4,:,2] - evz0M[:,2], axis=0), 1.e3*am(evzM[5,:,2] - evz0M[:,2], axis=0), 
