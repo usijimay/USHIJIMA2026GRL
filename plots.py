@@ -99,35 +99,54 @@ def main(dpi = 900):
 
     plt.rcParams['font.size'] = 10
     
-    ntop = 8; ntop1 = ntop-3 
+    ntop = 8; ntop1 = 4; ntop2 = 2
     rmap = 2
     nf += 1
     pngfile=figdir+'fig'+str(nf)+suff
     print(pngfile)    
     fig = plt.figure(figsize=(8,10), constrained_layout=True)    
     gs = gridspec.GridSpec(ntop+rmap*3, 3, figure=fig)
-    ax = fig.add_subplot(gs[0:ntop1,:])    
+
+    gs_top = gs[0:ntop, :].subgridspec(3, 1, height_ratios=[ntop1, ntop2, ntop - ntop1 - ntop2], hspace=0.0)    
+
+    ax = fig.add_subplot(gs_top[0, 0])
+    ax_diff = fig.add_subplot(gs_top[1, 0], sharex=ax) 
     for nm, model in enumerate(models):
         model = models[nm]                        
-        ax.bar(1/6+nm, lmxaem[model], width = 0.33, color = 'r')
-        ax.bar(1/2+nm, lmxcem[model], width = 0.33, color = 'b')
+        ax.bar(1/3+nm, lmxaem[model], width = 0.33, color = 'r')
+        ax.bar(2/3+nm, lmxcem[model], width = 0.33, color = 'b')
                         
     nm += 1
-    ax.bar(1/6+nm, lmxa, width = 0.33, color = 'r')
-    ax.bar(1/2+nm, lmxc, width = 0.33, color = 'b')                                    
-    ax.bar(4/3+nm, lmxo, width = 0.33, color = 'k')
+    ax.bar(1/3+nm, lmxa, width = 0.33, color = 'r')
+    ax.bar(2/3+nm, lmxc, width = 0.33, color = 'b')                                    
+    ax.bar(3/2+nm, lmxo, width = 0.33, color = 'k')
     
-    ax.set_xlim(0, nm+2)
+    ax.set_xlim(0, nm+2)    
     ax.set_xticks(0.5+np.arange(nm+2))
-    ax.set_xticklabels(np.r_[models, ['Multi Model'], ['JRA55']], fontsize = 9)
-    ax.tick_params(axis='x', labelrotation=90, pad = -2.0)
     ax.set_ylim(latminca, latmaxca)
-    ax.set_yticks(np.linspace(latminca, latmaxca, latintca))
-    ax.set_yticklabels(np.linspace(latminca, latmaxca, latintca).astype(int).astype(str).astype(object)+'N', fontsize = 9)
+    ax.set_yticks(np.linspace(latminca, latmaxca, latintca)[1:])
+    ax.set_yticklabels(np.linspace(latminca, latmaxca, latintca)[1:].astype(int).astype(str).astype(object)+'N', fontsize = 9)    
     ax.tick_params(axis='y', pad = -2.0)    
     nfg = 0
     label = '('+chr(ord("a")+nfg)+')'+labels[nfg]
-    ax.text(0.01*(nm+2), 0.02*latminca+0.98*latmaxca, label, ha = 'left', va = 'top', bbox = bbox)
+    ax.text(0.01*(nm+2), 0.03*latminca+0.97*latmaxca, label, ha = 'left', va = 'top', bbox = bbox)    
+
+    for nm, model in enumerate(models):
+        model = models[nm]                        
+        ax_diff.bar(1/2+nm, lmxcem[model]-lmxaem[model], width = 0.67, color = 'g')
+        
+    nm += 1
+    ax_diff.bar(1/2+nm, lmxc-lmxa, width = 0.67, color = 'g')
+
+    ax_diff.set_ylim(-6, 2)
+    ax_diff.set_yticks([-6, -4, -2, 0])    
+    
+    ax_diff.set_xticklabels(np.r_[models, ['Multi Model'], ['JRA55']], fontsize = 9)
+    ax_diff.tick_params(axis='x', labelrotation=90, pad = -2.0)
+    ax_diff.tick_params(axis='y', pad = -2.0, labelsize=9)
+
+    ax.tick_params(axis='x', which='both', bottom=False, labelbottom=False)
+    plt.setp(ax.get_xticklabels(), visible=False)
     
     nn = ntop
     uaoMrgd = cmm.intp2D(lonoa, latoa, am(uaoM)[9], lono, lato)
