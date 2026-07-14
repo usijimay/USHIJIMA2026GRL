@@ -29,8 +29,8 @@ expids = np.array(list(map(lambda x: 'MPE3_agcm_EMS35_annclm_'+x, areasns))).ast
 dirbase = cf.datadir()
 
 ybgn = 1985; yend = 2014
-# dpi = None
-dpi = 900
+dpi = None
+# dpi = 900
 
 def main(dpi = 900):
     global lon, lat
@@ -85,7 +85,7 @@ def main(dpi = 900):
             latmp = np.r_[latmp, np.array(lmxaem[model])]
             lctmp = np.r_[lctmp, np.array(lmxcem[model])]                     
             
-    labels = ['', 'AMIP-JRA55', 'historical-JRA55', 'historical-AMIP', 'GLB-CNTL', 'PAC-CNTL', '(GLB-PAC)-CNTL', 'WNP-CNTL', 'EQ-CNTL', 'ENP-CNTL']
+    labels = ['', 'AMIP-JRA55', '(cpl-hist)-JRA55', '(cpl-hist)-AMIP', 'GLB-CNTL', 'PAC-CNTL', '(GLB-PAC)-CNTL', 'WNP-CNTL', 'EQ-CNTL', 'ENP-CNTL']
 
     bbox = dict(facecolor='white', alpha=0.9)    
     latminca = 32; latmaxca = 44; latintca = 7
@@ -93,39 +93,60 @@ def main(dpi = 900):
     lonminf = 90; lonmaxf = 270; lonintf = 60
     latminf =-20; latmaxf = 80; latintf = 20        
     dxax = 3; dyax = 1.2
-    fontsizexy = 10
+    fontsizexy = 8
     dxc = 0.04; dyc = 0.08
     unitx = 1.02; unity = -2.4; unitcbr = r'[${\rm m \ s^{-1}}$]'
 
     plt.rcParams['font.size'] = 10
     
-    ntop = 8; ntop1 = ntop-3 
+    ntop = 8; ntop1 = 4; ntop2 = 2
     rmap = 2
     nf += 1
     pngfile=figdir+'fig'+str(nf)+suff
     print(pngfile)    
     fig = plt.figure(figsize=(8,10), constrained_layout=True)    
     gs = gridspec.GridSpec(ntop+rmap*3, 3, figure=fig)
-    ax = fig.add_subplot(gs[0:ntop1,:])    
+
+    gs_top = gs[0:ntop, :].subgridspec(3, 1, height_ratios=[ntop1, ntop2, ntop - ntop1 - ntop2], hspace=0.0)    
+
+    ax = fig.add_subplot(gs_top[0, 0])
+    ax_diff = fig.add_subplot(gs_top[1, 0], sharex=ax) 
     for nm, model in enumerate(models):
         model = models[nm]                        
-        ax.bar(1/6+nm, lmxaem[model], width = 0.33, color = 'r')
-        ax.bar(1/2+nm, lmxcem[model], width = 0.33, color = 'b')
+        ax.bar(1/3+nm, lmxaem[model], width = 0.33, color = 'r')
+        ax.bar(2/3+nm, lmxcem[model], width = 0.33, color = 'b')
                         
     nm += 1
-    ax.bar(1/6+nm, lmxa, width = 0.33, color = 'r')
-    ax.bar(1/2+nm, lmxc, width = 0.33, color = 'b')                                    
-    ax.bar(4/3+nm, lmxo, width = 0.33, color = 'k')
+    ax.bar(1/3+nm, lmxa, width = 0.33, color = 'r')
+    ax.bar(2/3+nm, lmxc, width = 0.33, color = 'b')                                    
+    ax.bar(3/2+nm, lmxo, width = 0.33, color = 'k')
     
-    ax.set_xlim(0, nm+2)
+    ax.set_xlim(0, nm+2)    
     ax.set_xticks(0.5+np.arange(nm+2))
-    ax.set_xticklabels(np.r_[models, ['Multi Model'], ['JRA55']])
-    ax.tick_params(axis='x', labelrotation=90)
     ax.set_ylim(latminca, latmaxca)
-    ax.set_yticks(np.linspace(latminca, latmaxca, latintca))
+    ax.set_yticks(np.linspace(latminca, latmaxca, latintca)[1:])
+    ax.set_yticklabels(np.linspace(latminca, latmaxca, latintca)[1:].astype(int).astype(str).astype(object)+'N', fontsize = 9)    
+    ax.tick_params(axis='y', pad = -2.0)    
     nfg = 0
     label = '('+chr(ord("a")+nfg)+')'+labels[nfg]
-    ax.text(0.01*(nm+2), 0.02*latminca+0.98*latmaxca, label, ha = 'left', va = 'top', bbox = bbox)
+    ax.text(0.01*(nm+2), 0.03*latminca+0.97*latmaxca, label, ha = 'left', va = 'top', bbox = bbox)    
+
+    for nm, model in enumerate(models):
+        model = models[nm]                        
+        ax_diff.bar(1/2+nm, lmxcem[model]-lmxaem[model], width = 0.67, color = 'g')
+        
+    nm += 1
+    ax_diff.bar(1/2+nm, lmxc-lmxa, width = 0.67, color = 'g')
+
+    ax_diff.set_ylim(-6, 2)
+    ax_diff.set_yticks([-6, -4, -2, 0])    
+    
+    ax_diff.set_xticklabels(np.r_[models, ['Multi Model'], ['JRA55']], fontsize = 9)
+    ax_diff.tick_params(axis='x', labelrotation=90, pad = -2.0)
+    ax_diff.tick_params(axis='y', pad = -2.0, labelsize=9)
+
+    ax.tick_params(axis='x', which='both', bottom=False, labelbottom=False)
+    plt.setp(ax.get_xticklabels(), visible=False)
     
     nn = ntop
     uaoMrgd = cmm.intp2D(lonoa, latoa, am(uaoM)[9], lono, lato)
@@ -285,7 +306,7 @@ def main(dpi = 900):
 
 
        
-    labels = ['AMIP-JRA55', 'historical-JRA55', 'historical-AMIP', 'GLB-CNTL', 'PAC-CNTL', '(GLB-PAC)-CNTL', 'WNP-CNTL', 'EQ-CNTL', 'ENP-CNTL']    
+    labels = ['AMIP-JRA55', '(cpl-hist)-JRA55', '(cpl-hist)-AMIP', 'GLB-CNTL', 'PAC-CNTL', '(GLB-PAC)-CNTL', 'WNP-CNTL', 'EQ-CNTL', 'ENP-CNTL']    
     vcols = ['k', 'k', 'g', 'k', 'k', 'k', 'k', 'k', 'k']    
     ncols = 3; nrows = round(np.shape(varf)[0]/ncols)
     vr = [-6, 6, 5]
@@ -367,7 +388,7 @@ def main(dpi = 900):
     
     nf += 1
     pngfile=figdir+'fig'+str(nf)+suff
-    fm.fig1(pngfile, lon, lat, varf, varfl = varl, lonr = [90, 270, 60], latr = [20, 80, 20], vr=vr, lines = lines, cmap = cmo.balance, flabel = labels, bbox = dict(facecolor='white', alpha=0.9), sngl_cbar = False, fsizey = 5.6, cbrf4 = True, cfig2 = False, dxc = 0.04, dyc = 0.12, top = .99, btm = 0.08, dycb = 0.056, cbt = 0.016, dxcb = 0.25, unitcbr = unitcbrs, unitx = 1.3, unity = -2.8, left = 0.05, right = 0.95, dpi = dpi, tlabel = tlabel, hspace = 0.15, wspace = 0.13)    
+    fm.fig1(pngfile, lon, lat, varf, varfl = varl, lonr = [90, 270, 60], latr = [20, 80, 20], vr=vr, lines = lines, cmap = cmo.balance, flabel = labels, bbox = dict(facecolor='white', alpha=0.9), sngl_cbar = False, fsizey = 5.6, cbrf4 = True, cfig2 = False, dxc = 0.04, dyc = 0.12, top = .99, btm = 0.08, dycb = 0.056, cbt = 0.016, dxcb = 0.25, unitcbr = unitcbrs, unitx = 1.3, unity = -2.8, left = 0.05, right = 0.95, dpi = dpi, tlabel = tlabel, hspace = 0.15, wspace = 0.13)
 
     varf = np.ma.array([
         1.e3*am(evzM[2,:,2] - evz0M[:,2], axis=0), 1.e3*am(evzM[4,:,2] - evz0M[:,2], axis=0), 1.e3*am(evzM[5,:,2] - evz0M[:,2], axis=0), 
@@ -418,7 +439,7 @@ def main(dpi = 900):
     fm.fig1(pngfile, lono, lato, varf, varfl = varl, lonr = [90, 270, 60], latr = [20, 80, 20], vr=vr, lines = lines, cmap = cmo.balance, flabel = labels, bbox = dict(facecolor='white', alpha=0.9), sngl_cbar = False, fsizey = 9, cbrf4 = True, cfig2 = False, dxc = 0.02, dyc = 0.06, top = .96, btm = 0.12, dycb = 0.05, cbt = 0.010, dxcb = 0.25, unitcbr = unitcbrs, unitx = 1.3, unity = -2.6, left = 0.08, right = 0.92, dpi = dpi, hspace = 0.3, wspace = 0.13, ncols = 1)        
 
 
-def plot_ulatlev(pngfile, lev, lat, varf, varl, ncols, nrows, xr = [-90,90], yr = [1000, 0], vr = [-12, 12, 5], rt = 10, level = [], levl = np.linspace(-100, 100, 101), latl = [], latf = [], fontsize = 10, fsizex = 8, fsizey = 8, cmap = cmo.balance, extend = 'both', sngl_cbar = True, vecx = [], vecy = [], levv = [], scale = 1, scale_units = 'xy', iskp = 1, jskp = 1, vcols = ['w'], unitx = 1.02, unity = -2.9, unitcbr = r'[${\rm m \ s^{-1}}$]', labels = [], bbox = dict(facecolor='white', alpha=0.9), dxc = 0.04, dyc = 0.04, dpi = None, crarw = True, cefvxs = [], cefvys = [], lvecxs = [], lvecys = [], tvecxs = [], tvecys = []):
+def plot_ulatlev(pngfile, lev, lat, varf, varl, ncols, nrows, xr = [-90,90], yr = [1000, 0], vr = [-12, 12, 5], rt = 10, level = [], levl = np.linspace(-100, 100, 101), latl = [], latf = [], fontsize = 10, fsizex = 8, fsizey = 8, cmap = cmo.balance, extend = 'both', sngl_cbar = True, vecx = [], vecy = [], levv = [], scale = 1, scale_units = 'xy', iskp = 1, jskp = 1, vcols = ['w'], unitx = 1.02, unity = -2.9, unitcbr = r'[${\rm m \ s^{-1}}$]', labels = [], bbox = dict(facecolor='white', alpha=0.9), dxc = 0.04, dyc = 0.04, dpi = None, crarw = True, cefvxs = [], cefvys = [], lvecxs = [], lvecys = [], tvecxs = [], tvecys = [], fontsizexy = 9):
 
     nexp = np.shape(varf)[0]
     plt.rcParams['font.size'] = fontsize
@@ -490,12 +511,13 @@ def plot_ulatlev(pngfile, lev, lat, varf, varl, ncols, nrows, xr = [-90,90], yr 
                     xlabels = xticks.astype(int).astype(str).astype(object)+'N'
                     xlabels[xticks == 0] = '0'
                     xlabels[xticks  < 0]  =  (-xticks[xticks < 0]).astype(int).astype(str).astype(object)+'S'
-                    ax[nr,nc].set_xticklabels(xlabels)                     
+                    ax[nr,nc].set_xticklabels(xlabels, fontsize = fontsizexy)
+                    ax[nr,nc].tick_params(axis='x', pad = -2.0)                        
                 ax[nr,nc].set_ylim(yr[0], yr[1])
                 if np.size(yr) == 3:
                     ax[nr,nc].set_yticks(np.linspace(yr[0], yr[1], yr[2]))
-                    ax[nr,nc].set_yticklabels(np.linspace(yr[0], yr[1], yr[2]).astype(int).astype(str).astype(object)+'hPa') 
-
+                    ax[nr,nc].set_yticklabels(np.linspace(yr[0], yr[1], yr[2]).astype(int).astype(str).astype(object)+'hPa', fontsize = fontsizexy) 
+                    ax[nr,nc].tick_params(axis='y', pad = -2.0) 
                 if nr != nrows-1:
                     ax[nr,nc].tick_params(labelbottom=False)                    
                 if nc != 0:

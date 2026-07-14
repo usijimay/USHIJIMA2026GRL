@@ -23,8 +23,8 @@ areasns = ['glb', 'snp', 'exsnp', 'wnp', 'ceq', 'enp']
 expids = np.array(list(map(lambda x: 'MPE3_agcm_EMS35_annclm_'+x, areasns))).astype(object)
 
 ybgn = 1985; yend = 2014
-dpi = 900
-# dpi = None
+dpi = None
+# dpi = 900
 dirbase = cf.datadir()
 
 def main(dpi = 900):
@@ -47,11 +47,11 @@ def main(dpi = 900):
     ktgt0 = 9    
     nf = 1
     pngfile=figdir+'figS'+str(nf)+suff
-    fm.figS2(pngfile, models, lonuem, latuem, uacfem, uaafem, ktgt0, lonr = [90, 270, 60], latr = [-20, 80, 20], vr=[-12, 12, 5], lines = np.linspace(-100, 100, 21), cmap = cmo.balance, tlabel = models, ncols = 4, fsizey = 11, dpi = dpi)
+    fm.figS1(pngfile, models, lonuem, latuem, uacfem, uaafem, ktgt0, lonr = [90, 270, 60], latr = [-20, 80, 20], vr=[-12, 12, 5], lines = np.linspace(-100, 100, 21), cmap = cmo.balance, tlabel = models, ncols = 4, fsizey = 11, dpi = dpi)
 
     nf = 2
     pngfile=figdir+'figS'+str(nf)+suff
-    fm.figS1(pngfile, models, lono, lato, toscfem, toso, lonr = [0, 359.9, 120], latr = [-90, 90, 30], vr=[-2.4, 2.4, 5], cmap = cmo.balance, tlabel = models, ncols = 4, fsizey = 10, dpi = dpi)    
+    fm.figS2(pngfile, models, lono, lato, toscfem, toso, lonr = [0, 359.9, 120], latr = [-90, 90, 30], vr=[-2.4, 2.4, 5], cmap = cmo.balance, tlabel = models, ncols = 4, fsizey = 10, dpi = dpi)    
 
     
 def am(var, axis=0):
