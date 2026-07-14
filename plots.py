@@ -38,7 +38,7 @@ def main(dpi = 900):
     global var, varm, varc
     global varmo, varco, rvarco
 
-    suff = '.png'        
+    suff = '.pdf'                    
     figdir =  cf.figdir(dpi = dpi)
    
     R0 = 6.375e6    
