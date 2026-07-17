@@ -2,7 +2,7 @@ import os
 
 def figdir(dpi = None):
 
-    date = '20260713/'    
+    date = '20260717/'    
     if dpi == None:
         Res = 'ORG/'
     else:
