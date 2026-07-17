@@ -85,7 +85,7 @@ def main(dpi = 900):
             latmp = np.r_[latmp, np.array(lmxaem[model])]
             lctmp = np.r_[lctmp, np.array(lmxcem[model])]                     
             
-    labels = ['', 'AMIP-JRA55', '(cpl-hist)-JRA55', '(cpl-hist)-AMIP', 'GLB-CNTL', 'PAC-CNTL', '(GLB-PAC)-CNTL', 'WNP-CNTL', 'EQ-CNTL', 'ENP-CNTL']
+    labels = ['', 'AMIP-JRA55', '(CPL-HIST)-JRA55', '(CPL-HIST)-AMIP', 'GLB-CNTL', 'PAC-CNTL', '(GLB-PAC)-CNTL', 'WNP-CNTL', 'EQ-CNTL', 'ENP-CNTL']
 
     bbox = dict(facecolor='white', alpha=0.9)    
     latminca = 32; latmaxca = 44; latintca = 7
@@ -306,7 +306,7 @@ def main(dpi = 900):
 
 
        
-    labels = ['AMIP-JRA55', '(cpl-hist)-JRA55', '(cpl-hist)-AMIP', 'GLB-CNTL', 'PAC-CNTL', '(GLB-PAC)-CNTL', 'WNP-CNTL', 'EQ-CNTL', 'ENP-CNTL']    
+    labels = ['AMIP-JRA55', '(CPL-HIST)-JRA55', '(CPL-HIST)-AMIP', 'GLB-CNTL', 'PAC-CNTL', '(GLB-PAC)-CNTL', 'WNP-CNTL', 'EQ-CNTL', 'ENP-CNTL']    
     vcols = ['k', 'k', 'g', 'k', 'k', 'k', 'k', 'k', 'k']    
     ncols = 3; nrows = round(np.shape(varf)[0]/ncols)
     vr = [-6, 6, 5]
